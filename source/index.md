@@ -9,6 +9,7 @@ toc_footers:
 
 includes:
   - common.md
+  - wholesaler.md
   - errors.md
 
 search: true
