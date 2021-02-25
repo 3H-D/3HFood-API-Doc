@@ -6,7 +6,7 @@
     <meta charset="utf-8">
     <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <title>API Reference</title>
+    <title>3HFood API</title>
 
     <link href="https://unpkg.com/prismjs@1.20.0/themes/prism-okaidia.css" media="screen" rel="stylesheet">
     <link href="slate/css/print.css" media="print" rel="stylesheet">
@@ -50,7 +50,7 @@
 
   </head>
 
-  <body data-languages="[&quot;shell&quot;,&quot;ruby&quot;,&quot;python&quot;,&quot;javascript&quot;]">
+  <body data-languages="[&quot;javascript&quot;]">
     <a href="#" id="nav-button">
       <span>
         NAV
@@ -61,18 +61,6 @@
       <img src="slate/img/logo.png" alt="Logo" class="logo">
       
         <div class="lang-selector">
-          
-            
-              <a href="#" data-language-name="shell">shell</a>
-            
-          
-            
-              <a href="#" data-language-name="ruby">ruby</a>
-            
-          
-            
-              <a href="#" data-language-name="python">python</a>
-            
           
             
               <a href="#" data-language-name="javascript">javascript</a>
@@ -87,6 +75,10 @@
         <ul class="search-results"></ul>
       
 
+      
+        
+      
+        
       
         
       
@@ -105,22 +97,46 @@
           </li>
         
           <li>
-            <a href="#kittens" class="toc-h1 toc-link" data-title="Kittens">Kittens</a>
+            <a href="#common---back-office" class="toc-h1 toc-link" data-title="COMMON - Back Office">COMMON - Back Office</a>
             
               <ul class="toc-list-h2">
                 
                   <li>
-                    <a href="#get-all-kittens" class="toc-h2 toc-link" data-title="">Get All Kittens</a>
+                    <a href="#check-user-exists-%26-can-access-bo" class="toc-h2 toc-link" data-title="">Check user exists &amp; can access BO</a>
                     
                   </li>
                 
                   <li>
-                    <a href="#get-a-specific-kitten" class="toc-h2 toc-link" data-title="">Get a Specific Kitten</a>
+                    <a href="#get-user-details" class="toc-h2 toc-link" data-title="">Get user details</a>
                     
                   </li>
                 
                   <li>
-                    <a href="#delete-a-specific-kitten" class="toc-h2 toc-link" data-title="">Delete a Specific Kitten</a>
+                    <a href="#register-client" class="toc-h2 toc-link" data-title="">Register client</a>
+                    
+                  </li>
+                
+                  <li>
+                    <a href="#register-privilegied-user" class="toc-h2 toc-link" data-title="">Register Privilegied User</a>
+                    
+                  </li>
+                
+              </ul>
+            
+          </li>
+        
+          <li>
+            <a href="#wholesaler" class="toc-h1 toc-link" data-title="Wholesaler">Wholesaler</a>
+            
+              <ul class="toc-list-h2">
+                
+                  <li>
+                    <a href="#create-product" class="toc-h2 toc-link" data-title="">Create product</a>
+                    
+                  </li>
+                
+                  <li>
+                    <a href="#update-product" class="toc-h2 toc-link" data-title="">Update product</a>
                     
                   </li>
                 
@@ -138,8 +154,6 @@
       
         <ul class="toc-footer">
           
-            <li><a href='#'>Sign Up for a Developer Key</a></li>
-          
             <li><a href='https://github.com/slatedocs/slate'>Documentation Powered by Slate</a></li>
           
         </ul>
@@ -149,116 +163,656 @@
       <div class="dark-box"></div>
       <div class="content">
         <h1 id="introduction">Introduction</h1>
-<p>Welcome to the Kittn API! You can use our API to access Kittn API endpoints, which can get information on various cats, kittens, and breeds in our database.</p>
-<p>We have language bindings in Shell, Ruby, Python, and JavaScript! You can view code examples in the dark area to the right, and you can switch the programming language of the examples with the tabs in the top right.</p>
-<p>This example API documentation page was created with <a href="https://github.com/slatedocs/slate">Slate</a>. Feel free to edit it and use it as a base for your own API’s documentation.</p>
+<p>L’API 3Hfood est une api unique pour tous les endpoints de toutes les applications 3HFood.</p>
+<p>Le tout est hébergé sur des cloud function, les fonctions sont alors à appeler par le biais du package firebase dans l’application</p>
 <h1 id="authentication">Authentication</h1>
-<blockquote>
-<p>To authorize, use this code:</p>
-</blockquote>
-<pre class="language-ruby"><code class="language-ruby"><span class="token keyword">require</span> <span class="token string">'kittn'</span><br><br>api <span class="token operator">=</span> <span class="token constant">Kittn</span><span class="token punctuation">:</span><span class="token punctuation">:</span><span class="token constant">APIClient</span><span class="token punctuation">.</span>authorize<span class="token operator">!</span><span class="token punctuation">(</span><span class="token string">'meowmeowmeow'</span><span class="token punctuation">)</span></code></pre>
-<pre class="language-python"><code class="language-python"><span class="token keyword">import</span> kittn<br><br>api <span class="token operator">=</span> kittn<span class="token punctuation">.</span>authorize<span class="token punctuation">(</span><span class="token string">'meowmeowmeow'</span><span class="token punctuation">)</span></code></pre>
-<pre class="language-shell"><code class="language-shell"><span class="token comment"># With shell, you can just pass the correct header with each request</span><br><span class="token function">curl</span> <span class="token string">"api_endpoint_here"</span><br>  -H <span class="token string">"Authorization: meowmeowmeow"</span></code></pre>
-<pre class="language-javascript"><code class="language-javascript"><span class="token keyword">const</span> kittn <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'kittn'</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br><br><span class="token keyword">let</span> api <span class="token operator">=</span> kittn<span class="token punctuation">.</span><span class="token function">authorize</span><span class="token punctuation">(</span><span class="token string">'meowmeowmeow'</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
-<blockquote>
-<p>Make sure to replace <code>meowmeowmeow</code> with your API key.</p>
-</blockquote>
-<p>Kittn uses API keys to allow access to the API. You can register a new Kittn API key at our <a href="http://example.com/developers">developer portal</a>.</p>
-<p>Kittn expects for the API key to be included in all API requests to the server in a header that looks like the following:</p>
-<p><code>Authorization: meowmeowmeow</code></p>
-<aside class="notice">
-You must replace <code>meowmeowmeow</code> with your personal API key.
-</aside>
-<h1 id="kittens">Kittens</h1>
-<h2 id="get-all-kittens">Get All Kittens</h2>
-<pre class="language-ruby"><code class="language-ruby"><span class="token keyword">require</span> <span class="token string">'kittn'</span><br><br>api <span class="token operator">=</span> <span class="token constant">Kittn</span><span class="token punctuation">:</span><span class="token punctuation">:</span><span class="token constant">APIClient</span><span class="token punctuation">.</span>authorize<span class="token operator">!</span><span class="token punctuation">(</span><span class="token string">'meowmeowmeow'</span><span class="token punctuation">)</span><br>api<span class="token punctuation">.</span>kittens<span class="token punctuation">.</span>get</code></pre>
-<pre class="language-python"><code class="language-python"><span class="token keyword">import</span> kittn<br><br>api <span class="token operator">=</span> kittn<span class="token punctuation">.</span>authorize<span class="token punctuation">(</span><span class="token string">'meowmeowmeow'</span><span class="token punctuation">)</span><br>api<span class="token punctuation">.</span>kittens<span class="token punctuation">.</span>get<span class="token punctuation">(</span><span class="token punctuation">)</span></code></pre>
-<pre class="language-shell"><code class="language-shell"><span class="token function">curl</span> <span class="token string">"http://example.com/api/kittens"</span><br>  -H <span class="token string">"Authorization: meowmeowmeow"</span></code></pre>
-<pre class="language-javascript"><code class="language-javascript"><span class="token keyword">const</span> kittn <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'kittn'</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br><br><span class="token keyword">let</span> api <span class="token operator">=</span> kittn<span class="token punctuation">.</span><span class="token function">authorize</span><span class="token punctuation">(</span><span class="token string">'meowmeowmeow'</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br><span class="token keyword">let</span> kittens <span class="token operator">=</span> api<span class="token punctuation">.</span>kittens<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<p>Toutes les routes (sauf login) ont besoin d’une authentification pour foncionner. Le package firebase se charge tout seul du renew de token, et de passer le token dans la requête.</p>
+<h1 id="common---back-office">COMMON - Back Office</h1>
+<h2 id="check-user-exists-%26-can-access-bo">Check user exists &amp; can access BO</h2>
+<pre class="language-javascript"><code class="language-javascript"><span class="token keyword">let</span> cloudFunction <span class="token operator">=</span> firebase<span class="token punctuation">.</span><span class="token function">app</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">functions</span><span class="token punctuation">(</span><span class="token string">'europe-west3'</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">httpsCallable</span><span class="token punctuation">(</span><span class="token string">'common-userExistsForBackOffice'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">let</span> data <span class="token operator">=</span> <span class="token punctuation">{</span>
+  email<span class="token operator">:</span> <span class="token string">"florent.huran@outlook.fr"</span><span class="token punctuation">,</span>
+<span class="token punctuation">}</span>
+<span class="token keyword">try</span> <span class="token punctuation">{</span>
+  <span class="token keyword">let</span> result <span class="token operator">=</span> <span class="token keyword">await</span> <span class="token function">cloudFunction</span><span class="token punctuation">(</span>data<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span> <span class="token keyword">catch</span><span class="token punctuation">(</span>e<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>e<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre>
 <blockquote>
 <p>The above command returns JSON structured like this:</p>
 </blockquote>
-<pre class="language-json"><code class="language-json"><span class="token punctuation">[</span><br>  <span class="token punctuation">{</span><br>    <span class="token property">"id"</span><span class="token operator">:</span> <span class="token number">1</span><span class="token punctuation">,</span><br>    <span class="token property">"name"</span><span class="token operator">:</span> <span class="token string">"Fluffums"</span><span class="token punctuation">,</span><br>    <span class="token property">"breed"</span><span class="token operator">:</span> <span class="token string">"calico"</span><span class="token punctuation">,</span><br>    <span class="token property">"fluffiness"</span><span class="token operator">:</span> <span class="token number">6</span><span class="token punctuation">,</span><br>    <span class="token property">"cuteness"</span><span class="token operator">:</span> <span class="token number">7</span><br>  <span class="token punctuation">}</span><span class="token punctuation">,</span><br>  <span class="token punctuation">{</span><br>    <span class="token property">"id"</span><span class="token operator">:</span> <span class="token number">2</span><span class="token punctuation">,</span><br>    <span class="token property">"name"</span><span class="token operator">:</span> <span class="token string">"Max"</span><span class="token punctuation">,</span><br>    <span class="token property">"breed"</span><span class="token operator">:</span> <span class="token string">"unknown"</span><span class="token punctuation">,</span><br>    <span class="token property">"fluffiness"</span><span class="token operator">:</span> <span class="token number">5</span><span class="token punctuation">,</span><br>    <span class="token property">"cuteness"</span><span class="token operator">:</span> <span class="token number">10</span><br>  <span class="token punctuation">}</span><br><span class="token punctuation">]</span></code></pre>
-<p>This endpoint retrieves all kittens.</p>
+<pre class="language-json"><code class="language-json"><span class="token punctuation">{</span>
+    <span class="token property">"result"</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+        <span class="token property">"continueLogin"</span><span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>
+        <span class="token property">"shouldRenewPassword"</span><span class="token operator">:</span> <span class="token boolean">false</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>This endpoint checks if user exists and can access the BO.</p>
 <h3 id="http-request">HTTP Request</h3>
-<p><code>GET http://example.com/api/kittens</code></p>
+<p><code>GET common-userExistsForBackOffice</code></p>
 <h3 id="query-parameters">Query Parameters</h3>
 <table>
 <thead>
 <tr>
 <th>Parameter</th>
-<th>Default</th>
+<th>Required</th>
 <th>Description</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>include_cats</td>
+<td>Email</td>
 <td>false</td>
-<td>If set to true, the result will also include cats.</td>
-</tr>
-<tr>
-<td>available</td>
-<td>true</td>
-<td>If set to false, the result will include kittens that have already been adopted.</td>
+<td>Email the user entered on the field</td>
 </tr>
 </tbody>
 </table>
-<aside class="success">
-Remember — a happy kitten is an authenticated kitten!
-</aside>
-<h2 id="get-a-specific-kitten">Get a Specific Kitten</h2>
-<pre class="language-ruby"><code class="language-ruby"><span class="token keyword">require</span> <span class="token string">'kittn'</span><br><br>api <span class="token operator">=</span> <span class="token constant">Kittn</span><span class="token punctuation">:</span><span class="token punctuation">:</span><span class="token constant">APIClient</span><span class="token punctuation">.</span>authorize<span class="token operator">!</span><span class="token punctuation">(</span><span class="token string">'meowmeowmeow'</span><span class="token punctuation">)</span><br>api<span class="token punctuation">.</span>kittens<span class="token punctuation">.</span>get<span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">)</span></code></pre>
-<pre class="language-python"><code class="language-python"><span class="token keyword">import</span> kittn<br><br>api <span class="token operator">=</span> kittn<span class="token punctuation">.</span>authorize<span class="token punctuation">(</span><span class="token string">'meowmeowmeow'</span><span class="token punctuation">)</span><br>api<span class="token punctuation">.</span>kittens<span class="token punctuation">.</span>get<span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">)</span></code></pre>
-<pre class="language-shell"><code class="language-shell"><span class="token function">curl</span> <span class="token string">"http://example.com/api/kittens/2"</span><br>  -H <span class="token string">"Authorization: meowmeowmeow"</span></code></pre>
-<pre class="language-javascript"><code class="language-javascript"><span class="token keyword">const</span> kittn <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'kittn'</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br><br><span class="token keyword">let</span> api <span class="token operator">=</span> kittn<span class="token punctuation">.</span><span class="token function">authorize</span><span class="token punctuation">(</span><span class="token string">'meowmeowmeow'</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br><span class="token keyword">let</span> max <span class="token operator">=</span> api<span class="token punctuation">.</span>kittens<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<h2 id="get-user-details">Get user details</h2>
+<pre class="language-javascript"><code class="language-javascript"><span class="token keyword">let</span> cloudFunction <span class="token operator">=</span> firebase<span class="token punctuation">.</span><span class="token function">app</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">functions</span><span class="token punctuation">(</span><span class="token string">'europe-west3'</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">httpsCallable</span><span class="token punctuation">(</span><span class="token string">'common-getUser'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">try</span> <span class="token punctuation">{</span>
+  <span class="token keyword">let</span> result <span class="token operator">=</span> <span class="token keyword">await</span> <span class="token function">cloudFunction</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span> <span class="token keyword">catch</span><span class="token punctuation">(</span>e<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>e<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre>
 <blockquote>
 <p>The above command returns JSON structured like this:</p>
 </blockquote>
-<pre class="language-json"><code class="language-json"><span class="token punctuation">{</span><br>  <span class="token property">"id"</span><span class="token operator">:</span> <span class="token number">2</span><span class="token punctuation">,</span><br>  <span class="token property">"name"</span><span class="token operator">:</span> <span class="token string">"Max"</span><span class="token punctuation">,</span><br>  <span class="token property">"breed"</span><span class="token operator">:</span> <span class="token string">"unknown"</span><span class="token punctuation">,</span><br>  <span class="token property">"fluffiness"</span><span class="token operator">:</span> <span class="token number">5</span><span class="token punctuation">,</span><br>  <span class="token property">"cuteness"</span><span class="token operator">:</span> <span class="token number">10</span><br><span class="token punctuation">}</span></code></pre>
-<p>This endpoint retrieves a specific kitten.</p>
-<aside class="warning">Inside HTML code blocks like this one, you can't use Markdown, so use <code>&lt;code&gt;</code> blocks to denote code.</aside>
+<pre class="language-json"><code class="language-json"><span class="token punctuation">{</span>
+    <span class="token property">"result"</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+        <span class="token property">"user"</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+            <span class="token property">"id"</span><span class="token operator">:</span> <span class="token number">1</span><span class="token punctuation">,</span>
+            <span class="token property">"type"</span><span class="token operator">:</span> <span class="token string">"WHOLESALER"</span><span class="token punctuation">,</span>
+            <span class="token property">"first_name"</span><span class="token operator">:</span> <span class="token string">"Florent"</span><span class="token punctuation">,</span>
+            <span class="token property">"last_name"</span><span class="token operator">:</span> <span class="token string">"Huran"</span><span class="token punctuation">,</span>
+            <span class="token property">"email"</span><span class="token operator">:</span> <span class="token string">"florent.huran@outlook.fr"</span><span class="token punctuation">,</span>
+            <span class="token property">"must_renew_password"</span><span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">,</span>
+            <span class="token property">"phone"</span><span class="token operator">:</span> <span class="token null keyword">null</span><span class="token punctuation">,</span>
+            <span class="token property">"address"</span><span class="token operator">:</span> <span class="token null keyword">null</span><span class="token punctuation">,</span>
+            <span class="token property">"zipcode"</span><span class="token operator">:</span> <span class="token null keyword">null</span><span class="token punctuation">,</span>
+            <span class="token property">"city"</span><span class="token operator">:</span> <span class="token null keyword">null</span><span class="token punctuation">,</span>
+            <span class="token property">"carbon_footprint"</span><span class="token operator">:</span> <span class="token null keyword">null</span><span class="token punctuation">,</span>
+            <span class="token property">"iban"</span><span class="token operator">:</span> <span class="token null keyword">null</span><span class="token punctuation">,</span>
+            <span class="token property">"bic"</span><span class="token operator">:</span> <span class="token null keyword">null</span><span class="token punctuation">,</span>
+            <span class="token property">"stripe_customer_id"</span><span class="token operator">:</span> <span class="token null keyword">null</span><span class="token punctuation">,</span>
+            <span class="token property">"stripe_mandate_id"</span><span class="token operator">:</span> <span class="token string">""</span><span class="token punctuation">,</span>
+            <span class="token property">"current_cart_uuid"</span><span class="token operator">:</span> <span class="token null keyword">null</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>This endpoint checks user details if authenticated in firebase.</p>
 <h3 id="http-request-1">HTTP Request</h3>
-<p><code>GET http://example.com/kittens/&lt;ID&gt;</code></p>
-<h3 id="url-parameters">URL Parameters</h3>
+<p><code>GET common-getUser</code></p>
+<h3 id="query-parameters-1">Query Parameters</h3>
 <table>
 <thead>
 <tr>
 <th>Parameter</th>
+<th>Required</th>
 <th>Description</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>ID</td>
-<td>The ID of the kitten to retrieve</td>
+<td>-</td>
+<td></td>
+<td></td>
 </tr>
 </tbody>
 </table>
-<h2 id="delete-a-specific-kitten">Delete a Specific Kitten</h2>
-<pre class="language-ruby"><code class="language-ruby"><span class="token keyword">require</span> <span class="token string">'kittn'</span><br><br>api <span class="token operator">=</span> <span class="token constant">Kittn</span><span class="token punctuation">:</span><span class="token punctuation">:</span><span class="token constant">APIClient</span><span class="token punctuation">.</span>authorize<span class="token operator">!</span><span class="token punctuation">(</span><span class="token string">'meowmeowmeow'</span><span class="token punctuation">)</span><br>api<span class="token punctuation">.</span>kittens<span class="token punctuation">.</span>delete<span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">)</span></code></pre>
-<pre class="language-python"><code class="language-python"><span class="token keyword">import</span> kittn<br><br>api <span class="token operator">=</span> kittn<span class="token punctuation">.</span>authorize<span class="token punctuation">(</span><span class="token string">'meowmeowmeow'</span><span class="token punctuation">)</span><br>api<span class="token punctuation">.</span>kittens<span class="token punctuation">.</span>delete<span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">)</span></code></pre>
-<pre class="language-shell"><code class="language-shell"><span class="token function">curl</span> <span class="token string">"http://example.com/api/kittens/2"</span><br>  -X DELETE<br>  -H <span class="token string">"Authorization: meowmeowmeow"</span></code></pre>
-<pre class="language-javascript"><code class="language-javascript"><span class="token keyword">const</span> kittn <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'kittn'</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br><br><span class="token keyword">let</span> api <span class="token operator">=</span> kittn<span class="token punctuation">.</span><span class="token function">authorize</span><span class="token punctuation">(</span><span class="token string">'meowmeowmeow'</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br><span class="token keyword">let</span> max <span class="token operator">=</span> api<span class="token punctuation">.</span>kittens<span class="token punctuation">.</span><span class="token function">delete</span><span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<h2 id="register-client">Register client</h2>
+<pre class="language-javascript"><code class="language-javascript"><span class="token keyword">let</span> cloudFunction <span class="token operator">=</span> firebase<span class="token punctuation">.</span><span class="token function">app</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">functions</span><span class="token punctuation">(</span><span class="token string">'europe-west3'</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">httpsCallable</span><span class="token punctuation">(</span><span class="token string">'common-createClient'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">let</span> data <span class="token operator">=</span> <span class="token punctuation">{</span>
+		firstName<span class="token operator">:</span> <span class="token string">"Kamil"</span><span class="token punctuation">,</span>
+    lastName<span class="token operator">:</span> <span class="token string">"Hammouche"</span><span class="token punctuation">,</span>
+    phone<span class="token operator">:</span> <span class="token string">"0612345678"</span><span class="token punctuation">,</span>
+    address<span class="token operator">:</span> <span class="token string">"25 rue Nationale"</span><span class="token punctuation">,</span>
+    zipcode<span class="token operator">:</span> <span class="token string">"59000"</span><span class="token punctuation">,</span>
+    city<span class="token operator">:</span> <span class="token string">"Lille"</span><span class="token punctuation">,</span>
+    iban<span class="token operator">:</span> <span class="token string">"FR12345678901234"</span><span class="token punctuation">,</span>
+    bic<span class="token operator">:</span> <span class="token string">"CMCIFR2A"</span><span class="token punctuation">,</span>
+    stripeCustomerId<span class="token operator">:</span> <span class="token string">"cst_324TYH5Y"</span><span class="token punctuation">,</span>
+    stripeMandateId<span class="token operator">:</span> <span class="token string">"mdt_12345678T"</span><span class="token punctuation">,</span>
+<span class="token punctuation">}</span>
+<span class="token keyword">try</span> <span class="token punctuation">{</span>
+  <span class="token keyword">let</span> result <span class="token operator">=</span> <span class="token keyword">await</span> <span class="token function">cloudFunction</span><span class="token punctuation">(</span>data<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span> <span class="token keyword">catch</span><span class="token punctuation">(</span>e<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>e<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre>
 <blockquote>
 <p>The above command returns JSON structured like this:</p>
 </blockquote>
-<pre class="language-json"><code class="language-json"><span class="token punctuation">{</span><br>  <span class="token property">"id"</span><span class="token operator">:</span> <span class="token number">2</span><span class="token punctuation">,</span><br>  <span class="token property">"deleted"</span> <span class="token operator">:</span> <span class="token string">":("</span><br><span class="token punctuation">}</span></code></pre>
-<p>This endpoint deletes a specific kitten.</p>
+<pre class="language-json"><code class="language-json"><span class="token punctuation">{</span>
+    <span class="token property">"result"</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+        <span class="token property">"success"</span><span class="token operator">:</span> <span class="token boolean">true</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>This endpoint takes all the parameters from registration and create the user object in database</p>
 <h3 id="http-request-2">HTTP Request</h3>
-<p><code>DELETE http://example.com/kittens/&lt;ID&gt;</code></p>
-<h3 id="url-parameters-1">URL Parameters</h3>
+<p><code>GET common-createClient</code></p>
+<h3 id="query-parameters-2">Query Parameters</h3>
 <table>
 <thead>
 <tr>
 <th>Parameter</th>
+<th>Type</th>
 <th>Description</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>ID</td>
-<td>The ID of the kitten to delete</td>
+<td>firstName</td>
+<td>String</td>
+<td>First name of user</td>
+</tr>
+<tr>
+<td>lastName</td>
+<td>String</td>
+<td>Last name of user</td>
+</tr>
+<tr>
+<td>phone</td>
+<td>String</td>
+<td>Phone of user</td>
+</tr>
+<tr>
+<td>address</td>
+<td>String</td>
+<td>Address of user</td>
+</tr>
+<tr>
+<td>zipcode</td>
+<td>String</td>
+<td>Zipcode of user - 5 chars max</td>
+</tr>
+<tr>
+<td>city</td>
+<td>String</td>
+<td>City of user</td>
+</tr>
+<tr>
+<td>iban</td>
+<td>String</td>
+<td>IBAN used for stripe registration</td>
+</tr>
+<tr>
+<td>bic</td>
+<td>String</td>
+<td>BIC used for stripe registration</td>
+</tr>
+<tr>
+<td>stripeCustomerID</td>
+<td>String</td>
+<td>ID given by stripe at user registration</td>
+</tr>
+<tr>
+<td>stripeMandateId</td>
+<td>String</td>
+<td>Mandate ID given when SEPA debit has been accepted</td>
+</tr>
+</tbody>
+</table>
+<h2 id="register-privilegied-user">Register Privilegied User</h2>
+<pre class="language-javascript"><code class="language-javascript"><span class="token keyword">let</span> cloudFunction <span class="token operator">=</span> firebase<span class="token punctuation">.</span><span class="token function">app</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">functions</span><span class="token punctuation">(</span><span class="token string">'europe-west3'</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">httpsCallable</span><span class="token punctuation">(</span><span class="token string">'common-createElevatedUser'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">let</span> data <span class="token operator">=</span> <span class="token punctuation">{</span>
+    type<span class="token operator">:</span> <span class="token string">"SUPERMARKET"</span><span class="token punctuation">,</span>
+    firstName<span class="token operator">:</span> <span class="token string">"Kamil"</span><span class="token punctuation">,</span>
+    lastName<span class="token operator">:</span> <span class="token string">"Hammouche"</span><span class="token punctuation">,</span>
+    phone<span class="token operator">:</span> <span class="token string">"0612345678"</span><span class="token punctuation">,</span>
+    address<span class="token operator">:</span> <span class="token string">"25 rue Nationale"</span><span class="token punctuation">,</span>
+    zipcode<span class="token operator">:</span> <span class="token string">"59000"</span><span class="token punctuation">,</span>
+    city<span class="token operator">:</span> <span class="token string">"Lille"</span><span class="token punctuation">,</span>
+<span class="token punctuation">}</span>
+<span class="token keyword">try</span> <span class="token punctuation">{</span>
+  <span class="token keyword">let</span> result <span class="token operator">=</span> <span class="token keyword">await</span> <span class="token function">cloudFunction</span><span class="token punctuation">(</span>data<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span> <span class="token keyword">catch</span><span class="token punctuation">(</span>e<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>e<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<blockquote>
+<p>The above command returns JSON structured like this:</p>
+</blockquote>
+<pre class="language-json"><code class="language-json"><span class="token punctuation">{</span>
+    <span class="token property">"result"</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+        <span class="token property">"success"</span><span class="token operator">:</span> <span class="token boolean">true</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>This endpoint takes all the parameters from registration and create the user object in database</p>
+<h3 id="http-request-3">HTTP Request</h3>
+<p><code>GET common-createClient</code></p>
+<h3 id="query-parameters-3">Query Parameters</h3>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>firstName</td>
+<td>String</td>
+<td>First name of user</td>
+</tr>
+<tr>
+<td>lastName</td>
+<td>String</td>
+<td>Last name of user</td>
+</tr>
+<tr>
+<td>phone</td>
+<td>String</td>
+<td>Phone of user</td>
+</tr>
+<tr>
+<td>address</td>
+<td>String</td>
+<td>Address of user</td>
+</tr>
+<tr>
+<td>zipcode</td>
+<td>String</td>
+<td>Zipcode of user - 5 chars max</td>
+</tr>
+<tr>
+<td>city</td>
+<td>String</td>
+<td>City of user</td>
+</tr>
+<tr>
+<td>type</td>
+<td>String</td>
+<td>User type in: WHOLESALER - SUPERMARKET - CASHIER - TAGMANAGER - STOCKMANAGER - SUPERADMIN</td>
+</tr>
+</tbody>
+</table>
+<h1 id="wholesaler">Wholesaler</h1>
+<h2 id="create-product">Create product</h2>
+<pre class="language-javascript"><code class="language-javascript"><span class="token keyword">let</span> cloudFunction <span class="token operator">=</span> firebase<span class="token punctuation">.</span><span class="token function">app</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">functions</span><span class="token punctuation">(</span><span class="token string">'europe-west3'</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">httpsCallable</span><span class="token punctuation">(</span><span class="token string">'wholesaler-createProduct'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">let</span> data <span class="token operator">=</span> <span class="token punctuation">{</span>
+  product<span class="token operator">:</span> <span class="token punctuation">{</span>
+    ean<span class="token operator">:</span> <span class="token string">"1234567890123"</span><span class="token punctuation">,</span>
+    imageUrl<span class="token operator">:</span> <span class="token string">"https://google.fr"</span><span class="token punctuation">,</span>
+    name<span class="token operator">:</span> <span class="token string">"Produit test"</span><span class="token punctuation">,</span>
+    length<span class="token operator">:</span> <span class="token number">12.9</span><span class="token punctuation">,</span>
+    width<span class="token operator">:</span> <span class="token number">69.0</span><span class="token punctuation">,</span>
+    height<span class="token operator">:</span> <span class="token number">88.0</span><span class="token punctuation">,</span>
+    weight<span class="token operator">:</span> <span class="token number">125.7</span><span class="token punctuation">,</span>
+    sellingUnit<span class="token operator">:</span> <span class="token string">"12x1L"</span><span class="token punctuation">,</span>
+    legalUnitPrice<span class="token operator">:</span> <span class="token string">"1,18€/L"</span><span class="token punctuation">,</span>
+    professionnalPrice<span class="token operator">:</span> <span class="token number">2.88</span><span class="token punctuation">,</span>
+    vatClass<span class="token operator">:</span> <span class="token number">5.5</span><span class="token punctuation">,</span>
+    composition<span class="token operator">:</span> <span class="token string">"Juste de l'air, on vend de l'air"</span><span class="token punctuation">,</span>
+    categoryId<span class="token operator">:</span> <span class="token number">2</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  stockMovements <span class="token punctuation">{</span>
+    addition<span class="token operator">:</span> <span class="token punctuation">[</span><span class="token punctuation">{</span>
+				quantity<span class="token operator">:</span> <span class="token number">120</span><span class="token punctuation">,</span>
+  			perishDate<span class="token operator">:</span> <span class="token string">"2022-02-20"</span>
+      <span class="token punctuation">}</span><span class="token punctuation">,</span> 
+    	<span class="token punctuation">{</span>
+				quantity<span class="token operator">:</span> <span class="token number">200</span><span class="token punctuation">,</span>
+  			perishDate<span class="token operator">:</span> <span class="token string">"2022-02-18"</span>
+      <span class="token punctuation">}</span><span class="token punctuation">]</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+<span class="token keyword">try</span> <span class="token punctuation">{</span>
+  <span class="token keyword">let</span> result <span class="token operator">=</span> <span class="token keyword">await</span> <span class="token function">cloudFunction</span><span class="token punctuation">(</span>data<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span> <span class="token keyword">catch</span><span class="token punctuation">(</span>e<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>e<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<blockquote>
+<p>The above command returns JSON structured like this:</p>
+</blockquote>
+<pre class="language-json"><code class="language-json"><span class="token punctuation">{</span>
+    <span class="token property">"result"</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+        <span class="token property">"success"</span><span class="token operator">:</span> <span class="token boolean">true</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>This endpoint creates a new product in database without checking if another EAN is already in base</p>
+<h3 id="http-request">HTTP Request</h3>
+<p><code>GET wholesaler-createProduct</code></p>
+<h3 id="query-parameters">Query Parameters</h3>
+<table>
+<thead>
+<tr>
+<th>Parameters</th>
+<th>Child</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>product</td>
+<td></td>
+<td>Object</td>
+<td>A product object as described in the project</td>
+</tr>
+<tr>
+<td></td>
+<td>ean</td>
+<td>String</td>
+<td>EAN code of the product. No verification is done for it to be unique, so for the POC we’ll assume it’ll be ok</td>
+</tr>
+<tr>
+<td></td>
+<td>imageUrl</td>
+<td>String</td>
+<td>Link to the product image</td>
+</tr>
+<tr>
+<td></td>
+<td>name</td>
+<td>String</td>
+<td>Name of the product as shown to final customers</td>
+</tr>
+<tr>
+<td></td>
+<td>length</td>
+<td>Float</td>
+<td>Length of the product (can be useful in the future)</td>
+</tr>
+<tr>
+<td></td>
+<td>width</td>
+<td>Float</td>
+<td>Width of the product (can be useful in the future)</td>
+</tr>
+<tr>
+<td></td>
+<td>height</td>
+<td>Float</td>
+<td>Height of the product (can be useful in the future)</td>
+</tr>
+<tr>
+<td></td>
+<td>weight</td>
+<td>Float</td>
+<td>Weight of the product (can be useful in the future)</td>
+</tr>
+<tr>
+<td></td>
+<td>sellingUnit</td>
+<td>String</td>
+<td>The packaging size of the product. E.g: 12x1L, 200g, 1.5L, 1.5kg</td>
+</tr>
+<tr>
+<td></td>
+<td>legalUnitPrice</td>
+<td>String</td>
+<td>Price pet legal quantity. Eg: 2.00€/kg, 1.13€/L</td>
+</tr>
+<tr>
+<td></td>
+<td>professionnalPrice</td>
+<td>Float</td>
+<td>Price as sold to supermarkets</td>
+</tr>
+<tr>
+<td></td>
+<td>vatClass</td>
+<td>Float</td>
+<td>VAT value</td>
+</tr>
+<tr>
+<td></td>
+<td>composition</td>
+<td>String</td>
+<td>Ingredients of the product</td>
+</tr>
+<tr>
+<td></td>
+<td>categoryId</td>
+<td>Int</td>
+<td>Product Category ID</td>
+</tr>
+<tr>
+<td>stockMovements</td>
+<td></td>
+<td>Object</td>
+<td>Map containing all stock movements done client side</td>
+</tr>
+<tr>
+<td>stockMovements.addition</td>
+<td></td>
+<td>Array</td>
+<td>Array containing all added stock lines stored as objects</td>
+</tr>
+<tr>
+<td></td>
+<td>quantity</td>
+<td>Int</td>
+<td>Quantity on the stock line</td>
+</tr>
+<tr>
+<td></td>
+<td>perishDate</td>
+<td>Date</td>
+<td>Perish date on the stock line, format YYYY-MM-DD</td>
+</tr>
+</tbody>
+</table>
+<h2 id="update-product">Update product</h2>
+<pre class="language-javascript"><code class="language-javascript"><span class="token keyword">let</span> cloudFunction <span class="token operator">=</span> firebase<span class="token punctuation">.</span><span class="token function">app</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">functions</span><span class="token punctuation">(</span><span class="token string">'europe-west3'</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">httpsCallable</span><span class="token punctuation">(</span><span class="token string">'wholesaler-updateProduct'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">let</span> data <span class="token operator">=</span> <span class="token punctuation">{</span>
+  product<span class="token operator">:</span> <span class="token punctuation">{</span>
+    id<span class="token operator">:</span> <span class="token number">2</span><span class="token punctuation">,</span>
+    ean<span class="token operator">:</span> <span class="token string">"1234567890123"</span><span class="token punctuation">,</span>
+    imageUrl<span class="token operator">:</span> <span class="token string">"https://google.fr"</span><span class="token punctuation">,</span>
+    name<span class="token operator">:</span> <span class="token string">"Produit test"</span><span class="token punctuation">,</span>
+    length<span class="token operator">:</span> <span class="token number">12.9</span><span class="token punctuation">,</span>
+    width<span class="token operator">:</span> <span class="token number">69.0</span><span class="token punctuation">,</span>
+    height<span class="token operator">:</span> <span class="token number">88.0</span><span class="token punctuation">,</span>
+    weight<span class="token operator">:</span> <span class="token number">125.7</span><span class="token punctuation">,</span>
+    sellingUnit<span class="token operator">:</span> <span class="token string">"12x1L"</span><span class="token punctuation">,</span>
+    legalUnitPrice<span class="token operator">:</span> <span class="token string">"1,18€/L"</span><span class="token punctuation">,</span>
+    professionnalPrice<span class="token operator">:</span> <span class="token number">2.88</span><span class="token punctuation">,</span>
+    vatClass<span class="token operator">:</span> <span class="token number">5.5</span><span class="token punctuation">,</span>
+    composition<span class="token operator">:</span> <span class="token string">"Juste de l'air, on vend de l'air"</span><span class="token punctuation">,</span>
+    categoryId<span class="token operator">:</span> <span class="token number">2</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  stockMovements <span class="token punctuation">{</span>
+    addition<span class="token operator">:</span> <span class="token punctuation">[</span>
+  		<span class="token punctuation">{</span>
+				quantity<span class="token operator">:</span> <span class="token number">120</span><span class="token punctuation">,</span>
+  			perishDate<span class="token operator">:</span> <span class="token string">"2022-02-20"</span>
+      <span class="token punctuation">}</span><span class="token punctuation">,</span> 
+    	<span class="token punctuation">{</span>
+				quantity<span class="token operator">:</span> <span class="token number">200</span><span class="token punctuation">,</span>
+  			perishDate<span class="token operator">:</span> <span class="token string">"2022-02-18"</span>
+      <span class="token punctuation">}</span>
+		<span class="token punctuation">]</span><span class="token punctuation">,</span>
+    changes<span class="token operator">:</span> <span class="token punctuation">[</span>
+      <span class="token punctuation">{</span>
+        id<span class="token operator">:</span> <span class="token number">15</span><span class="token punctuation">,</span>
+        quantity<span class="token operator">:</span> <span class="token number">11</span><span class="token punctuation">,</span>
+        perishDate<span class="token operator">:</span> <span class="token string">"2022-02-18"</span>
+   		<span class="token punctuation">}</span><span class="token punctuation">,</span> 
+     	<span class="token punctuation">{</span>
+        id<span class="token operator">:</span> <span class="token number">22</span><span class="token punctuation">,</span>
+        quantity<span class="token operator">:</span> <span class="token number">155</span><span class="token punctuation">,</span>
+        perishDate<span class="token operator">:</span> <span class="token string">"2022-02-18"</span>
+    	<span class="token punctuation">}</span>
+    <span class="token punctuation">]</span><span class="token punctuation">,</span>
+    deletions<span class="token operator">:</span> <span class="token punctuation">[</span><span class="token number">17</span><span class="token punctuation">,</span> <span class="token number">24</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+<span class="token keyword">try</span> <span class="token punctuation">{</span>
+  <span class="token keyword">let</span> result <span class="token operator">=</span> <span class="token keyword">await</span> <span class="token function">cloudFunction</span><span class="token punctuation">(</span>data<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span> <span class="token keyword">catch</span><span class="token punctuation">(</span>e<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>e<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<blockquote>
+<p>The above command returns JSON structured like this:</p>
+</blockquote>
+<pre class="language-json"><code class="language-json"><span class="token punctuation">{</span>
+    <span class="token property">"result"</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+        <span class="token property">"success"</span><span class="token operator">:</span> <span class="token boolean">true</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>This endpoint creates a new product in database without checking if another EAN is already in base</p>
+<h3 id="http-request-1">HTTP Request</h3>
+<p><code>GET wholesaler-updateProduct</code></p>
+<h3 id="query-parameters-1">Query Parameters</h3>
+<table>
+<thead>
+<tr>
+<th>Parameters</th>
+<th>Child</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>product</td>
+<td></td>
+<td>Object</td>
+<td>A product object as described in the project</td>
+</tr>
+<tr>
+<td></td>
+<td>ean</td>
+<td>String</td>
+<td>EAN code of the product. No verification is done for it to be unique, so for the POC we’ll assume it’ll be ok</td>
+</tr>
+<tr>
+<td></td>
+<td>imageUrl</td>
+<td>String</td>
+<td>Link to the product image</td>
+</tr>
+<tr>
+<td></td>
+<td>name</td>
+<td>String</td>
+<td>Name of the product as shown to final customers</td>
+</tr>
+<tr>
+<td></td>
+<td>length</td>
+<td>Float</td>
+<td>Length of the product (can be useful in the future)</td>
+</tr>
+<tr>
+<td></td>
+<td>width</td>
+<td>Float</td>
+<td>Width of the product (can be useful in the future)</td>
+</tr>
+<tr>
+<td></td>
+<td>height</td>
+<td>Float</td>
+<td>Height of the product (can be useful in the future)</td>
+</tr>
+<tr>
+<td></td>
+<td>weight</td>
+<td>Float</td>
+<td>Weight of the product (can be useful in the future)</td>
+</tr>
+<tr>
+<td></td>
+<td>sellingUnit</td>
+<td>String</td>
+<td>The packaging size of the product. E.g: 12x1L, 200g, 1.5L, 1.5kg</td>
+</tr>
+<tr>
+<td></td>
+<td>legalUnitPrice</td>
+<td>String</td>
+<td>Price pet legal quantity. Eg: 2.00€/kg, 1.13€/L</td>
+</tr>
+<tr>
+<td></td>
+<td>professionnalPrice</td>
+<td>Float</td>
+<td>Price as sold to supermarkets</td>
+</tr>
+<tr>
+<td></td>
+<td>vatClass</td>
+<td>Float</td>
+<td>VAT value</td>
+</tr>
+<tr>
+<td></td>
+<td>composition</td>
+<td>String</td>
+<td>Ingredients of the product</td>
+</tr>
+<tr>
+<td></td>
+<td>categoryId</td>
+<td>Int</td>
+<td>Product Category ID</td>
+</tr>
+<tr>
+<td>stockMovements</td>
+<td></td>
+<td>Object</td>
+<td>Map containing all stock movements done client side</td>
+</tr>
+<tr>
+<td>stockMovements.addition</td>
+<td></td>
+<td>Array</td>
+<td>Array containing all added stock lines stored as objects</td>
+</tr>
+<tr>
+<td></td>
+<td>quantity</td>
+<td>Int</td>
+<td>Quantity on the stock line</td>
+</tr>
+<tr>
+<td></td>
+<td>perishDate</td>
+<td>Date</td>
+<td>Perish date on the stock line, format YYYY-MM-DD</td>
+</tr>
+<tr>
+<td>stockMovements.changes</td>
+<td></td>
+<td>Array</td>
+<td>Array containing all edited stock lines stored as objects</td>
+</tr>
+<tr>
+<td></td>
+<td>id</td>
+<td>Int</td>
+<td>Id of edited line</td>
+</tr>
+<tr>
+<td></td>
+<td>quantity</td>
+<td>Int</td>
+<td>New quantity of edited stock line</td>
+</tr>
+<tr>
+<td></td>
+<td>perishDate</td>
+<td>Date</td>
+<td>New perish date on the stock line, format YYYY-MM-DD</td>
+</tr>
+<tr>
+<td>stockMovements.deletions</td>
+<td></td>
+<td>Array</td>
+<td>Array of deleted ids</td>
 </tr>
 </tbody>
 </table>
@@ -326,18 +880,6 @@ This error section is stored in a separate file in <code>includes/errors.md</cod
       <div class="dark-box">
         
           <div class="lang-selector">
-            
-              
-                <a href="#" data-language-name="shell">shell</a>
-              
-            
-              
-                <a href="#" data-language-name="ruby">ruby</a>
-              
-            
-              
-                <a href="#" data-language-name="python">python</a>
-              
             
               
                 <a href="#" data-language-name="javascript">javascript</a>
