@@ -3,7 +3,9 @@
   "version": "3.0.0-4",
   "description": "Beautiful API Documentation",
   "main": "./reslate.js",
-  "bin": "./reslate.js",
+  "bin": {
+    "reslate": "reslate.js"
+  },
   "scripts": {
     "postinstall": "node setup",
     "setup": "node setup",
