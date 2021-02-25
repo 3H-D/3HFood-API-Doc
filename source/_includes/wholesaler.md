@@ -62,10 +62,10 @@ This endpoint creates a new product in database without checking if another EAN 
 |                         | ean                | String | EAN code of the product. No verification is done for it to be unique, so for the POC we'll assume it'll be ok |
 |                         | imageUrl           | String | Link to the product image                                    |
 |                         | name               | String | Name of the product as shown to final customers              |
-|                         | length             | Float  | Length of the product (can be usefule in the future)         |
-|                         | width              | Float  | Width of the product (can be usefule in the future)          |
-|                         | height             | Float  | Height of the product (can be usefule in the future)         |
-|                         | weight             | Float  | Weight of the product (can be usefule in the future)         |
+|                         | length             | Float  | Length of the product (can be useful in the future)          |
+|                         | width              | Float  | Width of the product (can be useful in the future)           |
+|                         | height             | Float  | Height of the product (can be useful in the future)          |
+|                         | weight             | Float  | Weight of the product (can be useful in the future)          |
 |                         | sellingUnit        | String | The packaging size of the product. E.g: 12x1L, 200g, 1.5L, 1.5kg |
 |                         | legalUnitPrice     | String | Price pet legal quantity. Eg: 2.00€/kg, 1.13€/L              |
 |                         | professionnalPrice | Float  | Price as sold to supermarkets                                |
@@ -157,10 +157,10 @@ This endpoint creates a new product in database without checking if another EAN 
 |                          | ean                | String | EAN code of the product. No verification is done for it to be unique, so for the POC we'll assume it'll be ok |
 |                          | imageUrl           | String | Link to the product image                                    |
 |                          | name               | String | Name of the product as shown to final customers              |
-|                          | length             | Float  | Length of the product (can be usefule in the future)         |
-|                          | width              | Float  | Width of the product (can be usefule in the future)          |
-|                          | height             | Float  | Height of the product (can be usefule in the future)         |
-|                          | weight             | Float  | Weight of the product (can be usefule in the future)         |
+|                          | length             | Float  | Length of the product (can be useful in the future)          |
+|                          | width              | Float  | Width of the product (can be useful in the future)           |
+|                          | height             | Float  | Height of the product (can be useful in the future)          |
+|                          | weight             | Float  | Weight of the product (can be useful in the future)          |
 |                          | sellingUnit        | String | The packaging size of the product. E.g: 12x1L, 200g, 1.5L, 1.5kg |
 |                          | legalUnitPrice     | String | Price pet legal quantity. Eg: 2.00€/kg, 1.13€/L              |
 |                          | professionnalPrice | Float  | Price as sold to supermarkets                                |
