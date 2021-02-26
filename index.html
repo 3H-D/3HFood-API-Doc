@@ -140,6 +140,31 @@
                     
                   </li>
                 
+                  <li>
+                    <a href="#get-products-dashboard" class="toc-h2 toc-link" data-title="">Get products dashboard</a>
+                    
+                  </li>
+                
+                  <li>
+                    <a href="#get-products" class="toc-h2 toc-link" data-title="">Get products</a>
+                    
+                  </li>
+                
+                  <li>
+                    <a href="#get-peremption-dashboard" class="toc-h2 toc-link" data-title="">Get peremption dashboard</a>
+                    
+                  </li>
+                
+                  <li>
+                    <a href="#get-perishments" class="toc-h2 toc-link" data-title="">Get perishments</a>
+                    
+                  </li>
+                
+                  <li>
+                    <a href="#delete-perishments-for-product" class="toc-h2 toc-link" data-title="">Delete perishments for product</a>
+                    
+                  </li>
+                
               </ul>
             
           </li>
@@ -554,7 +579,7 @@
 </tr>
 <tr>
 <td></td>
-<td>professionnalPrice</td>
+<td>professionalPrice</td>
 <td>Float</td>
 <td>Price as sold to supermarkets</td>
 </tr>
@@ -580,7 +605,7 @@
 <td>stockMovements</td>
 <td></td>
 <td>Object</td>
-<td>Map containing all stock movements done client side</td>
+<td>Map containing all stock movements done client side <strong>- required even if empty</strong></td>
 </tr>
 <tr>
 <td>stockMovements.addition</td>
@@ -663,6 +688,9 @@
 <span class="token punctuation">}</span>
 </code></pre>
 <p>This endpoint creates a new product in database without checking if another EAN is already in base</p>
+<h3 id="important">Important</h3>
+<p>Si une erreur est renvoyée de cet appel, et que cette erreur n’est pas une erreur INVALID_ARGUMENT, alors il y a eu un problème côté DB mais une partie des modifications ont été sauvegardées. On</p>
+<p>If this call raises an error not of type INVALID_ARGUMENT, it means there was a problem on the database side (most probably a stok modification on a stock line that no longer exists), but some product info had been saved anyway, so please <strong>force refresh the page</strong></p>
 <h3 id="http-request-1">HTTP Request</h3>
 <p><code>GET wholesaler-updateProduct</code></p>
 <h3 id="query-parameters-1">Query Parameters</h3>
@@ -738,7 +766,7 @@
 </tr>
 <tr>
 <td></td>
-<td>professionnalPrice</td>
+<td>professionalPrice</td>
 <td>Float</td>
 <td>Price as sold to supermarkets</td>
 </tr>
@@ -764,7 +792,7 @@
 <td>stockMovements</td>
 <td></td>
 <td>Object</td>
-<td>Map containing all stock movements done client side</td>
+<td>Map containing all stock movements done client side <strong>- required even if empty</strong></td>
 </tr>
 <tr>
 <td>stockMovements.addition</td>
@@ -813,6 +841,314 @@
 <td></td>
 <td>Array</td>
 <td>Array of deleted ids</td>
+</tr>
+</tbody>
+</table>
+<h2 id="get-products-dashboard">Get products dashboard</h2>
+<pre class="language-javascript"><code class="language-javascript"><span class="token keyword">let</span> cloudFunction <span class="token operator">=</span> firebase<span class="token punctuation">.</span><span class="token function">app</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">functions</span><span class="token punctuation">(</span><span class="token string">'europe-west3'</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">httpsCallable</span><span class="token punctuation">(</span><span class="token string">'wholesaler-getProductsDashboard'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">try</span> <span class="token punctuation">{</span>
+  <span class="token keyword">let</span> result <span class="token operator">=</span> <span class="token keyword">await</span> <span class="token function">cloudFunction</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span> <span class="token keyword">catch</span><span class="token punctuation">(</span>e<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>e<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<blockquote>
+<p>The above command returns JSON structured like this:</p>
+</blockquote>
+<pre class="language-json"><code class="language-json"><span class="token punctuation">{</span>
+    <span class="token property">"result"</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+        <span class="token property">"products"</span><span class="token operator">:</span> <span class="token punctuation">[</span>
+            <span class="token punctuation">{</span>
+                <span class="token property">"image_url"</span><span class="token operator">:</span> <span class="token string">"https://google.fr"</span><span class="token punctuation">,</span>
+                <span class="token property">"name"</span><span class="token operator">:</span> <span class="token string">"Produit test"</span><span class="token punctuation">,</span>
+                <span class="token property">"ean"</span><span class="token operator">:</span> <span class="token string">"123456431334545"</span><span class="token punctuation">,</span>
+                <span class="token property">"id"</span><span class="token operator">:</span> <span class="token number">18</span><span class="token punctuation">,</span>
+                <span class="token property">"stock_quantity"</span><span class="token operator">:</span> <span class="token number">640</span>
+            <span class="token punctuation">}</span><span class="token punctuation">,</span>
+            <span class="token punctuation">{</span>
+                <span class="token property">"image_url"</span><span class="token operator">:</span> <span class="token string">"https://google.fr"</span><span class="token punctuation">,</span>
+                <span class="token property">"name"</span><span class="token operator">:</span> <span class="token string">"Produit test"</span><span class="token punctuation">,</span>
+                <span class="token property">"ean"</span><span class="token operator">:</span> <span class="token string">"123456431334545"</span><span class="token punctuation">,</span>
+                <span class="token property">"id"</span><span class="token operator">:</span> <span class="token number">17</span><span class="token punctuation">,</span>
+                <span class="token property">"stock_quantity"</span><span class="token operator">:</span> <span class="token number">0</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">]</span><span class="token punctuation">,</span>
+        <span class="token property">"categories"</span><span class="token operator">:</span> <span class="token punctuation">[</span>
+            <span class="token punctuation">{</span>
+                <span class="token property">"category_product_count"</span><span class="token operator">:</span> <span class="token number">2</span><span class="token punctuation">,</span>
+                <span class="token property">"category_name"</span><span class="token operator">:</span> <span class="token string">"Tous les produits"</span><span class="token punctuation">,</span>
+                <span class="token property">"category_id"</span><span class="token operator">:</span> <span class="token number">0</span>
+            <span class="token punctuation">}</span><span class="token punctuation">,</span>
+            <span class="token punctuation">{</span>
+                <span class="token property">"category_product_count"</span><span class="token operator">:</span> <span class="token number">1</span><span class="token punctuation">,</span>
+                <span class="token property">"category_name"</span><span class="token operator">:</span> <span class="token string">"En rupture"</span><span class="token punctuation">,</span>
+                <span class="token property">"category_id"</span><span class="token operator">:</span> <span class="token number">-1</span>
+            <span class="token punctuation">}</span><span class="token punctuation">,</span>
+            <span class="token punctuation">{</span>
+                <span class="token property">"category_product_count"</span><span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">,</span>
+                <span class="token property">"category_name"</span><span class="token operator">:</span> <span class="token string">"Bientôt en rupture"</span><span class="token punctuation">,</span>
+                <span class="token property">"category_id"</span><span class="token operator">:</span> <span class="token number">-2</span>
+            <span class="token punctuation">}</span><span class="token punctuation">,</span>
+            <span class="token punctuation">{</span>
+                <span class="token property">"category_product_count"</span><span class="token operator">:</span> <span class="token number">1</span><span class="token punctuation">,</span>
+                <span class="token property">"category_name"</span><span class="token operator">:</span> <span class="token string">"Biscuits"</span><span class="token punctuation">,</span>
+                <span class="token property">"category_id"</span><span class="token operator">:</span> <span class="token number">2</span>
+            <span class="token punctuation">}</span><span class="token punctuation">,</span>
+            <span class="token punctuation">{</span>
+                <span class="token property">"category_product_count"</span><span class="token operator">:</span> <span class="token number">4</span><span class="token punctuation">,</span>
+                <span class="token property">"category_name"</span><span class="token operator">:</span> <span class="token string">"Cafés"</span><span class="token punctuation">,</span>
+                <span class="token property">"category_id"</span><span class="token operator">:</span> <span class="token number">4</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">]</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>This endpoint has multiple interesting data inside of it.</p>
+<p>It can fetch the first 10 products from the “all products” tab (which is the default one, so thumbs up for that)</p>
+<p>It fetches product counts for total count, out of stock, and near out of stock for the side bar.</p>
+<p>And it sends back an array of categories with product count and labels for side bar filtering</p>
+<h3 id="http-request-2">HTTP Request</h3>
+<p><code>GET wholesaler-getProductsDashboard</code></p>
+<h3 id="query-parameters-2">Query Parameters</h3>
+<table>
+<thead>
+<tr>
+<th>Parameters</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2 id="get-products">Get products</h2>
+<pre class="language-javascript"><code class="language-javascript"><span class="token keyword">let</span> cloudFunction <span class="token operator">=</span> firebase<span class="token punctuation">.</span><span class="token function">app</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">functions</span><span class="token punctuation">(</span><span class="token string">'europe-west3'</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">httpsCallable</span><span class="token punctuation">(</span><span class="token string">'wholesaler-getProducts'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">let</span> data <span class="token operator">=</span> <span class="token punctuation">{</span>
+  categoryId<span class="token operator">:</span> <span class="token operator">-</span><span class="token number">2</span><span class="token punctuation">,</span>
+  offset<span class="token operator">:</span> <span class="token number">10</span>
+<span class="token punctuation">}</span>
+<span class="token keyword">try</span> <span class="token punctuation">{</span>
+  <span class="token keyword">let</span> result <span class="token operator">=</span> <span class="token keyword">await</span> <span class="token function">cloudFunction</span><span class="token punctuation">(</span>data<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span> <span class="token keyword">catch</span><span class="token punctuation">(</span>e<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>e<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<blockquote>
+<p>The above command returns JSON structured like this:</p>
+</blockquote>
+<pre class="language-json"><code class="language-json"><span class="token punctuation">{</span>
+    <span class="token property">"result"</span><span class="token operator">:</span> <span class="token punctuation">[</span>
+        <span class="token punctuation">{</span>
+            <span class="token property">"image_url"</span><span class="token operator">:</span> <span class="token string">"https://google.fr"</span><span class="token punctuation">,</span>
+            <span class="token property">"name"</span><span class="token operator">:</span> <span class="token string">"Produit test"</span><span class="token punctuation">,</span>
+            <span class="token property">"ean"</span><span class="token operator">:</span> <span class="token string">"123456431334545"</span><span class="token punctuation">,</span>
+            <span class="token property">"id"</span><span class="token operator">:</span> <span class="token number">18</span><span class="token punctuation">,</span>
+            <span class="token property">"stock_quantity"</span><span class="token operator">:</span> <span class="token number">640</span>
+        <span class="token punctuation">}</span><span class="token punctuation">,</span>
+        <span class="token punctuation">{</span>
+            <span class="token property">"image_url"</span><span class="token operator">:</span> <span class="token string">"https://google.fr"</span><span class="token punctuation">,</span>
+            <span class="token property">"name"</span><span class="token operator">:</span> <span class="token string">"Produit test"</span><span class="token punctuation">,</span>
+            <span class="token property">"ean"</span><span class="token operator">:</span> <span class="token string">"123456431334545"</span><span class="token punctuation">,</span>
+            <span class="token property">"id"</span><span class="token operator">:</span> <span class="token number">17</span><span class="token punctuation">,</span>
+            <span class="token property">"stock_quantity"</span><span class="token operator">:</span> <span class="token number">0</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">]</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>This endpoints allow you to fetch data with an offset and a category or a stock status filter (according to the filters list the api sent you on the previous call);</p>
+<p>You’ll get products by bunch of 10.</p>
+<h3 id="http-request-3">HTTP Request</h3>
+<p><code>GET wholesaler-getProducts</code></p>
+<h3 id="query-parameters-3">Query Parameters</h3>
+<table>
+<thead>
+<tr>
+<th>Parameters</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>categoryId</td>
+<td>Int</td>
+<td>The filter category ID (sent in the previous call where you fetched all available filters)</td>
+</tr>
+<tr>
+<td>offset</td>
+<td>Int</td>
+<td>The offset applied to the request</td>
+</tr>
+</tbody>
+</table>
+<h2 id="get-peremption-dashboard">Get peremption dashboard</h2>
+<pre class="language-javascript"><code class="language-javascript"><span class="token keyword">let</span> cloudFunction <span class="token operator">=</span> firebase<span class="token punctuation">.</span><span class="token function">app</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">functions</span><span class="token punctuation">(</span><span class="token string">'europe-west3'</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">httpsCallable</span><span class="token punctuation">(</span><span class="token string">'wholesaler-getPerishmentDashboard'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">try</span> <span class="token punctuation">{</span>
+  <span class="token keyword">let</span> result <span class="token operator">=</span> <span class="token keyword">await</span> <span class="token function">cloudFunction</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span> <span class="token keyword">catch</span><span class="token punctuation">(</span>e<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>e<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<blockquote>
+<p>The above command returns JSON structured like this:</p>
+</blockquote>
+<pre class="language-json"><code class="language-json"><span class="token punctuation">{</span>
+    <span class="token property">"result"</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+        <span class="token property">"products"</span><span class="token operator">:</span> <span class="token punctuation">[</span>
+            <span class="token punctuation">{</span>
+                <span class="token property">"image_url"</span><span class="token operator">:</span> <span class="token string">"https://google.fr"</span><span class="token punctuation">,</span>
+                <span class="token property">"name"</span><span class="token operator">:</span> <span class="token string">"Produit test"</span><span class="token punctuation">,</span>
+                <span class="token property">"ean"</span><span class="token operator">:</span> <span class="token string">"123456431334545"</span><span class="token punctuation">,</span>
+                <span class="token property">"id"</span><span class="token operator">:</span> <span class="token number">18</span><span class="token punctuation">,</span>
+                <span class="token property">"perished_quantity"</span><span class="token operator">:</span> <span class="token number">640</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">]</span><span class="token punctuation">,</span>
+        <span class="token property">"categories"</span><span class="token operator">:</span> <span class="token punctuation">[</span>
+            <span class="token punctuation">{</span>
+                <span class="token property">"category_name"</span><span class="token operator">:</span> <span class="token string">"Périmés"</span><span class="token punctuation">,</span>
+                <span class="token property">"category_product_count"</span><span class="token operator">:</span> <span class="token number">1</span><span class="token punctuation">,</span>
+                <span class="token property">"category_id"</span><span class="token operator">:</span> <span class="token number">0</span>
+            <span class="token punctuation">}</span><span class="token punctuation">,</span>
+            <span class="token punctuation">{</span>
+                <span class="token property">"category_name"</span><span class="token operator">:</span> <span class="token string">"Périment dans -7 jours"</span><span class="token punctuation">,</span>
+                <span class="token property">"category_product_count"</span><span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">,</span>
+                <span class="token property">"category_id"</span><span class="token operator">:</span> <span class="token number">-1</span>
+            <span class="token punctuation">}</span><span class="token punctuation">,</span>
+            <span class="token punctuation">{</span>
+                <span class="token property">"category_name"</span><span class="token operator">:</span> <span class="token string">"Périment dans -14 jours"</span><span class="token punctuation">,</span>
+                <span class="token property">"category_product_count"</span><span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">,</span>
+                <span class="token property">"category_id"</span><span class="token operator">:</span> <span class="token number">-2</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">]</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>This endpoint allow you to fetch the first 10 perished products and fetch the side filters with product count and filter id in order to perform other queries.</p>
+<h3 id="http-request-4">HTTP Request</h3>
+<p><code>GET wholesaler-getPerishmentDashboard</code></p>
+<h3 id="query-parameters-4">Query Parameters</h3>
+<table>
+<thead>
+<tr>
+<th>Parameters</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+</table>
+<h2 id="get-perishments">Get perishments</h2>
+<pre class="language-javascript"><code class="language-javascript"><span class="token keyword">let</span> cloudFunction <span class="token operator">=</span> firebase<span class="token punctuation">.</span><span class="token function">app</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">functions</span><span class="token punctuation">(</span><span class="token string">'europe-west3'</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">httpsCallable</span><span class="token punctuation">(</span><span class="token string">'wholesaler-getPerishments'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">let</span> data <span class="token operator">=</span> <span class="token punctuation">{</span>
+  categoryId<span class="token operator">:</span> <span class="token operator">-</span><span class="token number">2</span><span class="token punctuation">,</span>
+  offset<span class="token operator">:</span> <span class="token number">10</span>
+<span class="token punctuation">}</span>
+<span class="token keyword">try</span> <span class="token punctuation">{</span>
+  <span class="token keyword">let</span> result <span class="token operator">=</span> <span class="token keyword">await</span> <span class="token function">cloudFunction</span><span class="token punctuation">(</span>data<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span> <span class="token keyword">catch</span><span class="token punctuation">(</span>e<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>e<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<blockquote>
+<p>The above command returns JSON structured like this:</p>
+</blockquote>
+<pre class="language-json"><code class="language-json"><span class="token punctuation">{</span>
+    <span class="token property">"result"</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+        <span class="token property">"products"</span><span class="token operator">:</span> <span class="token punctuation">[</span>
+            <span class="token punctuation">{</span>
+                <span class="token property">"image_url"</span><span class="token operator">:</span> <span class="token string">"https://google.fr"</span><span class="token punctuation">,</span>
+                <span class="token property">"name"</span><span class="token operator">:</span> <span class="token string">"Produit test"</span><span class="token punctuation">,</span>
+                <span class="token property">"ean"</span><span class="token operator">:</span> <span class="token string">"123456431334545"</span><span class="token punctuation">,</span>
+                <span class="token property">"id"</span><span class="token operator">:</span> <span class="token number">18</span><span class="token punctuation">,</span>
+                <span class="token property">"perished_quantity"</span><span class="token operator">:</span> <span class="token number">640</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">]</span><span class="token punctuation">,</span>
+        <span class="token property">"categories"</span><span class="token operator">:</span> <span class="token punctuation">[</span>
+            <span class="token punctuation">{</span>
+                <span class="token property">"category_name"</span><span class="token operator">:</span> <span class="token string">"Périmés"</span><span class="token punctuation">,</span>
+                <span class="token property">"category_product_count"</span><span class="token operator">:</span> <span class="token number">1</span><span class="token punctuation">,</span>
+                <span class="token property">"category_id"</span><span class="token operator">:</span> <span class="token number">0</span>
+            <span class="token punctuation">}</span><span class="token punctuation">,</span>
+            <span class="token punctuation">{</span>
+                <span class="token property">"category_name"</span><span class="token operator">:</span> <span class="token string">"Périment dans -7 jours"</span><span class="token punctuation">,</span>
+                <span class="token property">"category_product_count"</span><span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">,</span>
+                <span class="token property">"category_id"</span><span class="token operator">:</span> <span class="token number">-1</span>
+            <span class="token punctuation">}</span><span class="token punctuation">,</span>
+            <span class="token punctuation">{</span>
+                <span class="token property">"category_name"</span><span class="token operator">:</span> <span class="token string">"Périment dans -14 jours"</span><span class="token punctuation">,</span>
+                <span class="token property">"category_product_count"</span><span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">,</span>
+                <span class="token property">"category_id"</span><span class="token operator">:</span> <span class="token number">-2</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">]</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>This endpoint allows you to fetch 10 products from a set perishment date, with a given offset. You get the categoryId from the first call from peremptionDashboard</p>
+<h3 id="http-request-5">HTTP Request</h3>
+<p><code>GET wholesaler-getPerishments</code></p>
+<h3 id="query-parameters-5">Query Parameters</h3>
+<table>
+<thead>
+<tr>
+<th>Parameters</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>categoryId</td>
+<td>Int</td>
+<td>The filter category ID (sent in the previous call where you fetched all available filters)</td>
+</tr>
+<tr>
+<td>offset</td>
+<td>Int</td>
+<td>The offset applied to the request</td>
+</tr>
+</tbody>
+</table>
+<h2 id="delete-perishments-for-product">Delete perishments for product</h2>
+<pre class="language-javascript"><code class="language-javascript"><span class="token keyword">let</span> cloudFunction <span class="token operator">=</span> firebase<span class="token punctuation">.</span><span class="token function">app</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">functions</span><span class="token punctuation">(</span><span class="token string">'europe-west3'</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">httpsCallable</span><span class="token punctuation">(</span><span class="token string">'wholesaler-deletePerishedStock'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">let</span> data <span class="token operator">=</span> <span class="token punctuation">{</span>
+  productId<span class="token operator">:</span> <span class="token number">18</span><span class="token punctuation">,</span>
+<span class="token punctuation">}</span>
+<span class="token keyword">try</span> <span class="token punctuation">{</span>
+  <span class="token keyword">let</span> result <span class="token operator">=</span> <span class="token keyword">await</span> <span class="token function">cloudFunction</span><span class="token punctuation">(</span>data<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span> <span class="token keyword">catch</span><span class="token punctuation">(</span>e<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>e<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<blockquote>
+<p>The above command returns JSON structured like this:</p>
+</blockquote>
+<pre class="language-json"><code class="language-json"><span class="token punctuation">{</span>
+    <span class="token property">"result"</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+        <span class="token property">"success"</span><span class="token operator">:</span> <span class="token boolean">true</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>This endpoint allows you to fetch 10 products from a set perishment date, with a given offset. You get the categoryId from the first call from peremptionDashboard</p>
+<h3 id="http-request-6">HTTP Request</h3>
+<p><code>GET wholesaler-deletePerishedStock</code></p>
+<h3 id="query-parameters-6">Query Parameters</h3>
+<table>
+<thead>
+<tr>
+<th>Parameters</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>productId</td>
+<td>Int</td>
+<td>The product ID from whom delete all perished stock lines</td>
 </tr>
 </tbody>
 </table>
