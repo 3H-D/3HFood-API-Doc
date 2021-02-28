@@ -82,6 +82,8 @@
       
         
       
+        
+      
 
       <div id="toc" class="toc-list-h1">
 	  	<ul class="toc-list-h1">
@@ -162,6 +164,45 @@
                 
                   <li>
                     <a href="#delete-perishments-for-product" class="toc-h2 toc-link" data-title="">Delete perishments for product</a>
+                    
+                  </li>
+                
+              </ul>
+            
+          </li>
+        
+          <li>
+            <a href="#supermarket" class="toc-h1 toc-link" data-title="Supermarket">Supermarket</a>
+            
+              <ul class="toc-list-h2">
+                
+                  <li>
+                    <a href="#get-all-wholesalers" class="toc-h2 toc-link" data-title="">Get all wholesalers</a>
+                    
+                  </li>
+                
+                  <li>
+                    <a href="#create-professional-order" class="toc-h2 toc-link" data-title="">Create professional order</a>
+                    
+                  </li>
+                
+                  <li>
+                    <a href="#get-professional-orders" class="toc-h2 toc-link" data-title="">Get professional orders</a>
+                    
+                  </li>
+                
+                  <li>
+                    <a href="#set-order-as-delivered" class="toc-h2 toc-link" data-title="">Set order as delivered</a>
+                    
+                  </li>
+                
+                  <li>
+                    <a href="#get-warehouse-stock-dashboard" class="toc-h2 toc-link" data-title="">Get warehouse stock dashboard</a>
+                    
+                  </li>
+                
+                  <li>
+                    <a href="#set-storage-alley" class="toc-h2 toc-link" data-title="">Set storage alley</a>
                     
                   </li>
                 
@@ -1149,6 +1190,315 @@
 <td>productId</td>
 <td>Int</td>
 <td>The product ID from whom delete all perished stock lines</td>
+</tr>
+</tbody>
+</table>
+<h1 id="supermarket">Supermarket</h1>
+<h2 id="get-all-wholesalers">Get all wholesalers</h2>
+<pre class="language-javascript"><code class="language-javascript"><span class="token keyword">let</span> cloudFunction <span class="token operator">=</span> firebase<span class="token punctuation">.</span><span class="token function">app</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">functions</span><span class="token punctuation">(</span><span class="token string">'europe-west3'</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">httpsCallable</span><span class="token punctuation">(</span><span class="token string">'supermarket-getWholesalers'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">try</span> <span class="token punctuation">{</span>
+  <span class="token keyword">let</span> result <span class="token operator">=</span> <span class="token keyword">await</span> <span class="token function">cloudFunction</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span> <span class="token keyword">catch</span><span class="token punctuation">(</span>e<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>e<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<blockquote>
+<p>The above command returns JSON structured like this:</p>
+</blockquote>
+<pre class="language-json"><code class="language-json"><span class="token punctuation">{</span>
+    <span class="token property">"result"</span><span class="token operator">:</span> <span class="token punctuation">[</span>
+        <span class="token punctuation">{</span>
+            <span class="token property">"id"</span><span class="token operator">:</span> <span class="token number">1</span><span class="token punctuation">,</span>
+            <span class="token property">"first_name"</span><span class="token operator">:</span> <span class="token string">"MysteryTea"</span><span class="token punctuation">,</span>
+            <span class="token property">"last_name"</span><span class="token operator">:</span> <span class="token string">"SASU"</span>
+        <span class="token punctuation">}</span><span class="token punctuation">,</span>
+      	<span class="token punctuation">{</span>
+            <span class="token property">"id"</span><span class="token operator">:</span> <span class="token number">2</span><span class="token punctuation">,</span>
+            <span class="token property">"first_name"</span><span class="token operator">:</span> <span class="token string">"Les bons gâteaux by MysteryTea"</span><span class="token punctuation">,</span>
+            <span class="token property">"last_name"</span><span class="token operator">:</span> <span class="token string">"SASU"</span>
+        <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    <span class="token punctuation">]</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>This endpoint allows you to fetch all existing wholesalers, useful for new order screen where the supermarket need to select a wholesaler to be able to fetch its products</p>
+<h3 id="http-request">HTTP Request</h3>
+<p><code>GET supermarket-getWholesalers</code></p>
+<h3 id="query-parameters">Query Parameters</h3>
+<table>
+<thead>
+<tr>
+<th>Parameters</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+</table>
+<h2 id="create-professional-order">Create professional order</h2>
+<pre class="language-javascript"><code class="language-javascript"><span class="token keyword">let</span> cloudFunction <span class="token operator">=</span> firebase<span class="token punctuation">.</span><span class="token function">app</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">functions</span><span class="token punctuation">(</span><span class="token string">'europe-west3'</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">httpsCallable</span><span class="token punctuation">(</span><span class="token string">'supermarket-createOrder'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">let</span> data<span class="token operator">:</span><span class="token punctuation">{</span>
+  productLines<span class="token operator">:</span> <span class="token punctuation">[</span>
+    <span class="token punctuation">{</span>
+      id<span class="token operator">:</span> <span class="token number">18</span><span class="token punctuation">,</span>
+      quantity<span class="token operator">:</span> <span class="token number">150</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">]</span><span class="token punctuation">,</span>
+  wholesalerId<span class="token operator">:</span> <span class="token number">1</span>
+<span class="token punctuation">}</span>
+<span class="token keyword">try</span> <span class="token punctuation">{</span>
+  <span class="token keyword">let</span> result <span class="token operator">=</span> <span class="token keyword">await</span> <span class="token function">cloudFunction</span><span class="token punctuation">(</span>data<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span> <span class="token keyword">catch</span><span class="token punctuation">(</span>e<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>e<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<blockquote>
+<p>The above command returns JSON structured like this:</p>
+</blockquote>
+<pre class="language-json"><code class="language-json"><span class="token punctuation">{</span>
+    <span class="token property">"result"</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+        <span class="token property">"pdfUrl"</span><span class="token operator">:</span> <span class="token string">"commande-pro/1/9390-055229-4545.pdf"</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>This endpoints allow you to pass an array of order lines containing the product ID and a quantity, create the order in database, and fetch the PDF document url right after that to potentially open it in a new tab.</p>
+<p>The call takes only product ids so no cheating is possible as the price set on the final order is the one in database.</p>
+<h3 id="http-request-1">HTTP Request</h3>
+<p><code>GET supermarket-getWholesalers</code></p>
+<h3 id="query-parameters-1">Query Parameters</h3>
+<table>
+<thead>
+<tr>
+<th>Parameters</th>
+<th></th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>productLines</td>
+<td></td>
+<td>Array</td>
+<td>Array of productLine objects</td>
+</tr>
+<tr>
+<td></td>
+<td>id</td>
+<td>Int</td>
+<td>ID of product linked to product line</td>
+</tr>
+<tr>
+<td></td>
+<td>quantity</td>
+<td>Int</td>
+<td>Quantity of product linked to the product line</td>
+</tr>
+<tr>
+<td>wholesalerId</td>
+<td></td>
+<td>Int</td>
+<td>Id of the selected wholesaler</td>
+</tr>
+</tbody>
+</table>
+<h2 id="get-professional-orders">Get professional orders</h2>
+<pre class="language-javascript"><code class="language-javascript"><span class="token keyword">let</span> cloudFunction <span class="token operator">=</span> firebase<span class="token punctuation">.</span><span class="token function">app</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">functions</span><span class="token punctuation">(</span><span class="token string">'europe-west3'</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">httpsCallable</span><span class="token punctuation">(</span><span class="token string">'supermarket-getOrders'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">let</span> data<span class="token operator">:</span><span class="token punctuation">{</span>
+  offset<span class="token operator">:</span> <span class="token number">0</span>
+<span class="token punctuation">}</span>
+<span class="token keyword">try</span> <span class="token punctuation">{</span>
+  <span class="token keyword">let</span> result <span class="token operator">=</span> <span class="token keyword">await</span> <span class="token function">cloudFunction</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span> <span class="token keyword">catch</span><span class="token punctuation">(</span>e<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>e<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<blockquote>
+<p>The above command returns JSON structured like this:</p>
+</blockquote>
+<pre class="language-json"><code class="language-json"><span class="token punctuation">{</span>
+    <span class="token property">"result"</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+        <span class="token property">"orders"</span><span class="token operator">:</span> <span class="token punctuation">[</span>
+            <span class="token punctuation">{</span>
+                <span class="token property">"id"</span><span class="token operator">:</span> <span class="token number">9</span><span class="token punctuation">,</span>
+                <span class="token property">"order_id"</span><span class="token operator">:</span> <span class="token string">"9390-057749-4545"</span><span class="token punctuation">,</span>
+                <span class="token property">"wholesaler_id"</span><span class="token operator">:</span> <span class="token number">1</span><span class="token punctuation">,</span>
+                <span class="token property">"supermarket_id"</span><span class="token operator">:</span> <span class="token number">4</span><span class="token punctuation">,</span>
+                <span class="token property">"date"</span><span class="token operator">:</span> <span class="token string">"2021-02-27 00:00:00"</span><span class="token punctuation">,</span>
+                <span class="token property">"products_count"</span><span class="token operator">:</span> <span class="token number">150</span><span class="token punctuation">,</span>
+                <span class="token property">"vat_exempt_price"</span><span class="token operator">:</span> <span class="token number">8370</span><span class="token punctuation">,</span>
+                <span class="token property">"pdf_url"</span><span class="token operator">:</span> <span class="token string">"commande-pro/1/9390-057749-4545.pdf"</span><span class="token punctuation">,</span>
+                <span class="token property">"state"</span><span class="token operator">:</span> <span class="token string">"PREPARE"</span><span class="token punctuation">,</span>
+                <span class="token property">"stringified_perishments"</span><span class="token operator">:</span> <span class="token string">"[{\"productId\":18,\"quantity\":150,\"perishDate\":\"2021-02-28\"}]"</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">]</span><span class="token punctuation">,</span>
+        <span class="token property">"totalOrders"</span><span class="token operator">:</span> <span class="token number">1</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>This endpoint allows you to fetch professional orders linked to a supermarket with an offset. Every call returns you the total number of orders too for your front end logic on wether or not you can display next/previous buttons.</p>
+<h3 id="http-request-2">HTTP Request</h3>
+<p><code>GET supermarket-getOrders</code></p>
+<h3 id="query-parameters-2">Query Parameters</h3>
+<table>
+<thead>
+<tr>
+<th>Parameters</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Offset</td>
+<td>Int</td>
+<td>Offset applied to results</td>
+</tr>
+</tbody>
+</table>
+<h2 id="set-order-as-delivered">Set order as delivered</h2>
+<pre class="language-javascript"><code class="language-javascript"><span class="token keyword">let</span> cloudFunction <span class="token operator">=</span> firebase<span class="token punctuation">.</span><span class="token function">app</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">functions</span><span class="token punctuation">(</span><span class="token string">'europe-west3'</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">httpsCallable</span><span class="token punctuation">(</span><span class="token string">'supermarket-setOrderReceived'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">let</span> data<span class="token operator">:</span><span class="token punctuation">{</span>
+  orderId<span class="token operator">:</span> <span class="token number">9</span>
+<span class="token punctuation">}</span>
+<span class="token keyword">try</span> <span class="token punctuation">{</span>
+  <span class="token keyword">let</span> result <span class="token operator">=</span> <span class="token keyword">await</span> <span class="token function">cloudFunction</span><span class="token punctuation">(</span>data<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span> <span class="token keyword">catch</span><span class="token punctuation">(</span>e<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>e<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<blockquote>
+<p>The above command returns JSON structured like this:</p>
+</blockquote>
+<pre class="language-json"><code class="language-json"><span class="token punctuation">{</span>
+    <span class="token property">"result"</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+        <span class="token property">"success"</span><span class="token operator">:</span> <span class="token boolean">true</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>This endpoint allows you to set a professionnal order as delivered, and set correct stock lines into warehouse stock database with perishment dates.</p>
+<h3 id="http-request-3">HTTP Request</h3>
+<p><code>GET supermarket-setOrderReceived</code></p>
+<h3 id="query-parameters-3">Query Parameters</h3>
+<table>
+<thead>
+<tr>
+<th>Parameters</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>orderId</td>
+<td>Int</td>
+<td>Id of the order to set as delivered</td>
+</tr>
+</tbody>
+</table>
+<h2 id="get-warehouse-stock-dashboard">Get warehouse stock dashboard</h2>
+<pre class="language-javascript"><code class="language-javascript"><span class="token keyword">let</span> cloudFunction <span class="token operator">=</span> firebase<span class="token punctuation">.</span><span class="token function">app</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">functions</span><span class="token punctuation">(</span><span class="token string">'europe-west3'</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">httpsCallable</span><span class="token punctuation">(</span><span class="token string">'supermarket-getWarehouseStockDashboard'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">try</span> <span class="token punctuation">{</span>
+  <span class="token keyword">let</span> result <span class="token operator">=</span> <span class="token keyword">await</span> <span class="token function">cloudFunction</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span> <span class="token keyword">catch</span><span class="token punctuation">(</span>e<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>e<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<blockquote>
+<p>The above command returns JSON structured like this:</p>
+</blockquote>
+<pre class="language-json"><code class="language-json"><span class="token punctuation">{</span>
+    <span class="token property">"result"</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+        <span class="token property">"products"</span><span class="token operator">:</span> <span class="token punctuation">[</span>
+            <span class="token punctuation">{</span>
+                <span class="token property">"product_id"</span><span class="token operator">:</span> <span class="token number">18</span><span class="token punctuation">,</span>
+                <span class="token property">"name"</span><span class="token operator">:</span> <span class="token string">"Produit test"</span><span class="token punctuation">,</span>
+                <span class="token property">"image_url"</span><span class="token operator">:</span> <span class="token string">"https://google.fr"</span><span class="token punctuation">,</span>
+                <span class="token property">"ean"</span><span class="token operator">:</span> <span class="token string">"123456431334545"</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">]</span><span class="token punctuation">,</span>
+        <span class="token property">"categories"</span><span class="token operator">:</span> <span class="token punctuation">[</span>
+            <span class="token punctuation">{</span>
+                <span class="token property">"category_product_count"</span><span class="token operator">:</span> <span class="token number">1</span><span class="token punctuation">,</span>
+                <span class="token property">"category_name"</span><span class="token operator">:</span> <span class="token string">"Produits non assignés"</span><span class="token punctuation">,</span>
+                <span class="token property">"category_id"</span><span class="token operator">:</span> <span class="token number">0</span>
+            <span class="token punctuation">}</span><span class="token punctuation">,</span>
+            <span class="token punctuation">{</span>
+                <span class="token property">"category_product_count"</span><span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">,</span>
+                <span class="token property">"category_name"</span><span class="token operator">:</span> <span class="token string">"En rupture"</span><span class="token punctuation">,</span>
+                <span class="token property">"category_id"</span><span class="token operator">:</span> <span class="token number">-1</span>
+            <span class="token punctuation">}</span><span class="token punctuation">,</span>
+            <span class="token punctuation">{</span>
+                <span class="token property">"category_product_count"</span><span class="token operator">:</span> <span class="token number">1</span><span class="token punctuation">,</span>
+                <span class="token property">"category_name"</span><span class="token operator">:</span> <span class="token string">"Bientôt en rupture"</span><span class="token punctuation">,</span>
+                <span class="token property">"category_id"</span><span class="token operator">:</span> <span class="token number">-2</span>
+            <span class="token punctuation">}</span><span class="token punctuation">,</span>
+            <span class="token punctuation">{</span>
+                <span class="token property">"category_product_count"</span><span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">,</span>
+                <span class="token property">"category_name"</span><span class="token operator">:</span> <span class="token string">"En stock"</span><span class="token punctuation">,</span>
+                <span class="token property">"category_id"</span><span class="token operator">:</span> <span class="token number">-3</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">]</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>This endpoint allows you to get the filters categories with labels and products count, and to get the first 10 products from the first filter category.</p>
+<p>Un produit ne peut être que dans une seule catégorie. Ainsi, un produit en stock mais non assigné n’apparaîtra que dans la catégorie “non assigné” et pas dans la catégorie “en stock”</p>
+<p>A product can only be part of one category. So if a product is in stock but is not yet assigned to a warehouse storage alley, then it will only appear in “Produits non assignés” category and not in “en stock” one.</p>
+<h3 id="http-request-4">HTTP Request</h3>
+<p><code>GET supermarket-getWarehouseStockDashboard</code></p>
+<h3 id="query-parameters-4">Query Parameters</h3>
+<table>
+<thead>
+<tr>
+<th>Parameters</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+</table>
+<h2 id="set-storage-alley">Set storage alley</h2>
+<pre class="language-javascript"><code class="language-javascript"><span class="token keyword">let</span> cloudFunction <span class="token operator">=</span> firebase<span class="token punctuation">.</span><span class="token function">app</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">functions</span><span class="token punctuation">(</span><span class="token string">'europe-west3'</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">httpsCallable</span><span class="token punctuation">(</span><span class="token string">'supermarket-setStorageAlley'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">let</span> data<span class="token operator">:</span><span class="token punctuation">{</span>
+  productId<span class="token operator">:</span> <span class="token number">18</span><span class="token punctuation">,</span>
+  storageAlley<span class="token operator">:</span> <span class="token string">"G2"</span>
+<span class="token punctuation">}</span>
+<span class="token keyword">try</span> <span class="token punctuation">{</span>
+  <span class="token keyword">let</span> result <span class="token operator">=</span> <span class="token keyword">await</span> <span class="token function">cloudFunction</span><span class="token punctuation">(</span>data<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span> <span class="token keyword">catch</span><span class="token punctuation">(</span>e<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>e<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<blockquote>
+<p>The above command returns JSON structured like this:</p>
+</blockquote>
+<pre class="language-json"><code class="language-json"><span class="token punctuation">{</span>
+    <span class="token property">"result"</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+        <span class="token property">"success"</span><span class="token operator">:</span> <span class="token boolean">true</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>This endpoint allows you to set a storage alley for an product. It’ll update all the stock lines of the product with the new storage alley value. If no alley was existing, then the product will change category on refresh. If alley was existing, it’ll be overriden.</p>
+<p>Next professionnal orders of the same product will automatically be assigned to this storage alley.</p>
+<h3 id="http-request-5">HTTP Request</h3>
+<p><code>GET supermarket-setStorageAlley</code></p>
+<h3 id="query-parameters-5">Query Parameters</h3>
+<table>
+<thead>
+<tr>
+<th>Parameters</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>productId</td>
+<td>Int</td>
+<td>Id of the product to set the storage alley on</td>
+</tr>
+<tr>
+<td>storageAlley</td>
+<td>String</td>
+<td>Value of the storage alley (max 31 chars)</td>
 </tr>
 </tbody>
 </table>
