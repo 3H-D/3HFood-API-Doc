@@ -10,6 +10,7 @@ toc_footers:
 includes:
   - common.md
   - wholesaler.md
+  - supermarket.md
   - errors.md
 
 search: true
