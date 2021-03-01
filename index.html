@@ -221,6 +221,21 @@
                     
                   </li>
                 
+                  <li>
+                    <a href="#update-product" class="toc-h2 toc-link" data-title="">Update product</a>
+                    
+                  </li>
+                
+                  <li>
+                    <a href="#get-client-stock-detail" class="toc-h2 toc-link" data-title="">Get Client Stock Detail</a>
+                    
+                  </li>
+                
+                  <li>
+                    <a href="#get-client-stock" class="toc-h2 toc-link" data-title="">Get Client Stock</a>
+                    
+                  </li>
+                
               </ul>
             
           </li>
@@ -1707,6 +1722,306 @@
 <td>productId</td>
 <td>Int</td>
 <td>Id of the product you want to fetch details for</td>
+</tr>
+</tbody>
+</table>
+<h2 id="update-product">Update product</h2>
+<pre class="language-javascript"><code class="language-javascript"><span class="token keyword">let</span> cloudFunction <span class="token operator">=</span> firebase<span class="token punctuation">.</span><span class="token function">app</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">functions</span><span class="token punctuation">(</span><span class="token string">'europe-west3'</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">httpsCallable</span><span class="token punctuation">(</span><span class="token string">'supermarket-updateProduct'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">let</span> data<span class="token operator">:</span><span class="token punctuation">{</span>
+  	productId<span class="token operator">:</span> <span class="token number">17</span><span class="token punctuation">,</span>
+    warehouse<span class="token operator">:</span> <span class="token punctuation">{</span>
+      editionLines<span class="token operator">:</span> <span class="token punctuation">[</span>
+        <span class="token punctuation">{</span>
+          id<span class="token operator">:</span> <span class="token number">4</span><span class="token punctuation">,</span>
+          quantity<span class="token operator">:</span> <span class="token number">150</span><span class="token punctuation">,</span>
+          perishDate<span class="token operator">:</span> <span class="token string">"2021-03-20"</span>
+        <span class="token punctuation">}</span>
+      <span class="token punctuation">]</span><span class="token punctuation">,</span>
+        newLines<span class="token operator">:</span> <span class="token punctuation">[</span>
+          <span class="token punctuation">{</span>
+            quantity<span class="token operator">:</span> <span class="token number">100</span><span class="token punctuation">,</span>
+            perishDate<span class="token operator">:</span> <span class="token string">"2021-04-01"</span>
+          <span class="token punctuation">}</span>
+        <span class="token punctuation">]</span><span class="token punctuation">,</span>
+          deletionLines<span class="token operator">:</span> <span class="token punctuation">[</span><span class="token punctuation">]</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span>
+      client<span class="token operator">:</span> <span class="token punctuation">{</span>
+        editionLines<span class="token operator">:</span> <span class="token punctuation">[</span>
+          <span class="token punctuation">{</span>
+            id<span class="token operator">:</span> <span class="token number">4</span><span class="token punctuation">,</span>
+            quantity<span class="token operator">:</span> <span class="token number">150</span><span class="token punctuation">,</span>
+            perishDate<span class="token operator">:</span> <span class="token string">"2021-03-20"</span>
+          <span class="token punctuation">}</span>
+        <span class="token punctuation">]</span><span class="token punctuation">,</span>
+          newLines<span class="token operator">:</span> <span class="token punctuation">[</span>
+            <span class="token punctuation">{</span>
+              quantity<span class="token operator">:</span> <span class="token number">100</span><span class="token punctuation">,</span>
+              perishDate<span class="token operator">:</span> <span class="token string">"2021-04-01"</span>
+            <span class="token punctuation">}</span>
+          <span class="token punctuation">]</span><span class="token punctuation">,</span>
+            deletionLines<span class="token operator">:</span> <span class="token punctuation">[</span><span class="token punctuation">]</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+<span class="token keyword">try</span> <span class="token punctuation">{</span>
+  <span class="token keyword">let</span> result <span class="token operator">=</span> <span class="token keyword">await</span> <span class="token function">cloudFunction</span><span class="token punctuation">(</span>data<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span> <span class="token keyword">catch</span><span class="token punctuation">(</span>e<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>e<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<blockquote>
+<p>The above command returns JSON structured like this:</p>
+</blockquote>
+<pre class="language-json"><code class="language-json"><span class="token punctuation">{</span>
+    <span class="token property">"result"</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+        <span class="token property">"success"</span><span class="token operator">:</span> <span class="token boolean">true</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>This endpoint allows you to update product warehouse stock and client stock.</p>
+<h3 id="http-request-8">HTTP Request</h3>
+<p><code>GET supermarket-updateProduct</code></p>
+<h3 id="query-parameters-8">Query Parameters</h3>
+<table>
+<thead>
+<tr>
+<th>Parameters</th>
+<th></th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>productId</td>
+<td></td>
+<td>Int</td>
+<td>Id of the product you want to fetch details for</td>
+</tr>
+<tr>
+<td>warehouse</td>
+<td></td>
+<td>Object</td>
+<td>Object containing all line editions</td>
+</tr>
+<tr>
+<td>warehouse.editionLines</td>
+<td></td>
+<td>Array</td>
+<td>Array containing all edited warehouse stock lines in product</td>
+</tr>
+<tr>
+<td></td>
+<td>id</td>
+<td>Int</td>
+<td>Id of the edited stock line</td>
+</tr>
+<tr>
+<td></td>
+<td>quantity</td>
+<td>Int</td>
+<td>New quantity value for the line</td>
+</tr>
+<tr>
+<td></td>
+<td>perishDate</td>
+<td>Date</td>
+<td>New perish date for the line</td>
+</tr>
+<tr>
+<td>warehouse.newLines</td>
+<td></td>
+<td>Array</td>
+<td>Array containing all inserted warehouse stock lines for product</td>
+</tr>
+<tr>
+<td></td>
+<td>quantity</td>
+<td>Int</td>
+<td>Inserted quantity</td>
+</tr>
+<tr>
+<td></td>
+<td>perishDate</td>
+<td>Date</td>
+<td>Inserted perish date</td>
+</tr>
+<tr>
+<td>warehouse.deletionLines</td>
+<td></td>
+<td>Array<Int></td>
+<td>Array of deleted stock line ids</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>client</td>
+<td></td>
+<td>Object</td>
+<td>Object containing all line editions</td>
+</tr>
+<tr>
+<td>client.editionLines</td>
+<td></td>
+<td>Array</td>
+<td>Array containing all edited warehouse stock lines in productObject containing all line editions</td>
+</tr>
+<tr>
+<td></td>
+<td>id</td>
+<td>Int</td>
+<td>Id of the edited stock line</td>
+</tr>
+<tr>
+<td></td>
+<td>quantity</td>
+<td>Int</td>
+<td>New quantity value for the line</td>
+</tr>
+<tr>
+<td></td>
+<td>perishDate</td>
+<td>Date</td>
+<td>New perish date for the line</td>
+</tr>
+<tr>
+<td>warehouse.newLines</td>
+<td></td>
+<td>Array</td>
+<td>Array containing all inserted warehouse stock lines for product</td>
+</tr>
+<tr>
+<td></td>
+<td>quantity</td>
+<td>Int</td>
+<td>Inserted quantity</td>
+</tr>
+<tr>
+<td></td>
+<td>perishDate</td>
+<td>Date</td>
+<td>Inserted perish date</td>
+</tr>
+<tr>
+<td>warehouse.deletionLines</td>
+<td></td>
+<td>Array<Int></td>
+<td>Array of deleted stock line ids</td>
+</tr>
+</tbody>
+</table>
+<h2 id="get-client-stock-detail">Get Client Stock Detail</h2>
+<pre class="language-javascript"><code class="language-javascript"><span class="token keyword">let</span> cloudFunction <span class="token operator">=</span> firebase<span class="token punctuation">.</span><span class="token function">app</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">functions</span><span class="token punctuation">(</span><span class="token string">'europe-west3'</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">httpsCallable</span><span class="token punctuation">(</span><span class="token string">'supermarket-getClientStockDetails'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">try</span> <span class="token punctuation">{</span>
+  <span class="token keyword">let</span> result <span class="token operator">=</span> <span class="token keyword">await</span> <span class="token function">cloudFunction</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span> <span class="token keyword">catch</span><span class="token punctuation">(</span>e<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>e<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<blockquote>
+<p>The above command returns JSON structured like this:</p>
+</blockquote>
+<pre class="language-json"><code class="language-json"><span class="token punctuation">{</span>
+    <span class="token property">"result"</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+        <span class="token property">"products"</span><span class="token operator">:</span> <span class="token punctuation">[</span>
+            <span class="token punctuation">{</span>
+                <span class="token property">"id"</span><span class="token operator">:</span> <span class="token number">17</span><span class="token punctuation">,</span>
+                <span class="token property">"name"</span><span class="token operator">:</span> <span class="token string">"Produit test"</span><span class="token punctuation">,</span>
+                <span class="token property">"image_url"</span><span class="token operator">:</span> <span class="token string">"https://google.fr"</span><span class="token punctuation">,</span>
+                <span class="token property">"ean"</span><span class="token operator">:</span> <span class="token string">"123456431334545"</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">]</span><span class="token punctuation">,</span>
+        <span class="token property">"categories"</span><span class="token operator">:</span> <span class="token punctuation">[</span>
+            <span class="token punctuation">{</span>
+                <span class="token property">"category_product_count"</span><span class="token operator">:</span> <span class="token number">1</span><span class="token punctuation">,</span>
+                <span class="token property">"category_name"</span><span class="token operator">:</span> <span class="token string">"En rupture"</span><span class="token punctuation">,</span>
+                <span class="token property">"category_id"</span><span class="token operator">:</span> <span class="token number">0</span>
+            <span class="token punctuation">}</span><span class="token punctuation">,</span>
+            <span class="token punctuation">{</span>
+                <span class="token property">"category_product_count"</span><span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">,</span>
+                <span class="token property">"category_name"</span><span class="token operator">:</span> <span class="token string">"Bientôt en rupture"</span><span class="token punctuation">,</span>
+                <span class="token property">"category_id"</span><span class="token operator">:</span> <span class="token number">-1</span>
+            <span class="token punctuation">}</span><span class="token punctuation">,</span>
+            <span class="token punctuation">{</span>
+                <span class="token property">"category_product_count"</span><span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">,</span>
+                <span class="token property">"category_name"</span><span class="token operator">:</span> <span class="token string">"En stock"</span><span class="token punctuation">,</span>
+                <span class="token property">"category_id"</span><span class="token operator">:</span> <span class="token number">-2</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">]</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>This endpoint allows you to fetch client stock filters and the first 10 products from the first filter (out of stock products)</p>
+<h3 id="http-request-9">HTTP Request</h3>
+<p><code>GET supermarket-getClientStockDetails</code></p>
+<h3 id="query-parameters-9">Query Parameters</h3>
+<table>
+<thead>
+<tr>
+<th>Parameters</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>productId</td>
+<td>Int</td>
+<td>Id of the product you want to fetch details for</td>
+</tr>
+</tbody>
+</table>
+<h2 id="get-client-stock">Get Client Stock</h2>
+<pre class="language-javascript"><code class="language-javascript"><span class="token keyword">let</span> cloudFunction <span class="token operator">=</span> firebase<span class="token punctuation">.</span><span class="token function">app</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">functions</span><span class="token punctuation">(</span><span class="token string">'europe-west3'</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">httpsCallable</span><span class="token punctuation">(</span><span class="token string">'supermarket-getClientStock'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">let</span> data <span class="token operator">=</span> <span class="token punctuation">{</span>
+  categoryId<span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">,</span>
+  offset<span class="token operator">:</span> <span class="token number">0</span>
+<span class="token punctuation">}</span>
+<span class="token keyword">try</span> <span class="token punctuation">{</span>
+  <span class="token keyword">let</span> result <span class="token operator">=</span> <span class="token keyword">await</span> <span class="token function">cloudFunction</span><span class="token punctuation">(</span>data<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span> <span class="token keyword">catch</span><span class="token punctuation">(</span>e<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>e<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<blockquote>
+<p>The above command returns JSON structured like this:</p>
+</blockquote>
+<pre class="language-json"><code class="language-json"><span class="token punctuation">{</span>
+    <span class="token property">"result"</span><span class="token operator">:</span> <span class="token punctuation">[</span>
+        <span class="token punctuation">{</span>
+            <span class="token property">"id"</span><span class="token operator">:</span> <span class="token number">17</span><span class="token punctuation">,</span>
+            <span class="token property">"name"</span><span class="token operator">:</span> <span class="token string">"Produit test"</span><span class="token punctuation">,</span>
+            <span class="token property">"image_url"</span><span class="token operator">:</span> <span class="token string">"https://google.fr"</span><span class="token punctuation">,</span>
+            <span class="token property">"ean"</span><span class="token operator">:</span> <span class="token string">"123456431334545"</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">]</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>This endpoint allows you to fetch client stock filters and the first 10 products from the first filter (out of stock products)</p>
+<h3 id="http-request-10">HTTP Request</h3>
+<p><code>GET supermarket-getClientStock</code></p>
+<h3 id="query-parameters-10">Query Parameters</h3>
+<table>
+<thead>
+<tr>
+<th>Parameters</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>categoryId</td>
+<td>Int</td>
+<td>Id of the client stock product filter</td>
+</tr>
+<tr>
+<td>offset</td>
+<td>Int</td>
+<td>Value of the applied offset</td>
 </tr>
 </tbody>
 </table>
