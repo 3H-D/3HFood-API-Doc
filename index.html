@@ -172,6 +172,16 @@
                     
                   </li>
                 
+                  <li>
+                    <a href="#get-dashboard" class="toc-h2 toc-link" data-title="">Get dashboard</a>
+                    
+                  </li>
+                
+                  <li>
+                    <a href="#get-tracker" class="toc-h2 toc-link" data-title="">Get tracker</a>
+                    
+                  </li>
+                
               </ul>
             
           </li>
@@ -1286,6 +1296,111 @@
 <td>productId</td>
 <td>Int</td>
 <td>The product ID from whom delete all perished stock lines</td>
+</tr>
+</tbody>
+</table>
+<h2 id="get-dashboard">Get dashboard</h2>
+<pre class="language-javascript"><code class="language-javascript"><span class="token keyword">let</span> cloudFunction <span class="token operator">=</span> firebase<span class="token punctuation">.</span><span class="token function">app</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">functions</span><span class="token punctuation">(</span><span class="token string">'europe-west3'</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">httpsCallable</span><span class="token punctuation">(</span><span class="token string">'wholesaler-getDashboard'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">try</span> <span class="token punctuation">{</span>
+  <span class="token keyword">let</span> result <span class="token operator">=</span> <span class="token keyword">await</span> <span class="token function">cloudFunction</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span> <span class="token keyword">catch</span><span class="token punctuation">(</span>e<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>e<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<blockquote>
+<p>The above command returns JSON structured like this:</p>
+</blockquote>
+<pre class="language-json"><code class="language-json"><span class="token punctuation">{</span>
+    <span class="token property">"result"</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+        <span class="token property">"to_prepare"</span><span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">,</span>
+        <span class="token property">"in_delivery"</span><span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">,</span>
+        <span class="token property">"out_of_stock_count"</span><span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">,</span>
+        <span class="token property">"perishment_warnings"</span><span class="token operator">:</span> <span class="token punctuation">[</span>
+            <span class="token punctuation">{</span>
+                <span class="token property">"first_name"</span><span class="token operator">:</span> <span class="token string">"3HFood"</span><span class="token punctuation">,</span>
+                <span class="token property">"last_name"</span><span class="token operator">:</span> <span class="token string">"Seclin"</span><span class="token punctuation">,</span>
+                <span class="token property">"products_count"</span><span class="token operator">:</span> <span class="token number">2</span><span class="token punctuation">,</span>
+                <span class="token property">"quantity_count"</span><span class="token operator">:</span> <span class="token number">250</span><span class="token punctuation">,</span>
+                <span class="token property">"total_price"</span><span class="token operator">:</span> <span class="token number">10649.999809265137</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">]</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>This endpoint allows you to fetch all the data for the wholesaler dashboard</p>
+<h3 id="http-request-8">HTTP Request</h3>
+<p><code>GET wholesaler-getDashboard</code></p>
+<h3 id="query-parameters-8">Query Parameters</h3>
+<table>
+<thead>
+<tr>
+<th>Parameters</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+</table>
+<h2 id="get-tracker">Get tracker</h2>
+<pre class="language-javascript"><code class="language-javascript"><span class="token keyword">let</span> cloudFunction <span class="token operator">=</span> firebase<span class="token punctuation">.</span><span class="token function">app</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">functions</span><span class="token punctuation">(</span><span class="token string">'europe-west3'</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">httpsCallable</span><span class="token punctuation">(</span><span class="token string">'wholesaler-getTracking'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">let</span> data <span class="token operator">=</span> <span class="token punctuation">{</span>
+  orderingId<span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">,</span>
+  offset<span class="token operator">:</span> <span class="token number">0</span>
+<span class="token punctuation">}</span>
+<span class="token keyword">try</span> <span class="token punctuation">{</span>
+  <span class="token keyword">let</span> result <span class="token operator">=</span> <span class="token keyword">await</span> <span class="token function">cloudFunction</span><span class="token punctuation">(</span>data<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span> <span class="token keyword">catch</span><span class="token punctuation">(</span>e<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>e<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<blockquote>
+<p>The above command returns JSON structured like this:</p>
+</blockquote>
+<pre class="language-json"><code class="language-json"><span class="token punctuation">{</span>
+    <span class="token property">"result"</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+        <span class="token property">"tracker_lines"</span><span class="token operator">:</span> <span class="token punctuation">[</span>
+            <span class="token punctuation">{</span>
+                <span class="token property">"id"</span><span class="token operator">:</span> <span class="token number">4</span><span class="token punctuation">,</span>
+                <span class="token property">"first_name"</span><span class="token operator">:</span> <span class="token string">"3HFood"</span><span class="token punctuation">,</span>
+                <span class="token property">"last_name"</span><span class="token operator">:</span> <span class="token string">"Seclin"</span><span class="token punctuation">,</span>
+                <span class="token property">"near_perishment_references_count"</span><span class="token operator">:</span> <span class="token number">1</span><span class="token punctuation">,</span>
+                <span class="token property">"perished_products_count"</span><span class="token operator">:</span> <span class="token number">250</span><span class="token punctuation">,</span>
+                <span class="token property">"references_count"</span><span class="token operator">:</span> <span class="token number">2</span><span class="token punctuation">,</span>
+                <span class="token property">"products_count"</span><span class="token operator">:</span> <span class="token number">350</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">]</span><span class="token punctuation">,</span>
+        <span class="token property">"total_lines"</span><span class="token operator">:</span> <span class="token number">1</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>This endpoint allows you to fetch tracker data to allow the wholesaler to see stock status on every supermarket he delivers.</p>
+<p>Without a defined supermarketId, it’ll fetch the 10 first lines (or the 10 lines offseted by the offset value) of the tracker.</p>
+<p>With a defined supermarketId, it’ll only fetch this line of the tracker and no other.</p>
+<h3 id="http-request-9">HTTP Request</h3>
+<p><code>GET wholesaler-getTracking</code></p>
+<h3 id="query-parameters-9">Query Parameters</h3>
+<table>
+<thead>
+<tr>
+<th>Parameters</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>orderingId</td>
+<td>Int</td>
+<td>Different values: <strong>0</strong>-Alphabetical order ascending, <strong>1</strong>-Near perishment references count descending, <strong>2</strong>-Perished products count descending</td>
+</tr>
+<tr>
+<td>offset</td>
+<td>Int</td>
+<td>Offset value applied to the query</td>
+</tr>
+<tr>
+<td>supermarketId</td>
+<td>Int?</td>
+<td>Optionnal supermarketId filter to only fetch this supermarket in particular. Useful for the search functionnality</td>
 </tr>
 </tbody>
 </table>
