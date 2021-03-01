@@ -200,7 +200,7 @@ try {
     "result": {
         "products": [
             {
-                "product_id": 18,
+                "id": 18,
                 "name": "Produit test",
                 "image_url": "https://google.fr",
                 "ean": "123456431334545"
@@ -249,6 +249,51 @@ A product can only be part of one category. So if a product is in stock but is n
 
 
 
+## Get Warehouse storage
+
+```javascript
+let cloudFunction = firebase.app().functions('europe-west3').httpsCallable('supermarket-getWarehouseStorage');
+let data:{
+  categoryId: -1,
+  offset: 0
+}
+try {
+  let result = await cloudFunction(data);
+} catch(e) {
+  console.log(e);
+}
+```
+
+> The above command returns JSON structured like this:
+
+```json
+{
+    "result": [
+        {
+            "id": 17,
+            "name": "Produit test",
+            "image_url": "https://google.fr",
+            "ean": "123456431334545"
+        }
+    ]
+}
+```
+
+This endpoint allows you to fetch products filtered by warehouse stock state (categoryId), with an offset for padding. Every parameter is mandatory.
+
+### HTTP Request
+
+`GET supermarket-getWarehouseStorage`
+
+### Query Parameters
+
+| Parameters | Type | Description                              |
+| ---------- | ---- | ---------------------------------------- |
+| categoryId | Int  | Id of the warehouse stock filter applied |
+| Offset     | Int  | Offset applied for pagination            |
+
+
+
 ## Set storage alley
 
 ```javascript
@@ -288,4 +333,78 @@ Next professionnal orders of the same product will automatically be assigned to 
 | ------------ | ------ | --------------------------------------------- |
 | productId    | Int    | Id of the product to set the storage alley on |
 | storageAlley | String | Value of the storage alley (max 31 chars)     |
+
+
+
+## Get Product Details
+
+```javascript
+let cloudFunction = firebase.app().functions('europe-west3').httpsCallable('supermarket-getProductDetails');
+let data:{
+  productId: 17,
+}
+try {
+  let result = await cloudFunction(data);
+} catch(e) {
+  console.log(e);
+}
+```
+
+> The above command returns JSON structured like this:
+
+```json
+{
+    "result": {
+        "product": {
+            "id": 17,
+            "ean": "123456431334545",
+            "linked_wholesaler": 1,
+            "image_url": "https://google.fr",
+            "name": "Produit test",
+            "length": 53,
+            "width": 25,
+            "height": 8,
+            "weight": 288,
+            "selling_unit": "2x12l",
+            "legal_unit_price": "1,38€/L",
+            "professional_price": 55.8,
+            "retail_price": 0,
+            "vat_class": 5.5,
+            "composition": "Juste de l'air",
+            "linked_category": 2
+        },
+        "warehouse_stock": [
+            {
+                "id": 4,
+                "product_id": 17,
+                "supermarket_id": 4,
+                "storage_alley": "E3",
+                "quantity": 0,
+                "perish_date": "2021-03-10"
+            }
+        ],
+        "client_stock": [
+            {
+                "id": 1,
+                "product_id": 17,
+                "supermarket_id": 4,
+                "quantity": 12,
+                "perish_date": "2021-03-03"
+            }
+        ]
+    }
+}
+```
+
+This endpoint allows you to fetch product details, as well as the warehouse stock lines, and the client stock lines, order by perishment date from closer to more far away from perishment.
+
+### HTTP Request
+
+`GET supermarket-getProductDetails`
+
+### Query Parameters
+
+| Parameters | Type | Description                                     |
+| ---------- | ---- | ----------------------------------------------- |
+| productId  | Int  | Id of the product you want to fetch details for |
 

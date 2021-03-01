@@ -185,6 +185,70 @@ If this call raises an error not of type INVALID_ARGUMENT, it means there was a 
 
 
 
+## Get product detail
+
+```javascript
+let cloudFunction = firebase.app().functions('europe-west3').httpsCallable('wholesaler-getProductDetail');
+let data = {
+  productId: 18
+}
+try {
+  let result = await cloudFunction(data);
+} catch(e) {
+  console.log(e);
+}
+```
+
+> The above command returns JSON structured like this:
+
+```json
+{
+    "result": {
+        "product": {
+            "id": 18,
+            "ean": "123456431334545",
+            "linked_wholesaler": 1,
+            "image_url": "https://google.fr",
+            "name": "Produit test",
+            "length": 53,
+            "width": 25,
+            "height": 8,
+            "weight": 288,
+            "selling_unit": "2x12l",
+            "legal_unit_price": "1,38€/L",
+            "professional_price": 55.8,
+            "retail_price": 0,
+            "vat_class": 5.5,
+            "composition": "Juste de l'eau",
+            "linked_category": 4
+        },
+        "stockLines": [
+            {
+                "id": 49,
+                "product_id": 18,
+                "wholesaler_id": 1,
+                "quantity": 9550,
+                "perish_date": "2021-02-28"
+            }
+        ]
+    }
+}
+```
+
+This endpoint fetches all the product informations as well as all the stock lines ordered from more close to more far away from perishment date.
+
+### HTTP Request
+
+`GET wholesaler-getProductDetail`
+
+### Query Parameters
+
+| Parameters | Type | Description |
+| ---------- | ---- | ----------- |
+|            |      |             |
+
+
+
 ## Get products dashboard
 
 ```javascript
