@@ -408,3 +408,196 @@ This endpoint allows you to fetch product details, as well as the warehouse stoc
 | ---------- | ---- | ----------------------------------------------- |
 | productId  | Int  | Id of the product you want to fetch details for |
 
+
+
+## Update product
+
+```javascript
+let cloudFunction = firebase.app().functions('europe-west3').httpsCallable('supermarket-updateProduct');
+let data:{
+  	productId: 17,
+    warehouse: {
+      editionLines: [
+        {
+          id: 4,
+          quantity: 150,
+          perishDate: "2021-03-20"
+        }
+      ],
+        newLines: [
+          {
+            quantity: 100,
+            perishDate: "2021-04-01"
+          }
+        ],
+          deletionLines: []
+    },
+      client: {
+        editionLines: [
+          {
+            id: 4,
+            quantity: 150,
+            perishDate: "2021-03-20"
+          }
+        ],
+          newLines: [
+            {
+              quantity: 100,
+              perishDate: "2021-04-01"
+            }
+          ],
+            deletionLines: []
+    }
+}
+try {
+  let result = await cloudFunction(data);
+} catch(e) {
+  console.log(e);
+}
+```
+
+> The above command returns JSON structured like this:
+
+```json
+{
+    "result": {
+        "success": true
+    }
+}
+```
+
+This endpoint allows you to update product warehouse stock and client stock.
+
+### HTTP Request
+
+`GET supermarket-updateProduct`
+
+### Query Parameters
+
+| Parameters              |            | Type       | Description                                                  |
+| ----------------------- | ---------- | ---------- | ------------------------------------------------------------ |
+| productId               |            | Int        | Id of the product you want to fetch details for              |
+| warehouse               |            | Object     | Object containing all line editions                          |
+| warehouse.editionLines  |            | Array      | Array containing all edited warehouse stock lines in product |
+|                         | id         | Int        | Id of the edited stock line                                  |
+|                         | quantity   | Int        | New quantity value for the line                              |
+|                         | perishDate | Date       | New perish date for the line                                 |
+| warehouse.newLines      |            | Array      | Array containing all inserted warehouse stock lines for product |
+|                         | quantity   | Int        | Inserted quantity                                            |
+|                         | perishDate | Date       | Inserted perish date                                         |
+| warehouse.deletionLines |            | Array<Int> | Array of deleted stock line ids                              |
+|                         |            |            |                                                              |
+| client                  |            | Object     | Object containing all line editions                          |
+| client.editionLines     |            | Array      | Array containing all edited warehouse stock lines in productObject containing all line editions |
+|                         | id         | Int        | Id of the edited stock line                                  |
+|                         | quantity   | Int        | New quantity value for the line                              |
+|                         | perishDate | Date       | New perish date for the line                                 |
+| warehouse.newLines      |            | Array      | Array containing all inserted warehouse stock lines for product |
+|                         | quantity   | Int        | Inserted quantity                                            |
+|                         | perishDate | Date       | Inserted perish date                                         |
+| warehouse.deletionLines |            | Array<Int> | Array of deleted stock line ids                              |
+
+
+
+## Get Client Stock Detail
+
+```javascript
+let cloudFunction = firebase.app().functions('europe-west3').httpsCallable('supermarket-getClientStockDetails');
+try {
+  let result = await cloudFunction();
+} catch(e) {
+  console.log(e);
+}
+```
+
+> The above command returns JSON structured like this:
+
+```json
+{
+    "result": {
+        "products": [
+            {
+                "id": 17,
+                "name": "Produit test",
+                "image_url": "https://google.fr",
+                "ean": "123456431334545"
+            }
+        ],
+        "categories": [
+            {
+                "category_product_count": 1,
+                "category_name": "En rupture",
+                "category_id": 0
+            },
+            {
+                "category_product_count": 0,
+                "category_name": "Bientôt en rupture",
+                "category_id": -1
+            },
+            {
+                "category_product_count": 0,
+                "category_name": "En stock",
+                "category_id": -2
+            }
+        ]
+    }
+}
+```
+
+This endpoint allows you to fetch client stock filters and the first 10 products from the first filter (out of stock products)
+
+### HTTP Request
+
+`GET supermarket-getClientStockDetails`
+
+### Query Parameters
+
+| Parameters | Type | Description                                     |
+| ---------- | ---- | ----------------------------------------------- |
+| productId  | Int  | Id of the product you want to fetch details for |
+
+
+
+## Get Client Stock
+
+```javascript
+let cloudFunction = firebase.app().functions('europe-west3').httpsCallable('supermarket-getClientStock');
+let data = {
+  categoryId: 0,
+  offset: 0
+}
+try {
+  let result = await cloudFunction(data);
+} catch(e) {
+  console.log(e);
+}
+```
+
+> The above command returns JSON structured like this:
+
+```json
+{
+    "result": [
+        {
+            "id": 17,
+            "name": "Produit test",
+            "image_url": "https://google.fr",
+            "ean": "123456431334545"
+        }
+    ]
+}
+```
+
+This endpoint allows you to fetch client stock filters and the first 10 products from the first filter (out of stock products)
+
+### HTTP Request
+
+`GET supermarket-getClientStock`
+
+### Query Parameters
+
+| Parameters | Type | Description                           |
+| ---------- | ---- | ------------------------------------- |
+| categoryId | Int  | Id of the client stock product filter |
+| offset     | Int  | Value of the applied offset           |
+
