@@ -547,3 +547,106 @@ This endpoint allows you to fetch 10 products from a set perishment date, with a
 | ---------- | ---- | -------------------------------------------------------- |
 | productId  | Int  | The product ID from whom delete all perished stock lines |
 
+
+
+## Get dashboard
+
+```javascript
+let cloudFunction = firebase.app().functions('europe-west3').httpsCallable('wholesaler-getDashboard');
+try {
+  let result = await cloudFunction();
+} catch(e) {
+  console.log(e);
+}
+```
+
+> The above command returns JSON structured like this:
+
+```json
+{
+    "result": {
+        "to_prepare": 0,
+        "in_delivery": 0,
+        "out_of_stock_count": 0,
+        "perishment_warnings": [
+            {
+                "first_name": "3HFood",
+                "last_name": "Seclin",
+                "products_count": 2,
+                "quantity_count": 250,
+                "total_price": 10649.999809265137
+            }
+        ]
+    }
+}
+```
+
+This endpoint allows you to fetch all the data for the wholesaler dashboard
+
+### HTTP Request
+
+`GET wholesaler-getDashboard`
+
+### Query Parameters
+
+| Parameters | Type | Description |
+| ---------- | ---- | ----------- |
+
+
+
+## Get tracker
+
+```javascript
+let cloudFunction = firebase.app().functions('europe-west3').httpsCallable('wholesaler-getTracking');
+let data = {
+  orderingId: 0,
+  offset: 0
+}
+try {
+  let result = await cloudFunction(data);
+} catch(e) {
+  console.log(e);
+}
+```
+
+> The above command returns JSON structured like this:
+
+```json
+{
+    "result": {
+        "tracker_lines": [
+            {
+                "id": 4,
+                "first_name": "3HFood",
+                "last_name": "Seclin",
+                "near_perishment_references_count": 1,
+                "perished_products_count": 250,
+                "references_count": 2,
+                "products_count": 350
+            }
+        ],
+        "total_lines": 1
+    }
+}
+```
+
+This endpoint allows you to fetch tracker data to allow the wholesaler to see stock status on every supermarket he delivers. 
+
+Without a defined supermarketId, it'll fetch the 10 first lines (or the 10 lines offseted by the offset value) of the tracker.
+
+With a defined supermarketId, it'll only fetch this line of the tracker and no other.
+
+### HTTP Request
+
+`GET wholesaler-getTracking`
+
+### Query Parameters
+
+| Parameters    | Type | Description                                                  |
+| ------------- | ---- | ------------------------------------------------------------ |
+| orderingId    | Int  | Different values: **0**-Alphabetical order ascending, **1**-Near perishment references count descending, **2**-Perished products count descending |
+| offset        | Int  | Offset value applied to the query                            |
+| supermarketId | Int? | Optionnal supermarketId filter to only fetch this supermarket in particular. Useful for the search functionnality |
+
+
+
