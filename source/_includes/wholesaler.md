@@ -650,3 +650,113 @@ With a defined supermarketId, it'll only fetch this line of the tracker and no o
 
 
 
+## Get professionnal orders dashboard
+
+```javascript
+let cloudFunction = firebase.app().functions('europe-west3').httpsCallable('wholesaler-getOrdersDashboard');
+try {
+  let result = await cloudFunction();
+} catch(e) {
+  console.log(e);
+}
+```
+
+> The above command returns JSON structured like this:
+
+```json
+{
+    "result": {
+        "orders": [
+            {
+                "order_id": "9390-057749-4545",
+                "date": "2021-02-27 00:00:00",
+                "products_count": 150,
+                "vat_exempt_price": 8370,
+                "pdf_url": "commande-pro/1/9390-057749-4545.pdf",
+                "supermarket_name": "3HFood Seclin"
+            }
+        ],
+        "categories": [
+            {
+                "category_product_count": 1,
+                "category_name": "À préparer",
+                "category_id": 0
+            },
+            {
+                "category_product_count": 0,
+                "category_name": "À expédier",
+                "category_id": -1
+            },
+            {
+                "category_product_count": 0,
+                "category_name": "Expédiées",
+                "category_id": -2
+            },
+            {
+                "category_product_count": 0,
+                "category_name": "Livrées",
+                "category_id": -3
+            },
+            {
+                "category_product_count": 1,
+                "category_name": "Total",
+                "category_id": -4
+            }
+        ]
+    }
+}
+```
+
+This endpoint allows you to fetch the first 10 orders to be in "PREPARE" state and the filters for the orders dashboard
+
+### HTTP Request
+
+`GET wholesaler-getOrdersDashboard
+
+## Get orders by filter
+
+```javascript
+let cloudFunction = firebase.app().functions('europe-west3').httpsCallable('wholesaler-getOrders');
+let data = {
+  categoryId: 0,
+  offset: 0
+}
+try {
+  let result = await cloudFunction(data);
+} catch(e) {
+  console.log(e);
+}
+```
+
+> The above command returns JSON structured like this:
+
+```json
+{
+    "result": [
+        {
+            "order_id": "9390-057749-4545",
+            "date": "2021-02-27 00:00:00",
+            "products_count": 150,
+            "vat_exempt_price": 8370,
+            "pdf_url": "commande-pro/1/9390-057749-4545.pdf",
+            "supermarket_name": "3HFood Seclin"
+        }
+    ]
+}
+```
+
+This endpoint allows you to fetch wholesaler orders ordered by date and with a mandatory offset.
+
+You have to pass a categoryId which is the filter id fetched from the ordersDashboard query.
+
+### HTTP Request
+
+`GET wholesaler-getTracking`
+
+### Query Parameters
+
+| Parameters | Type | Description                            |
+| ---------- | ---- | -------------------------------------- |
+| categoryId | Int  | Filter ID as fetched by dashboard call |
+| offset     | Int  | Offset value applied to the query      |
+
