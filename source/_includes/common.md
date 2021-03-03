@@ -195,3 +195,38 @@ This endpoint takes all the parameters from registration and create the user obj
 | city      | String | City of user                                                 |
 | type      | String | User type in: WHOLESALER - SUPERMARKET - CASHIER - TAGMANAGER - STOCKMANAGER - SUPERADMIN |
 
+
+
+## Set password reset
+
+```javascript
+let cloudFunction = firebase.app().functions('europe-west3').httpsCallable('common-hasResetPassword');
+try {
+  let result = await cloudFunction();
+} catch(e) {
+  console.log(e);
+}
+```
+
+> The above command returns JSON structured like this:
+
+```json
+{
+    "result": {
+       "success": true
+    }
+}
+```
+
+This endpoint set the flag 'needs password reset' to false. To be called when the user has reset his password and is well authenticated
+
+### HTTP Request
+
+`GET common-hasResetPassword`
+
+### Query Parameters
+
+| Parameter | Required | Description |
+| --------- | -------- | ----------- |
+| -         |          |             |
+
