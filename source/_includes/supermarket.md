@@ -601,3 +601,172 @@ This endpoint allows you to fetch client stock filters and the first 10 products
 | categoryId | Int  | Id of the client stock product filter |
 | offset     | Int  | Value of the applied offset           |
 
+
+
+## Get perishment dashboard
+
+```javascript
+let cloudFunction = firebase.app().functions('europe-west3').httpsCallable('supermarket-getOrdersDashboard');
+try {
+  let result = await cloudFunction();
+} catch(e) {
+  console.log(e);
+}
+```
+
+> The above command returns JSON structured like this:
+
+```json
+{
+    "result": {
+        "products": [
+            {
+                "id": 18,
+                "name": "Produit test",
+                "ean": "123456431334545",
+                "image_url": "https://google.fr",
+                "perished_warehouse_quantity": 100,
+                "closest_perishment_date": "2021-02-24",
+                "perished_client_quantity": 0,
+                "closest_client_date": null
+            },
+            {
+                "id": 17,
+                "name": "Produit test",
+                "ean": "123456431334545",
+                "image_url": "https://google.fr",
+                "perished_warehouse_quantity": 0,
+                "closest_perishment_date": null,
+                "perished_client_quantity": 0,
+                "closest_client_date": null
+            }
+        ],
+        "categories": [
+            {
+                "category_product_count": 1,
+                "category_name": "Périmés",
+                "category_id": 0
+            },
+            {
+                "category_product_count": 2,
+                "category_name": "Périment dans -7j",
+                "category_id": -1
+            },
+            {
+                "category_product_count": 0,
+                "category_name": "Périment dans -14j",
+                "category_id": -2
+            }
+        ]
+    }
+}
+```
+
+This endpoint allows you to fetch the perishment dashboard, with the first 10 products of the first filter, and all the filters for the side selector.
+
+### HTTP Request
+
+`GET supermarket-getOrdersDashboard`
+
+### Query Parameters
+
+| Parameters | Type | Description |
+| ---------- | ---- | ----------- |
+
+
+
+## Get perishment
+
+```javascript
+let cloudFunction = firebase.app().functions('europe-west3').httpsCallable('supermarket-getPerishments');
+let data = {
+  categoryId: 0,
+  offset: 0
+}
+try {
+  let result = await cloudFunction(data);
+} catch(e) {
+  console.log(e);
+}
+```
+
+> The above command returns JSON structured like this:
+
+```json
+{
+    "result": [
+        {
+            "id": 17,
+            "name": "Produit test",
+            "ean": "123456431334545",
+            "image_url": "https://google.fr",
+            "perished_warehouse_quantity": null,
+            "closest_perishment_date": null,
+            "perished_client_quantity": null,
+            "closest_client_date": null
+        },
+        {
+            "id": 18,
+            "name": "Produit test",
+            "ean": "123456431334545",
+            "image_url": "https://google.fr",
+            "perished_warehouse_quantity": 100,
+            "closest_perishment_date": "2021-02-24",
+            "perished_client_quantity": null,
+            "closest_client_date": null
+        }
+    ]
+}
+```
+
+This endpoint allows you to fetch filtered perishment products
+
+### HTTP Request
+
+`GET supermarket-getPerishments`
+
+### Query Parameters
+
+| Parameters | Type | Description                  |
+| ---------- | ---- | ---------------------------- |
+| categoryId | Int  | Id of the perishments filter |
+| offset     | Int  | Value of the applied offset  |
+
+
+
+## Delete perished stock
+
+```javascript
+let cloudFunction = firebase.app().functions('europe-west3').httpsCallable('supermarket-deletePerishedProductStock');
+let data = {
+  productId: 17
+}
+try {
+  let result = await cloudFunction(data);
+} catch(e) {
+  console.log(e);
+}
+```
+
+> The above command returns JSON structured like this:
+
+```json
+{
+    "result": {
+        "success": true
+    }
+}
+```
+
+This endpoint allows you to delete all perished stock lines from warehouse and client supermarket stock
+
+### HTTP Request
+
+`GET supermarket-deletePerishedProductStock`
+
+### Query Parameters
+
+| Parameters | Type | Description                                           |
+| ---------- | ---- | ----------------------------------------------------- |
+| productId  | Int  | Id of the product from whom remove the perished stock |
+
