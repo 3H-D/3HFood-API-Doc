@@ -276,6 +276,46 @@
                     
                   </li>
                 
+                  <li>
+                    <a href="#create-discount" class="toc-h2 toc-link" data-title="">Create discount</a>
+                    
+                  </li>
+                
+                  <li>
+                    <a href="#get-discount-dashboard" class="toc-h2 toc-link" data-title="">Get discount dashboard</a>
+                    
+                  </li>
+                
+                  <li>
+                    <a href="#get-discount" class="toc-h2 toc-link" data-title="">Get discount</a>
+                    
+                  </li>
+                
+                  <li>
+                    <a href="#update-discount" class="toc-h2 toc-link" data-title="">Update discount</a>
+                    
+                  </li>
+                
+                  <li>
+                    <a href="#delete-discount" class="toc-h2 toc-link" data-title="">Delete discount</a>
+                    
+                  </li>
+                
+                  <li>
+                    <a href="#get-reviews" class="toc-h2 toc-link" data-title="">Get reviews</a>
+                    
+                  </li>
+                
+                  <li>
+                    <a href="#get-product-price" class="toc-h2 toc-link" data-title="">Get product price</a>
+                    
+                  </li>
+                
+                  <li>
+                    <a href="#set-product-price" class="toc-h2 toc-link" data-title="">Set product price</a>
+                    
+                  </li>
+                
               </ul>
             
           </li>
@@ -2487,6 +2527,535 @@
 <td>productId</td>
 <td>Int</td>
 <td>Id of the product from whom remove the perished stock</td>
+</tr>
+</tbody>
+</table>
+<h2 id="create-discount">Create discount</h2>
+<pre class="language-javascript"><code class="language-javascript"><span class="token keyword">let</span> cloudFunction <span class="token operator">=</span> firebase<span class="token punctuation">.</span><span class="token function">app</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">functions</span><span class="token punctuation">(</span><span class="token string">'europe-west3'</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">httpsCallable</span><span class="token punctuation">(</span><span class="token string">'supermarket-createDiscount'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">let</span> data <span class="token operator">=</span> <span class="token punctuation">{</span>
+  name<span class="token operator">:</span> <span class="token string">"Promo test"</span><span class="token punctuation">,</span>
+  categories<span class="token operator">:</span> <span class="token punctuation">[</span><span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">4</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+  products<span class="token operator">:</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+  promotionType<span class="token operator">:</span> <span class="token string">"BOGO"</span><span class="token punctuation">,</span>
+  boughtQuantity<span class="token operator">:</span> <span class="token number">3</span><span class="token punctuation">,</span>
+  paidQuantity<span class="token operator">:</span> <span class="token number">2</span><span class="token punctuation">,</span>
+  startDate<span class="token operator">:</span> <span class="token string">"2021-03-20"</span><span class="token punctuation">,</span>
+  endDate<span class="token operator">:</span> <span class="token string">"2021-03-31"</span>
+<span class="token punctuation">}</span>
+<span class="token keyword">try</span> <span class="token punctuation">{</span>
+  <span class="token keyword">let</span> result <span class="token operator">=</span> <span class="token keyword">await</span> <span class="token function">cloudFunction</span><span class="token punctuation">(</span>data<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span> <span class="token keyword">catch</span><span class="token punctuation">(</span>e<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>e<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<blockquote>
+<p>The above command returns JSON structured like this:</p>
+</blockquote>
+<pre class="language-json"><code class="language-json"><span class="token punctuation">{</span>
+    <span class="token property">"result"</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+        <span class="token property">"success"</span><span class="token operator">:</span> <span class="token boolean">true</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>This endpoint allows you to create a new discount for products and/or categories</p>
+<h3 id="http-request-14">HTTP Request</h3>
+<p><code>GET supermarket-createDiscount</code></p>
+<h3 id="query-parameters-14">Query Parameters</h3>
+<table>
+<thead>
+<tr>
+<th>Parameters</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Name</td>
+<td>String</td>
+<td>Name of the promotion. Will be shown client side so choose it wisely (max 255 chars)</td>
+</tr>
+<tr>
+<td>categories</td>
+<td>[Int]</td>
+<td>Array of category ids the discount can be applied for. Empty array if no category applicable. Must at least have a non empty category array or a non empty product array.</td>
+</tr>
+<tr>
+<td>products</td>
+<td>[Int]</td>
+<td>Array of product ids the discount can be applied for. Empty array if no product applicable. Must at least have a non empty category array or a non empty product array.</td>
+</tr>
+<tr>
+<td>promotionType</td>
+<td>String</td>
+<td>Promotion type between these values: <strong>BOGO</strong>: Buy X Pay Y system (recursive). <strong>PERCENTAGE</strong>: the value will be a percentage of the product’s price. <strong>DIRECT</strong>: the value will be an amount in euros.</td>
+</tr>
+<tr>
+<td>boughtQuantity</td>
+<td>Int?</td>
+<td><strong>Only if BOGO</strong>: Quantity of products to buy to activate the discount</td>
+</tr>
+<tr>
+<td>paidQuantity</td>
+<td>Int?</td>
+<td><strong>Only if BOGO</strong>: Quantity of products the client will pay after the discount</td>
+</tr>
+<tr>
+<td>value</td>
+<td>Float?</td>
+<td><strong>Only if PERCENTAGE or DIRECT</strong>: the value of the discount. Eg 15 for -15%, or 0.80 for 0.80€</td>
+</tr>
+<tr>
+<td>startDate</td>
+<td>Date</td>
+<td>Start date of the discount. Format YYYY-MM-DD</td>
+</tr>
+<tr>
+<td>enddate</td>
+<td>Date</td>
+<td>End date of the discount. Format YYYY-MM-DD. No verification is done for endDate &gt; startDate, must be done client side.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="get-discount-dashboard">Get discount dashboard</h2>
+<pre class="language-javascript"><code class="language-javascript"><span class="token keyword">let</span> cloudFunction <span class="token operator">=</span> firebase<span class="token punctuation">.</span><span class="token function">app</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">functions</span><span class="token punctuation">(</span><span class="token string">'europe-west3'</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">httpsCallable</span><span class="token punctuation">(</span><span class="token string">'supermarket-getDiscountDashboard'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">try</span> <span class="token punctuation">{</span>
+  <span class="token keyword">let</span> result <span class="token operator">=</span> <span class="token keyword">await</span> <span class="token function">cloudFunction</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span> <span class="token keyword">catch</span><span class="token punctuation">(</span>e<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>e<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<blockquote>
+<p>The above command returns JSON structured like this:</p>
+</blockquote>
+<pre class="language-json"><code class="language-json"><span class="token punctuation">{</span>
+    <span class="token property">"result"</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+        <span class="token property">"promotions"</span><span class="token operator">:</span> <span class="token punctuation">[</span>
+            <span class="token punctuation">{</span>
+                <span class="token property">"id"</span><span class="token operator">:</span> <span class="token number">7</span><span class="token punctuation">,</span>
+                <span class="token property">"promotion_group_id"</span><span class="token operator">:</span> <span class="token string">"f4524049-4476-46f0-b84d-60e796ff85b8"</span><span class="token punctuation">,</span>
+                <span class="token property">"name"</span><span class="token operator">:</span> <span class="token string">"Deuxième promo"</span><span class="token punctuation">,</span>
+                <span class="token property">"eligible_category"</span><span class="token operator">:</span> <span class="token number">2</span><span class="token punctuation">,</span>
+                <span class="token property">"eligible_product"</span><span class="token operator">:</span> <span class="token null keyword">null</span><span class="token punctuation">,</span>
+                <span class="token property">"promotion_type"</span><span class="token operator">:</span> <span class="token string">"BOGO"</span><span class="token punctuation">,</span>
+                <span class="token property">"bought_quantity"</span><span class="token operator">:</span> <span class="token number">3</span><span class="token punctuation">,</span>
+                <span class="token property">"paid_quantity"</span><span class="token operator">:</span> <span class="token number">2</span><span class="token punctuation">,</span>
+                <span class="token property">"value"</span><span class="token operator">:</span> <span class="token null keyword">null</span><span class="token punctuation">,</span>
+                <span class="token property">"start_date"</span><span class="token operator">:</span> <span class="token string">"2021-03-02"</span><span class="token punctuation">,</span>
+                <span class="token property">"end_date"</span><span class="token operator">:</span> <span class="token string">"2021-03-12"</span><span class="token punctuation">,</span>
+                <span class="token property">"eligible_products"</span><span class="token operator">:</span> <span class="token null keyword">null</span><span class="token punctuation">,</span>
+                <span class="token property">"eligible_categories"</span><span class="token operator">:</span> <span class="token string">"Biscuits\nChips"</span>
+            <span class="token punctuation">}</span><span class="token punctuation">,</span>
+            <span class="token punctuation">{</span>
+                <span class="token property">"id"</span><span class="token operator">:</span> <span class="token number">5</span><span class="token punctuation">,</span>
+                <span class="token property">"promotion_group_id"</span><span class="token operator">:</span> <span class="token string">"b1945963-d9a1-4925-b6e3-03517f95d01c"</span><span class="token punctuation">,</span>
+                <span class="token property">"name"</span><span class="token operator">:</span> <span class="token string">"Promo test"</span><span class="token punctuation">,</span>
+                <span class="token property">"eligible_category"</span><span class="token operator">:</span> <span class="token null keyword">null</span><span class="token punctuation">,</span>
+                <span class="token property">"eligible_product"</span><span class="token operator">:</span> <span class="token number">18</span><span class="token punctuation">,</span>
+                <span class="token property">"promotion_type"</span><span class="token operator">:</span> <span class="token string">"DIRECT"</span><span class="token punctuation">,</span>
+                <span class="token property">"bought_quantity"</span><span class="token operator">:</span> <span class="token null keyword">null</span><span class="token punctuation">,</span>
+                <span class="token property">"paid_quantity"</span><span class="token operator">:</span> <span class="token null keyword">null</span><span class="token punctuation">,</span>
+                <span class="token property">"value"</span><span class="token operator">:</span> <span class="token number">5</span><span class="token punctuation">,</span>
+                <span class="token property">"start_date"</span><span class="token operator">:</span> <span class="token string">"2021-03-03"</span><span class="token punctuation">,</span>
+                <span class="token property">"end_date"</span><span class="token operator">:</span> <span class="token string">"2021-03-15"</span><span class="token punctuation">,</span>
+                <span class="token property">"eligible_products"</span><span class="token operator">:</span> <span class="token string">"Deuxième produit\nProduit test"</span><span class="token punctuation">,</span>
+                <span class="token property">"eligible_categories"</span><span class="token operator">:</span> <span class="token null keyword">null</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">]</span><span class="token punctuation">,</span>
+        <span class="token property">"categories"</span><span class="token operator">:</span> <span class="token punctuation">[</span>
+            <span class="token punctuation">{</span>
+                <span class="token property">"category_product_count"</span><span class="token operator">:</span> <span class="token number">2</span><span class="token punctuation">,</span>
+                <span class="token property">"category_name"</span><span class="token operator">:</span> <span class="token string">"En cours"</span><span class="token punctuation">,</span>
+                <span class="token property">"category_id"</span><span class="token operator">:</span> <span class="token number">0</span>
+            <span class="token punctuation">}</span><span class="token punctuation">,</span>
+            <span class="token punctuation">{</span>
+                <span class="token property">"category_product_count"</span><span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">,</span>
+                <span class="token property">"category_name"</span><span class="token operator">:</span> <span class="token string">"À venir"</span><span class="token punctuation">,</span>
+                <span class="token property">"category_id"</span><span class="token operator">:</span> <span class="token number">-1</span>
+            <span class="token punctuation">}</span><span class="token punctuation">,</span>
+            <span class="token punctuation">{</span>
+                <span class="token property">"category_product_count"</span><span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">,</span>
+                <span class="token property">"category_name"</span><span class="token operator">:</span> <span class="token string">"Passées"</span><span class="token punctuation">,</span>
+                <span class="token property">"category_id"</span><span class="token operator">:</span> <span class="token number">-2</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">]</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>This endpoint allows you to fetch the first 10 currently active discounts and the side filters with discounts count.</p>
+<p><strong>NOTE</strong>: The eligible products/categories are rendered as plain text separated by new lines “\n”. You can consider acceptable render them directly in HTML.</p>
+<h3 id="http-request-15">HTTP Request</h3>
+<p><code>GET supermarket-getDiscountDashboard</code></p>
+<h3 id="query-parameters-15">Query Parameters</h3>
+<table>
+<thead>
+<tr>
+<th>Parameters</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+</table>
+<h2 id="get-discount">Get discount</h2>
+<pre class="language-javascript"><code class="language-javascript"><span class="token keyword">let</span> cloudFunction <span class="token operator">=</span> firebase<span class="token punctuation">.</span><span class="token function">app</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">functions</span><span class="token punctuation">(</span><span class="token string">'europe-west3'</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">httpsCallable</span><span class="token punctuation">(</span><span class="token string">'supermarket-getDiscount'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">let</span> data <span class="token operator">=</span> <span class="token punctuation">{</span>
+  id<span class="token operator">:</span> <span class="token string">"b1945963-d9a1-4925-b6e3-03517f95d01c"</span>
+<span class="token punctuation">}</span>
+<span class="token keyword">try</span> <span class="token punctuation">{</span>
+  <span class="token keyword">let</span> result <span class="token operator">=</span> <span class="token keyword">await</span> <span class="token function">cloudFunction</span><span class="token punctuation">(</span>data<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span> <span class="token keyword">catch</span><span class="token punctuation">(</span>e<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>e<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<blockquote>
+<p>The above command returns JSON structured like this:</p>
+</blockquote>
+<pre class="language-json"><code class="language-json"><span class="token punctuation">{</span>
+    <span class="token property">"result"</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+        <span class="token property">"id"</span><span class="token operator">:</span> <span class="token number">5</span><span class="token punctuation">,</span>
+        <span class="token property">"promotion_group_id"</span><span class="token operator">:</span> <span class="token string">"b1945963-d9a1-4925-b6e3-03517f95d01c"</span><span class="token punctuation">,</span>
+        <span class="token property">"name"</span><span class="token operator">:</span> <span class="token string">"Promo test"</span><span class="token punctuation">,</span>
+        <span class="token property">"promotion_type"</span><span class="token operator">:</span> <span class="token string">"DIRECT"</span><span class="token punctuation">,</span>
+        <span class="token property">"bought_quantity"</span><span class="token operator">:</span> <span class="token null keyword">null</span><span class="token punctuation">,</span>
+        <span class="token property">"paid_quantity"</span><span class="token operator">:</span> <span class="token null keyword">null</span><span class="token punctuation">,</span>
+        <span class="token property">"value"</span><span class="token operator">:</span> <span class="token number">5</span><span class="token punctuation">,</span>
+        <span class="token property">"start_date"</span><span class="token operator">:</span> <span class="token string">"2021-03-03"</span><span class="token punctuation">,</span>
+        <span class="token property">"end_date"</span><span class="token operator">:</span> <span class="token string">"2021-03-15"</span><span class="token punctuation">,</span>
+        <span class="token property">"products"</span><span class="token operator">:</span> <span class="token punctuation">[</span>
+            <span class="token punctuation">{</span>
+                <span class="token property">"id"</span><span class="token operator">:</span> <span class="token number">17</span><span class="token punctuation">,</span>
+                <span class="token property">"name"</span><span class="token operator">:</span> <span class="token string">"Produit test"</span>
+            <span class="token punctuation">}</span><span class="token punctuation">,</span>
+            <span class="token punctuation">{</span>
+                <span class="token property">"id"</span><span class="token operator">:</span> <span class="token number">18</span><span class="token punctuation">,</span>
+                <span class="token property">"name"</span><span class="token operator">:</span> <span class="token string">"Deuxième produit"</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">]</span><span class="token punctuation">,</span>
+        <span class="token property">"categories"</span><span class="token operator">:</span> <span class="token punctuation">[</span><span class="token punctuation">]</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>This endpoint allows you to fetch discount detail for discount edition view</p>
+<h3 id="http-request-16">HTTP Request</h3>
+<p><code>GET supermarket-getDiscount</code></p>
+<h3 id="query-parameters-16">Query Parameters</h3>
+<table>
+<thead>
+<tr>
+<th>Parameters</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>id</td>
+<td>Int</td>
+<td>Id of the product promotion group you want to get details for</td>
+</tr>
+</tbody>
+</table>
+<h2 id="update-discount">Update discount</h2>
+<pre class="language-javascript"><code class="language-javascript"><span class="token keyword">let</span> cloudFunction <span class="token operator">=</span> firebase<span class="token punctuation">.</span><span class="token function">app</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">functions</span><span class="token punctuation">(</span><span class="token string">'europe-west3'</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">httpsCallable</span><span class="token punctuation">(</span><span class="token string">'supermarket-updateDiscount'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">let</span> data <span class="token operator">=</span> <span class="token punctuation">{</span>
+    discount<span class="token operator">:</span> <span class="token punctuation">{</span>
+      promotionGroupId<span class="token operator">:</span> <span class="token string">"b1945963-d9a1-4925-b6e3-03517f95d01c"</span><span class="token punctuation">,</span>
+      name<span class="token operator">:</span> <span class="token string">"Nouveau nom"</span><span class="token punctuation">,</span>
+      type<span class="token operator">:</span> <span class="token string">"PERCENTAGE"</span><span class="token punctuation">,</span>
+      value<span class="token operator">:</span> <span class="token number">20</span><span class="token punctuation">,</span>
+      startDate<span class="token operator">:</span> <span class="token string">"2021-03-01"</span><span class="token punctuation">,</span>
+      endDate<span class="token operator">:</span> <span class="token string">"2021-03-31"</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    productDeletions<span class="token operator">:</span> <span class="token punctuation">[</span><span class="token number">17</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+    categoryDeletions<span class="token operator">:</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+    productAdditions<span class="token operator">:</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+    categoryAdditions<span class="token operator">:</span> <span class="token punctuation">[</span><span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">5</span><span class="token punctuation">,</span> <span class="token number">10</span><span class="token punctuation">]</span>
+  <span class="token punctuation">}</span>
+<span class="token keyword">try</span> <span class="token punctuation">{</span>
+  <span class="token keyword">let</span> result <span class="token operator">=</span> <span class="token keyword">await</span> <span class="token function">cloudFunction</span><span class="token punctuation">(</span>data<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span> <span class="token keyword">catch</span><span class="token punctuation">(</span>e<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>e<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<blockquote>
+<p>The above command returns JSON structured like this:</p>
+</blockquote>
+<pre class="language-json"><code class="language-json"><span class="token punctuation">{</span>
+    <span class="token property">"result"</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+        <span class="token property">"success"</span><span class="token operator">:</span> <span class="token boolean">true</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>This endpoint allows you to update discount</p>
+<h3 id="http-request-17">HTTP Request</h3>
+<p><code>GET supermarket-updateDiscount</code></p>
+<h3 id="query-parameters-17">Query Parameters</h3>
+<table>
+<thead>
+<tr>
+<th>Parameters</th>
+<th></th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>discount</td>
+<td></td>
+<td>Map</td>
+<td>Discount object</td>
+</tr>
+<tr>
+<td></td>
+<td>promotionGroupId</td>
+<td>String</td>
+<td>The UUID (not the id) of the discount. As each eligible product/category in a discount has a different discount id, it is used to define membership of a unique discount</td>
+</tr>
+<tr>
+<td></td>
+<td>name</td>
+<td>String</td>
+<td>The new name of the discount</td>
+</tr>
+<tr>
+<td></td>
+<td>type</td>
+<td>String</td>
+<td>The new type of the discount. See Create Discount for more info</td>
+</tr>
+<tr>
+<td></td>
+<td>boughtQuantity</td>
+<td>Int?</td>
+<td>New needed quantity to unlock the discount</td>
+</tr>
+<tr>
+<td></td>
+<td>paidQuantity</td>
+<td>Int?</td>
+<td>New really paid quantity after the discount has been unlocked</td>
+</tr>
+<tr>
+<td></td>
+<td>value</td>
+<td>Float</td>
+<td>New discount value</td>
+</tr>
+<tr>
+<td></td>
+<td>startDate</td>
+<td>Date</td>
+<td>New start date format YYYY-MM-DD</td>
+</tr>
+<tr>
+<td></td>
+<td>endDate</td>
+<td>Date</td>
+<td>New end date format YYYY-MM-DD</td>
+</tr>
+<tr>
+<td>productDeletions</td>
+<td></td>
+<td>[Int]</td>
+<td>Array of product ids to delete from the discount availability</td>
+</tr>
+<tr>
+<td>categoryDeletions</td>
+<td></td>
+<td>[Int]</td>
+<td>Array of category ids to delete from the discount availability</td>
+</tr>
+<tr>
+<td>productAdditions</td>
+<td></td>
+<td>[Int]</td>
+<td>Array of product ids to add to the discount availability</td>
+</tr>
+<tr>
+<td>categoryAdditions</td>
+<td></td>
+<td>[Int]</td>
+<td>Array of category ids to add to the discount availability</td>
+</tr>
+</tbody>
+</table>
+<h2 id="delete-discount">Delete discount</h2>
+<pre class="language-javascript"><code class="language-javascript"><span class="token keyword">let</span> cloudFunction <span class="token operator">=</span> firebase<span class="token punctuation">.</span><span class="token function">app</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">functions</span><span class="token punctuation">(</span><span class="token string">'europe-west3'</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">httpsCallable</span><span class="token punctuation">(</span><span class="token string">'supermarket-deleteDiscount'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">let</span> data <span class="token operator">=</span> <span class="token punctuation">{</span>
+  id<span class="token operator">:</span> <span class="token string">"b1945963-d9a1-4925-b6e3-03517f95d01c"</span>
+<span class="token punctuation">}</span>
+<span class="token keyword">try</span> <span class="token punctuation">{</span>
+  <span class="token keyword">let</span> result <span class="token operator">=</span> <span class="token keyword">await</span> <span class="token function">cloudFunction</span><span class="token punctuation">(</span>data<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span> <span class="token keyword">catch</span><span class="token punctuation">(</span>e<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>e<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<blockquote>
+<p>The above command returns JSON structured like this:</p>
+</blockquote>
+<pre class="language-json"><code class="language-json"><span class="token punctuation">{</span>
+    <span class="token property">"result"</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+        <span class="token property">"success"</span><span class="token operator">:</span> <span class="token boolean">true</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>This endpoint allows you completely delete a discount.</p>
+<h3 id="http-request-18">HTTP Request</h3>
+<p><code>GET supermarket-deleteDiscount</code></p>
+<h3 id="query-parameters-18">Query Parameters</h3>
+<table>
+<thead>
+<tr>
+<th>Parameters</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>id</td>
+<td>Int</td>
+<td>Id of the product promotion group you want to delete.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="get-reviews">Get reviews</h2>
+<pre class="language-javascript"><code class="language-javascript"><span class="token keyword">let</span> cloudFunction <span class="token operator">=</span> firebase<span class="token punctuation">.</span><span class="token function">app</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">functions</span><span class="token punctuation">(</span><span class="token string">'europe-west3'</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">httpsCallable</span><span class="token punctuation">(</span><span class="token string">'supermarket-getReviews'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">let</span> data <span class="token operator">=</span> <span class="token punctuation">{</span>
+  offset<span class="token operator">:</span> <span class="token number">0</span>
+<span class="token punctuation">}</span>
+<span class="token keyword">try</span> <span class="token punctuation">{</span>
+  <span class="token keyword">let</span> result <span class="token operator">=</span> <span class="token keyword">await</span> <span class="token function">cloudFunction</span><span class="token punctuation">(</span>data<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span> <span class="token keyword">catch</span><span class="token punctuation">(</span>e<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>e<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<blockquote>
+<p>The above command returns JSON structured like this:</p>
+</blockquote>
+<pre class="language-json"><code class="language-json"><span class="token punctuation">{</span>
+    <span class="token property">"result"</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+        <span class="token property">"reviews"</span><span class="token operator">:</span> <span class="token punctuation">[</span>
+            <span class="token punctuation">{</span>
+                <span class="token property">"full_name"</span><span class="token operator">:</span> <span class="token string">"Benjamin Huygens"</span><span class="token punctuation">,</span>
+                <span class="token property">"note"</span><span class="token operator">:</span> <span class="token number">2</span><span class="token punctuation">,</span>
+                <span class="token property">"message"</span><span class="token operator">:</span> <span class="token string">"J'ai glissé sur le sol et je me suis fait les ligaments croisés. Quel dommage je vais devoir arrêter le football en compétition. J'ai porté plainte contre le magasin."</span><span class="token punctuation">,</span>
+                <span class="token property">"date"</span><span class="token operator">:</span> <span class="token string">"2021-03-07"</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">]</span><span class="token punctuation">,</span>
+        <span class="token property">"average_note"</span><span class="token operator">:</span> <span class="token number">2</span><span class="token punctuation">,</span>
+        <span class="token property">"reviews_count"</span><span class="token operator">:</span> <span class="token number">1</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>This endpoint allows you to fetch 10 clients reviews with an offset, the average note given to your supermarket, and the total reviews count</p>
+<h3 id="http-request-19">HTTP Request</h3>
+<p><code>GET supermarket-getReviews</code></p>
+<h3 id="query-parameters-19">Query Parameters</h3>
+<table>
+<thead>
+<tr>
+<th>Parameters</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>offset</td>
+<td>Int</td>
+<td>Offset applied to results</td>
+</tr>
+</tbody>
+</table>
+<h2 id="get-product-price">Get product price</h2>
+<pre class="language-javascript"><code class="language-javascript"><span class="token keyword">let</span> cloudFunction <span class="token operator">=</span> firebase<span class="token punctuation">.</span><span class="token function">app</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">functions</span><span class="token punctuation">(</span><span class="token string">'europe-west3'</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">httpsCallable</span><span class="token punctuation">(</span><span class="token string">'supermarket-getProductPrice'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">let</span> data <span class="token operator">=</span> <span class="token punctuation">{</span>
+  productId<span class="token operator">:</span> <span class="token number">17</span>
+<span class="token punctuation">}</span>
+<span class="token keyword">try</span> <span class="token punctuation">{</span>
+  <span class="token keyword">let</span> result <span class="token operator">=</span> <span class="token keyword">await</span> <span class="token function">cloudFunction</span><span class="token punctuation">(</span>data<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span> <span class="token keyword">catch</span><span class="token punctuation">(</span>e<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>e<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<blockquote>
+<p>The above command returns JSON structured like this:</p>
+</blockquote>
+<pre class="language-json"><code class="language-json"><span class="token punctuation">{</span>
+    <span class="token property">"result"</span><span class="token operator">:</span> <span class="token punctuation">[</span>
+        <span class="token punctuation">{</span>
+            <span class="token property">"value"</span><span class="token operator">:</span> <span class="token number">86.9</span><span class="token punctuation">,</span>
+            <span class="token property">"professional_price"</span><span class="token operator">:</span> <span class="token number">22.8</span><span class="token punctuation">,</span>
+            <span class="token property">"margin"</span><span class="token operator">:</span> <span class="token number">64.10000228881836</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">]</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>This endpoint allows you to fetch the professionnal price, the set retail price on supermarket side, and the given margin. The value can be 0 if product hasn’t been assigned to a price yet, and so the margin will be negative.</p>
+<h3 id="http-request-20">HTTP Request</h3>
+<p><code>GET supermarket-getProductPrice</code></p>
+<h3 id="query-parameters-20">Query Parameters</h3>
+<table>
+<thead>
+<tr>
+<th>Parameters</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>productId</td>
+<td>Int</td>
+<td>Id of the product to get the price from</td>
+</tr>
+</tbody>
+</table>
+<h2 id="set-product-price">Set product price</h2>
+<pre class="language-javascript"><code class="language-javascript"><span class="token keyword">let</span> cloudFunction <span class="token operator">=</span> firebase<span class="token punctuation">.</span><span class="token function">app</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">functions</span><span class="token punctuation">(</span><span class="token string">'europe-west3'</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">httpsCallable</span><span class="token punctuation">(</span><span class="token string">'supermarket-setProductPrice'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">let</span> data <span class="token operator">=</span> <span class="token punctuation">{</span>
+  productId<span class="token operator">:</span> <span class="token number">17</span><span class="token punctuation">,</span>
+  price<span class="token operator">:</span> <span class="token number">29.9</span>
+<span class="token punctuation">}</span>
+<span class="token keyword">try</span> <span class="token punctuation">{</span>
+  <span class="token keyword">let</span> result <span class="token operator">=</span> <span class="token keyword">await</span> <span class="token function">cloudFunction</span><span class="token punctuation">(</span>data<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span> <span class="token keyword">catch</span><span class="token punctuation">(</span>e<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>e<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<blockquote>
+<p>The above command returns JSON structured like this:</p>
+</blockquote>
+<pre class="language-json"><code class="language-json"><span class="token punctuation">{</span>
+    <span class="token property">"result"</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+        <span class="token property">"success"</span><span class="token operator">:</span> <span class="token boolean">true</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>This endpoint allows you set a product price for a given supermarket.</p>
+<h3 id="http-request-21">HTTP Request</h3>
+<p><code>GET supermarket-setProductPrice</code></p>
+<h3 id="query-parameters-21">Query Parameters</h3>
+<table>
+<thead>
+<tr>
+<th>Parameters</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>productId</td>
+<td>Int</td>
+<td>Id of the product to set the price to</td>
+</tr>
+<tr>
+<td>price</td>
+<td>Float</td>
+<td>The price to set</td>
 </tr>
 </tbody>
 </table>
