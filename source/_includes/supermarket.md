@@ -234,8 +234,6 @@ try {
 
 This endpoint allows you to get the filters categories with labels and products count, and to get the first 10 products from the first filter category.
 
-Un produit ne peut être que dans une seule catégorie. Ainsi, un produit en stock mais non assigné n'apparaîtra que dans la catégorie "non assigné" et pas dans la catégorie "en stock"
-
 A product can only be part of one category. So if a product is in stock but is not yet assigned to a warehouse storage alley, then it will only appear in "Produits non assignés" category and not in "en stock" one.
 
 ### HTTP Request

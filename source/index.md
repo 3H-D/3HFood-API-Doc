@@ -11,6 +11,7 @@ includes:
   - common.md
   - wholesaler.md
   - supermarket.md
+  - search.md
   - errors.md
 
 search: true

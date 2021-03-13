@@ -650,6 +650,66 @@ With a defined supermarketId, it'll only fetch this line of the tracker and no o
 
 
 
+## Get tracker detail
+
+```javascript
+let cloudFunction = firebase.app().functions('europe-west3').httpsCallable('wholesaler-getTrackingDetail');
+let data = {
+  supermarketId: 4
+  orderingId: 0,
+  offset: 0
+}
+try {
+  let result = await cloudFunction(data);
+} catch(e) {
+  console.log(e);
+}
+```
+
+> The above command returns JSON structured like this:
+
+```json
+{
+    "result": {
+        "lines": [
+            {
+                "product_id": 18,
+                "name": "Deuxième produit",
+                "ean": "123456431334545",
+                "total_stock": 200,
+                "nearest_perish_date": "2021-03-17",
+                "near_perish_stock": 600
+            },
+            {
+                "product_id": 17,
+                "name": "Produit test",
+                "ean": "123456431334545",
+                "total_stock": 250,
+                "nearest_perish_date": "2021-03-31",
+                "near_perish_stock": 0
+            }
+        ],
+        "total_lines": 2
+    }
+}
+```
+
+This endpoint allows you to fetch tracker detail for a specified supermarket Id, with ordering and offset.
+
+### HTTP Request
+
+`GET wholesaler-getTrackingDetail`
+
+### Query Parameters
+
+| Parameters    | Type | Description                                                  |
+| ------------- | ---- | ------------------------------------------------------------ |
+| supermarketId | Int  | SupermarketId to fetch the tracker detail lines from.        |
+| orderingId    | Int  | Different values: **0**-Alphabetical order ascending, **1**-Total Stock ascending, **2**-Perished date from closest to far away, **3**-Stock quantity close to perish, descending |
+| offset        | Int  | Offset value applied to the query                            |
+
+
+
 ## Get professionnal orders dashboard
 
 ```javascript
