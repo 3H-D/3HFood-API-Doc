@@ -811,7 +811,7 @@ You have to pass a categoryId which is the filter id fetched from the ordersDash
 
 ### HTTP Request
 
-`GET wholesaler-getTracking`
+`GET wholesaler-getOrders`
 
 ### Query Parameters
 
