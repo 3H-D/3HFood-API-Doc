@@ -121,8 +121,9 @@ try {
                 "products_count": 150,
                 "vat_exempt_price": 8370,
                 "pdf_url": "commande-pro/1/9390-057749-4545.pdf",
-                "state": "PREPARE",
-                "stringified_perishments": "[{\"productId\":18,\"quantity\":150,\"perishDate\":\"2021-02-28\"}]"
+                "state": "DELIVERED",
+                "stringified_perishments": "[{\"productId\":18,\"quantity\":150,\"perishDate\":\"2021-02-28\"}]",
+                "professional_name": "MysteryTea SASU"
             }
         ],
         "totalOrders": 1
