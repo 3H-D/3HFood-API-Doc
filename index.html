@@ -214,6 +214,11 @@
               <ul class="toc-list-h2">
                 
                   <li>
+                    <a href="#check-if-onboarding-complete" class="toc-h2 toc-link" data-title="">Check if onboarding complete</a>
+                    
+                  </li>
+                
+                  <li>
                     <a href="#get-all-wholesalers" class="toc-h2 toc-link" data-title="">Get all wholesalers</a>
                     
                   </li>
@@ -524,10 +529,7 @@
     address<span class="token operator">:</span> <span class="token string">"25 rue Nationale"</span><span class="token punctuation">,</span>
     zipcode<span class="token operator">:</span> <span class="token string">"59000"</span><span class="token punctuation">,</span>
     city<span class="token operator">:</span> <span class="token string">"Lille"</span><span class="token punctuation">,</span>
-    iban<span class="token operator">:</span> <span class="token string">"FR12345678901234"</span><span class="token punctuation">,</span>
-    bic<span class="token operator">:</span> <span class="token string">"CMCIFR2A"</span><span class="token punctuation">,</span>
-    stripeCustomerId<span class="token operator">:</span> <span class="token string">"cst_324TYH5Y"</span><span class="token punctuation">,</span>
-    stripeMandateId<span class="token operator">:</span> <span class="token string">"mdt_12345678T"</span><span class="token punctuation">,</span>
+  	iban<span class="token operator">:</span> <span class="token string">"DE89370400440532013000"</span>
 <span class="token punctuation">}</span>
 <span class="token keyword">try</span> <span class="token punctuation">{</span>
   <span class="token keyword">let</span> result <span class="token operator">=</span> <span class="token keyword">await</span> <span class="token function">cloudFunction</span><span class="token punctuation">(</span>data<span class="token punctuation">)</span><span class="token punctuation">;</span>
@@ -544,7 +546,8 @@
     <span class="token punctuation">}</span>
 <span class="token punctuation">}</span>
 </code></pre>
-<p>This endpoint takes all the parameters from registration and create the user object in database</p>
+<p>First register user in firebase, then make the call with the firebase user so the API can retrieve his email, otherwise the call will crash.</p>
+<p>This endpoint will create user in database, on stripe, create a payment method on stripe linked to the generated customer id, and create a SetupIntent for future payments of the client.</p>
 <h3 id="http-request-2">HTTP Request</h3>
 <p><code>GET common-createClient</code></p>
 <h3 id="query-parameters-2">Query Parameters</h3>
@@ -583,29 +586,9 @@
 <td>Zipcode of user - 5 chars max</td>
 </tr>
 <tr>
-<td>city</td>
-<td>String</td>
-<td>City of user</td>
-</tr>
-<tr>
 <td>iban</td>
 <td>String</td>
-<td>IBAN used for stripe registration</td>
-</tr>
-<tr>
-<td>bic</td>
-<td>String</td>
-<td>BIC used for stripe registration</td>
-</tr>
-<tr>
-<td>stripeCustomerID</td>
-<td>String</td>
-<td>ID given by stripe at user registration</td>
-</tr>
-<tr>
-<td>stripeMandateId</td>
-<td>String</td>
-<td>Mandate ID given when SEPA debit has been accepted</td>
+<td>IBAN of the account to perform debits on</td>
 </tr>
 </tbody>
 </table>
@@ -1768,6 +1751,39 @@
 </tbody>
 </table>
 <h1 id="supermarket">Supermarket</h1>
+<h2 id="check-if-onboarding-complete">Check if onboarding complete</h2>
+<pre class="language-javascript"><code class="language-javascript"><span class="token keyword">let</span> cloudFunction <span class="token operator">=</span> firebase<span class="token punctuation">.</span><span class="token function">app</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">functions</span><span class="token punctuation">(</span><span class="token string">'europe-west3'</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">httpsCallable</span><span class="token punctuation">(</span><span class="token string">'supermarket-checkIfOnboardingCompleted'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">try</span> <span class="token punctuation">{</span>
+  <span class="token keyword">let</span> result <span class="token operator">=</span> <span class="token keyword">await</span> <span class="token function">cloudFunction</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span> <span class="token keyword">catch</span><span class="token punctuation">(</span>e<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>e<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<blockquote>
+<p>The above command returns JSON structured like this:</p>
+</blockquote>
+<pre class="language-json"><code class="language-json"><span class="token punctuation">{</span>
+    <span class="token property">"result"</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+        <span class="token property">"can_receive_payments"</span><span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>
+        <span class="token property">"button_link"</span><span class="token operator">:</span> <span class="token string">"https://connect.stripe.com/express/GxH7fHI9Ui6T"</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>Call this endpoint on website launch to check if the supermarket has verified its stripe account.</p>
+<p>If “can received payments” equals false, then you need to block all the dashboard and to display a button to redirect him to the stripe onboarding page. The url to the onboarding is provided by the button_link value.</p>
+<p>If “can receive payments” equals true, then the dashboard can behave normally. Just fetch the button link to put it on top of the main menu to provide a quick access to the supermarket stripe account (automatically connected, with 2FA on Stripe side).</p>
+<h3 id="http-request">HTTP Request</h3>
+<p><code>GET supermarket-checkIfOnboardingCompleted</code></p>
+<h3 id="query-parameters">Query Parameters</h3>
+<table>
+<thead>
+<tr>
+<th>Parameters</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+</table>
 <h2 id="get-all-wholesalers">Get all wholesalers</h2>
 <pre class="language-javascript"><code class="language-javascript"><span class="token keyword">let</span> cloudFunction <span class="token operator">=</span> firebase<span class="token punctuation">.</span><span class="token function">app</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">functions</span><span class="token punctuation">(</span><span class="token string">'europe-west3'</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">httpsCallable</span><span class="token punctuation">(</span><span class="token string">'supermarket-getWholesalers'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 <span class="token keyword">try</span> <span class="token punctuation">{</span>
@@ -1795,9 +1811,9 @@
 <span class="token punctuation">}</span>
 </code></pre>
 <p>This endpoint allows you to fetch all existing wholesalers, useful for new order screen where the supermarket need to select a wholesaler to be able to fetch its products</p>
-<h3 id="http-request">HTTP Request</h3>
+<h3 id="http-request-1">HTTP Request</h3>
 <p><code>GET supermarket-getWholesalers</code></p>
-<h3 id="query-parameters">Query Parameters</h3>
+<h3 id="query-parameters-1">Query Parameters</h3>
 <table>
 <thead>
 <tr>
@@ -1835,9 +1851,9 @@
 </code></pre>
 <p>This endpoints allow you to pass an array of order lines containing the product ID and a quantity, create the order in database, and fetch the PDF document url right after that to potentially open it in a new tab.</p>
 <p>The call takes only product ids so no cheating is possible as the price set on the final order is the one in database.</p>
-<h3 id="http-request-1">HTTP Request</h3>
+<h3 id="http-request-2">HTTP Request</h3>
 <p><code>GET supermarket-getWholesalers</code></p>
-<h3 id="query-parameters-1">Query Parameters</h3>
+<h3 id="query-parameters-2">Query Parameters</h3>
 <table>
 <thead>
 <tr>
@@ -1910,9 +1926,9 @@
 <span class="token punctuation">}</span>
 </code></pre>
 <p>This endpoint allows you to fetch professional orders linked to a supermarket with an offset. Every call returns you the total number of orders too for your front end logic on wether or not you can display next/previous buttons.</p>
-<h3 id="http-request-2">HTTP Request</h3>
+<h3 id="http-request-3">HTTP Request</h3>
 <p><code>GET supermarket-getOrders</code></p>
-<h3 id="query-parameters-2">Query Parameters</h3>
+<h3 id="query-parameters-3">Query Parameters</h3>
 <table>
 <thead>
 <tr>
@@ -1950,9 +1966,9 @@
 <span class="token punctuation">}</span>
 </code></pre>
 <p>This endpoint allows you to set a professionnal order as delivered, and set correct stock lines into warehouse stock database with perishment dates.</p>
-<h3 id="http-request-3">HTTP Request</h3>
+<h3 id="http-request-4">HTTP Request</h3>
 <p><code>GET supermarket-setOrderReceived</code></p>
-<h3 id="query-parameters-3">Query Parameters</h3>
+<h3 id="query-parameters-4">Query Parameters</h3>
 <table>
 <thead>
 <tr>
@@ -2017,9 +2033,9 @@
 </code></pre>
 <p>This endpoint allows you to get the filters categories with labels and products count, and to get the first 10 products from the first filter category.</p>
 <p>A product can only be part of one category. So if a product is in stock but is not yet assigned to a warehouse storage alley, then it will only appear in “Produits non assignés” category and not in “en stock” one.</p>
-<h3 id="http-request-4">HTTP Request</h3>
+<h3 id="http-request-5">HTTP Request</h3>
 <p><code>GET supermarket-getWarehouseStockDashboard</code></p>
-<h3 id="query-parameters-4">Query Parameters</h3>
+<h3 id="query-parameters-5">Query Parameters</h3>
 <table>
 <thead>
 <tr>
@@ -2056,9 +2072,9 @@
 <span class="token punctuation">}</span>
 </code></pre>
 <p>This endpoint allows you to fetch products filtered by warehouse stock state (categoryId), with an offset for padding. Every parameter is mandatory.</p>
-<h3 id="http-request-5">HTTP Request</h3>
+<h3 id="http-request-6">HTTP Request</h3>
 <p><code>GET supermarket-getWarehouseStorage</code></p>
-<h3 id="query-parameters-5">Query Parameters</h3>
+<h3 id="query-parameters-6">Query Parameters</h3>
 <table>
 <thead>
 <tr>
@@ -2103,9 +2119,9 @@
 </code></pre>
 <p>This endpoint allows you to set a storage alley for an product. It’ll update all the stock lines of the product with the new storage alley value. If no alley was existing, then the product will change category on refresh. If alley was existing, it’ll be overriden.</p>
 <p>Next professionnal orders of the same product will automatically be assigned to this storage alley.</p>
-<h3 id="http-request-6">HTTP Request</h3>
+<h3 id="http-request-7">HTTP Request</h3>
 <p><code>GET supermarket-setStorageAlley</code></p>
-<h3 id="query-parameters-6">Query Parameters</h3>
+<h3 id="query-parameters-7">Query Parameters</h3>
 <table>
 <thead>
 <tr>
@@ -2184,9 +2200,9 @@
 <span class="token punctuation">}</span>
 </code></pre>
 <p>This endpoint allows you to fetch product details, as well as the warehouse stock lines, and the client stock lines, order by perishment date from closer to more far away from perishment.</p>
-<h3 id="http-request-7">HTTP Request</h3>
+<h3 id="http-request-8">HTTP Request</h3>
 <p><code>GET supermarket-getProductDetails</code></p>
-<h3 id="query-parameters-7">Query Parameters</h3>
+<h3 id="query-parameters-8">Query Parameters</h3>
 <table>
 <thead>
 <tr>
@@ -2256,9 +2272,9 @@
 <span class="token punctuation">}</span>
 </code></pre>
 <p>This endpoint allows you to update product warehouse stock and client stock.</p>
-<h3 id="http-request-8">HTTP Request</h3>
+<h3 id="http-request-9">HTTP Request</h3>
 <p><code>GET supermarket-updateProduct</code></p>
-<h3 id="query-parameters-8">Query Parameters</h3>
+<h3 id="query-parameters-9">Query Parameters</h3>
 <table>
 <thead>
 <tr>
@@ -2433,9 +2449,9 @@
 <span class="token punctuation">}</span>
 </code></pre>
 <p>This endpoint allows you to fetch client stock filters and the first 10 products from the first filter (out of stock products)</p>
-<h3 id="http-request-9">HTTP Request</h3>
+<h3 id="http-request-10">HTTP Request</h3>
 <p><code>GET supermarket-getClientStockDetails</code></p>
-<h3 id="query-parameters-9">Query Parameters</h3>
+<h3 id="query-parameters-10">Query Parameters</h3>
 <table>
 <thead>
 <tr>
@@ -2479,9 +2495,9 @@
 <span class="token punctuation">}</span>
 </code></pre>
 <p>This endpoint allows you to fetch client stock filters and the first 10 products from the first filter (out of stock products)</p>
-<h3 id="http-request-10">HTTP Request</h3>
+<h3 id="http-request-11">HTTP Request</h3>
 <p><code>GET supermarket-getClientStock</code></p>
-<h3 id="query-parameters-10">Query Parameters</h3>
+<h3 id="query-parameters-11">Query Parameters</h3>
 <table>
 <thead>
 <tr>
@@ -2559,9 +2575,9 @@
 <span class="token punctuation">}</span>
 </code></pre>
 <p>This endpoint allows you to fetch the perishment dashboard, with the first 10 products of the first filter, and all the filters for the side selector.</p>
-<h3 id="http-request-11">HTTP Request</h3>
+<h3 id="http-request-12">HTTP Request</h3>
 <p><code>GET supermarket-getOrdersDashboard</code></p>
-<h3 id="query-parameters-11">Query Parameters</h3>
+<h3 id="query-parameters-12">Query Parameters</h3>
 <table>
 <thead>
 <tr>
@@ -2612,9 +2628,9 @@
 <span class="token punctuation">}</span>
 </code></pre>
 <p>This endpoint allows you to fetch filtered perishment products</p>
-<h3 id="http-request-12">HTTP Request</h3>
+<h3 id="http-request-13">HTTP Request</h3>
 <p><code>GET supermarket-getPerishments</code></p>
-<h3 id="query-parameters-12">Query Parameters</h3>
+<h3 id="query-parameters-13">Query Parameters</h3>
 <table>
 <thead>
 <tr>
@@ -2657,9 +2673,9 @@
 <span class="token punctuation">}</span>
 </code></pre>
 <p>This endpoint allows you to delete all perished stock lines from warehouse and client supermarket stock</p>
-<h3 id="http-request-13">HTTP Request</h3>
+<h3 id="http-request-14">HTTP Request</h3>
 <p><code>GET supermarket-deletePerishedProductStock</code></p>
-<h3 id="query-parameters-13">Query Parameters</h3>
+<h3 id="query-parameters-14">Query Parameters</h3>
 <table>
 <thead>
 <tr>
@@ -2704,9 +2720,9 @@
 <span class="token punctuation">}</span>
 </code></pre>
 <p>This endpoint allows you to create a new discount for products and/or categories</p>
-<h3 id="http-request-14">HTTP Request</h3>
+<h3 id="http-request-15">HTTP Request</h3>
 <p><code>GET supermarket-createDiscount</code></p>
-<h3 id="query-parameters-14">Query Parameters</h3>
+<h3 id="query-parameters-15">Query Parameters</h3>
 <table>
 <thead>
 <tr>
@@ -2830,9 +2846,9 @@
 </code></pre>
 <p>This endpoint allows you to fetch the first 10 currently active discounts and the side filters with discounts count.</p>
 <p><strong>NOTE</strong>: The eligible products/categories are rendered as plain text separated by new lines “\n”. You can consider acceptable render them directly in HTML.</p>
-<h3 id="http-request-15">HTTP Request</h3>
+<h3 id="http-request-16">HTTP Request</h3>
 <p><code>GET supermarket-getDiscountDashboard</code></p>
-<h3 id="query-parameters-15">Query Parameters</h3>
+<h3 id="query-parameters-16">Query Parameters</h3>
 <table>
 <thead>
 <tr>
@@ -2882,9 +2898,9 @@
 <span class="token punctuation">}</span>
 </code></pre>
 <p>This endpoint allows you to fetch discount detail for discount edition view</p>
-<h3 id="http-request-16">HTTP Request</h3>
+<h3 id="http-request-17">HTTP Request</h3>
 <p><code>GET supermarket-getDiscount</code></p>
-<h3 id="query-parameters-16">Query Parameters</h3>
+<h3 id="query-parameters-17">Query Parameters</h3>
 <table>
 <thead>
 <tr>
@@ -2933,9 +2949,9 @@
 <span class="token punctuation">}</span>
 </code></pre>
 <p>This endpoint allows you to update discount</p>
-<h3 id="http-request-17">HTTP Request</h3>
+<h3 id="http-request-18">HTTP Request</h3>
 <p><code>GET supermarket-updateDiscount</code></p>
-<h3 id="query-parameters-17">Query Parameters</h3>
+<h3 id="query-parameters-18">Query Parameters</h3>
 <table>
 <thead>
 <tr>
@@ -3047,9 +3063,9 @@
 <span class="token punctuation">}</span>
 </code></pre>
 <p>This endpoint allows you completely delete a discount.</p>
-<h3 id="http-request-18">HTTP Request</h3>
+<h3 id="http-request-19">HTTP Request</h3>
 <p><code>GET supermarket-deleteDiscount</code></p>
-<h3 id="query-parameters-18">Query Parameters</h3>
+<h3 id="query-parameters-19">Query Parameters</h3>
 <table>
 <thead>
 <tr>
@@ -3096,9 +3112,9 @@
 <span class="token punctuation">}</span>
 </code></pre>
 <p>This endpoint allows you to fetch 10 clients reviews with an offset, the average note given to your supermarket, and the total reviews count</p>
-<h3 id="http-request-19">HTTP Request</h3>
+<h3 id="http-request-20">HTTP Request</h3>
 <p><code>GET supermarket-getReviews</code></p>
-<h3 id="query-parameters-19">Query Parameters</h3>
+<h3 id="query-parameters-20">Query Parameters</h3>
 <table>
 <thead>
 <tr>
@@ -3140,9 +3156,9 @@
 <span class="token punctuation">}</span>
 </code></pre>
 <p>This endpoint allows you to fetch the professionnal price, the set retail price on supermarket side, and the given margin. The value can be 0 if product hasn’t been assigned to a price yet, and so the margin will be negative.</p>
-<h3 id="http-request-20">HTTP Request</h3>
+<h3 id="http-request-21">HTTP Request</h3>
 <p><code>GET supermarket-getProductPrice</code></p>
-<h3 id="query-parameters-20">Query Parameters</h3>
+<h3 id="query-parameters-21">Query Parameters</h3>
 <table>
 <thead>
 <tr>
@@ -3181,9 +3197,9 @@
 <span class="token punctuation">}</span>
 </code></pre>
 <p>This endpoint allows you set a product price for a given supermarket.</p>
-<h3 id="http-request-21">HTTP Request</h3>
+<h3 id="http-request-22">HTTP Request</h3>
 <p><code>GET supermarket-setProductPrice</code></p>
-<h3 id="query-parameters-21">Query Parameters</h3>
+<h3 id="query-parameters-22">Query Parameters</h3>
 <table>
 <thead>
 <tr>
