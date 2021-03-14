@@ -121,6 +121,16 @@
                   </li>
                 
                   <li>
+                    <a href="#register-supermarket" class="toc-h2 toc-link" data-title="">Register Supermarket</a>
+                    
+                  </li>
+                
+                  <li>
+                    <a href="#register-cashier" class="toc-h2 toc-link" data-title="">Register Cashier</a>
+                    
+                  </li>
+                
+                  <li>
                     <a href="#register-privilegied-user" class="toc-h2 toc-link" data-title="">Register Privilegied User</a>
                     
                   </li>
@@ -529,7 +539,8 @@
     address<span class="token operator">:</span> <span class="token string">"25 rue Nationale"</span><span class="token punctuation">,</span>
     zipcode<span class="token operator">:</span> <span class="token string">"59000"</span><span class="token punctuation">,</span>
     city<span class="token operator">:</span> <span class="token string">"Lille"</span><span class="token punctuation">,</span>
-  	iban<span class="token operator">:</span> <span class="token string">"DE89370400440532013000"</span>
+  	iban<span class="token operator">:</span> <span class="token string">"DE89370400440532013000"</span><span class="token punctuation">,</span>
+  	bic<span class="token operator">:</span> <span class="token string">"CMCIFR2A"</span>
 <span class="token punctuation">}</span>
 <span class="token keyword">try</span> <span class="token punctuation">{</span>
   <span class="token keyword">let</span> result <span class="token operator">=</span> <span class="token keyword">await</span> <span class="token function">cloudFunction</span><span class="token punctuation">(</span>data<span class="token punctuation">)</span><span class="token punctuation">;</span>
@@ -548,6 +559,7 @@
 </code></pre>
 <p>First register user in firebase, then make the call with the firebase user so the API can retrieve his email, otherwise the call will crash.</p>
 <p>This endpoint will create user in database, on stripe, create a payment method on stripe linked to the generated customer id, and create a SetupIntent for future payments of the client.</p>
+<p>The BIC is only for information purpose, not taken into consideration by Stripe.</p>
 <h3 id="http-request-2">HTTP Request</h3>
 <p><code>GET common-createClient</code></p>
 <h3 id="query-parameters-2">Query Parameters</h3>
@@ -592,6 +604,117 @@
 </tr>
 </tbody>
 </table>
+<h2 id="register-supermarket">Register Supermarket</h2>
+<pre class="language-javascript"><code class="language-javascript"><span class="token keyword">let</span> cloudFunction <span class="token operator">=</span> firebase<span class="token punctuation">.</span><span class="token function">app</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">functions</span><span class="token punctuation">(</span><span class="token string">'europe-west3'</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">httpsCallable</span><span class="token punctuation">(</span><span class="token string">'common-createSupermarket'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">let</span> data <span class="token operator">=</span> <span class="token punctuation">{</span>
+    firstName<span class="token operator">:</span> <span class="token string">"Kamil"</span><span class="token punctuation">,</span>
+    lastName<span class="token operator">:</span> <span class="token string">"Hammouche"</span><span class="token punctuation">,</span>
+    phone<span class="token operator">:</span> <span class="token string">"0612345678"</span><span class="token punctuation">,</span>
+    address<span class="token operator">:</span> <span class="token string">"25 rue Nationale"</span><span class="token punctuation">,</span>
+    zipcode<span class="token operator">:</span> <span class="token string">"59000"</span><span class="token punctuation">,</span>
+    city<span class="token operator">:</span> <span class="token string">"Lille"</span><span class="token punctuation">,</span>
+<span class="token punctuation">}</span>
+<span class="token keyword">try</span> <span class="token punctuation">{</span>
+  <span class="token keyword">let</span> result <span class="token operator">=</span> <span class="token keyword">await</span> <span class="token function">cloudFunction</span><span class="token punctuation">(</span>data<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span> <span class="token keyword">catch</span><span class="token punctuation">(</span>e<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>e<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<blockquote>
+<p>The above command returns JSON structured like this:</p>
+</blockquote>
+<pre class="language-json"><code class="language-json"><span class="token punctuation">{</span>
+    <span class="token property">"result"</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+        <span class="token property">"success"</span><span class="token operator">:</span> <span class="token boolean">true</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>This endpoint takes all the parameters from registration to create a supermarket in db and on stripe side.</p>
+<p>The email is fetched from the firebase auth token sent with the request.</p>
+<h3 id="http-request-3">HTTP Request</h3>
+<p><code>GET common-createSupermarket</code></p>
+<h3 id="query-parameters-3">Query Parameters</h3>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>firstName</td>
+<td>String</td>
+<td>First name of user</td>
+</tr>
+<tr>
+<td>lastName</td>
+<td>String</td>
+<td>Last name of user</td>
+</tr>
+<tr>
+<td>phone</td>
+<td>String</td>
+<td>Phone of user</td>
+</tr>
+<tr>
+<td>address</td>
+<td>String</td>
+<td>Address of user</td>
+</tr>
+<tr>
+<td>zipcode</td>
+<td>String</td>
+<td>Zipcode of user - 5 chars max</td>
+</tr>
+<tr>
+<td>city</td>
+<td>String</td>
+<td>City of user</td>
+</tr>
+</tbody>
+</table>
+<h2 id="register-cashier">Register Cashier</h2>
+<pre class="language-javascript"><code class="language-javascript"><span class="token keyword">let</span> cloudFunction <span class="token operator">=</span> firebase<span class="token punctuation">.</span><span class="token function">app</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">functions</span><span class="token punctuation">(</span><span class="token string">'europe-west3'</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">httpsCallable</span><span class="token punctuation">(</span><span class="token string">'common-createCashier'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">let</span> data <span class="token operator">=</span> <span class="token punctuation">{</span>
+    supermarketEmail<span class="token operator">:</span> <span class="token string">"seclin@3hfood.fr"</span><span class="token punctuation">,</span>
+<span class="token punctuation">}</span>
+<span class="token keyword">try</span> <span class="token punctuation">{</span>
+  <span class="token keyword">let</span> result <span class="token operator">=</span> <span class="token keyword">await</span> <span class="token function">cloudFunction</span><span class="token punctuation">(</span>data<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span> <span class="token keyword">catch</span><span class="token punctuation">(</span>e<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>e<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<blockquote>
+<p>The above command returns JSON structured like this:</p>
+</blockquote>
+<pre class="language-json"><code class="language-json"><span class="token punctuation">{</span>
+    <span class="token property">"result"</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+        <span class="token property">"success"</span><span class="token operator">:</span> <span class="token boolean">true</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>This endpoint takes all the parameters from registration and create the cashier user in db, and link it to the given supermarket.</p>
+<h3 id="http-request-4">HTTP Request</h3>
+<p><code>GET common-createCashier</code></p>
+<h3 id="query-parameters-4">Query Parameters</h3>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>supermarketEmail</td>
+<td>String</td>
+<td>Email of the supermarket to link the cashier to</td>
+</tr>
+</tbody>
+</table>
 <h2 id="register-privilegied-user">Register Privilegied User</h2>
 <pre class="language-javascript"><code class="language-javascript"><span class="token keyword">let</span> cloudFunction <span class="token operator">=</span> firebase<span class="token punctuation">.</span><span class="token function">app</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">functions</span><span class="token punctuation">(</span><span class="token string">'europe-west3'</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">httpsCallable</span><span class="token punctuation">(</span><span class="token string">'common-createElevatedUser'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 <span class="token keyword">let</span> data <span class="token operator">=</span> <span class="token punctuation">{</span>
@@ -619,9 +742,9 @@
 <span class="token punctuation">}</span>
 </code></pre>
 <p>This endpoint takes all the parameters from registration and create the user object in database</p>
-<h3 id="http-request-3">HTTP Request</h3>
+<h3 id="http-request-5">HTTP Request</h3>
 <p><code>GET common-createClient</code></p>
-<h3 id="query-parameters-3">Query Parameters</h3>
+<h3 id="query-parameters-5">Query Parameters</h3>
 <table>
 <thead>
 <tr>
@@ -664,7 +787,7 @@
 <tr>
 <td>type</td>
 <td>String</td>
-<td>User type in: WHOLESALER - SUPERMARKET - CASHIER - TAGMANAGER - STOCKMANAGER - SUPERADMIN</td>
+<td>User type in: WHOLESALER - TAGMANAGER - STOCKMANAGER - SUPERADMIN</td>
 </tr>
 </tbody>
 </table>
@@ -686,9 +809,9 @@
 <span class="token punctuation">}</span>
 </code></pre>
 <p>This endpoint set the flag ‘needs password reset’ to false. To be called when the user has reset his password and is well authenticated</p>
-<h3 id="http-request-4">HTTP Request</h3>
+<h3 id="http-request-6">HTTP Request</h3>
 <p><code>GET common-hasResetPassword</code></p>
-<h3 id="query-parameters-4">Query Parameters</h3>
+<h3 id="query-parameters-6">Query Parameters</h3>
 <table>
 <thead>
 <tr>
