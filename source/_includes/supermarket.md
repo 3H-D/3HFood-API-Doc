@@ -1,5 +1,44 @@
 # Supermarket
 
+## Check if onboarding complete
+
+```javascript
+let cloudFunction = firebase.app().functions('europe-west3').httpsCallable('supermarket-checkIfOnboardingCompleted');
+try {
+  let result = await cloudFunction();
+} catch(e) {
+  console.log(e);
+}
+```
+
+> The above command returns JSON structured like this:
+
+```json
+{
+    "result": {
+        "can_receive_payments": true,
+        "button_link": "https://connect.stripe.com/express/GxH7fHI9Ui6T"
+    }
+}
+```
+
+Call this endpoint on website launch to check if the supermarket has verified its stripe account.
+
+If "can received payments" equals false, then you need to block all the dashboard and to display a button to redirect him to the stripe onboarding page. The url to the onboarding is provided by the button_link value.
+
+If "can receive payments" equals true, then the dashboard can behave normally. Just fetch the button link to put it on top of the main menu to provide a quick access to the supermarket stripe account (automatically connected, with 2FA on Stripe side).
+
+### HTTP Request
+
+`GET supermarket-checkIfOnboardingCompleted`
+
+### Query Parameters
+
+| Parameters | Type | Description |
+| ---------- | ---- | ----------- |
+
+
+
 ## Get all wholesalers
 
 ```javascript

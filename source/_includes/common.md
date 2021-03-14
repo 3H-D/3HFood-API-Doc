@@ -102,10 +102,7 @@ let data = {
     address: "25 rue Nationale",
     zipcode: "59000",
     city: "Lille",
-    iban: "FR12345678901234",
-    bic: "CMCIFR2A",
-    stripeCustomerId: "cst_324TYH5Y",
-    stripeMandateId: "mdt_12345678T",
+  	iban: "DE89370400440532013000"
 }
 try {
   let result = await cloudFunction(data);
@@ -124,7 +121,9 @@ try {
 }
 ```
 
-This endpoint takes all the parameters from registration and create the user object in database
+First register user in firebase, then make the call with the firebase user so the API can retrieve his email, otherwise the call will crash.
+
+This endpoint will create user in database, on stripe, create a payment method on stripe linked to the generated customer id, and create a SetupIntent for future payments of the client.
 
 ### HTTP Request
 
@@ -132,18 +131,14 @@ This endpoint takes all the parameters from registration and create the user obj
 
 ### Query Parameters
 
-| Parameter        | Type   | Description                                        |
-| ---------------- | ------ | -------------------------------------------------- |
-| firstName        | String | First name of user                                 |
-| lastName         | String | Last name of user                                  |
-| phone            | String | Phone of user                                      |
-| address          | String | Address of user                                    |
-| zipcode          | String | Zipcode of user - 5 chars max                      |
-| city             | String | City of user                                       |
-| iban             | String | IBAN used for stripe registration                  |
-| bic              | String | BIC used for stripe registration                   |
-| stripeCustomerID | String | ID given by stripe at user registration            |
-| stripeMandateId  | String | Mandate ID given when SEPA debit has been accepted |
+| Parameter | Type   | Description                              |
+| --------- | ------ | ---------------------------------------- |
+| firstName | String | First name of user                       |
+| lastName  | String | Last name of user                        |
+| phone     | String | Phone of user                            |
+| address   | String | Address of user                          |
+| zipcode   | String | Zipcode of user - 5 chars max            |
+| iban      | String | IBAN of the account to perform debits on |
 
 
 
