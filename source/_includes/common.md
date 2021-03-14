@@ -102,7 +102,8 @@ let data = {
     address: "25 rue Nationale",
     zipcode: "59000",
     city: "Lille",
-  	iban: "DE89370400440532013000"
+  	iban: "DE89370400440532013000",
+  	bic: "CMCIFR2A"
 }
 try {
   let result = await cloudFunction(data);
@@ -125,6 +126,8 @@ First register user in firebase, then make the call with the firebase user so th
 
 This endpoint will create user in database, on stripe, create a payment method on stripe linked to the generated customer id, and create a SetupIntent for future payments of the client.
 
+The BIC is only for information purpose, not taken into consideration by Stripe.
+
 ### HTTP Request
 
 `GET common-createClient`
@@ -139,6 +142,92 @@ This endpoint will create user in database, on stripe, create a payment method o
 | address   | String | Address of user                          |
 | zipcode   | String | Zipcode of user - 5 chars max            |
 | iban      | String | IBAN of the account to perform debits on |
+
+## Register Supermarket
+
+```javascript
+let cloudFunction = firebase.app().functions('europe-west3').httpsCallable('common-createSupermarket');
+let data = {
+    firstName: "Kamil",
+    lastName: "Hammouche",
+    phone: "0612345678",
+    address: "25 rue Nationale",
+    zipcode: "59000",
+    city: "Lille",
+}
+try {
+  let result = await cloudFunction(data);
+} catch(e) {
+  console.log(e);
+}
+```
+
+> The above command returns JSON structured like this:
+
+```json
+{
+    "result": {
+        "success": true
+    }
+}
+```
+
+This endpoint takes all the parameters from registration to create a supermarket in db and on stripe side.
+
+The email is fetched from the firebase auth token sent with the request.
+
+### HTTP Request
+
+`GET common-createSupermarket`
+
+### Query Parameters
+
+| Parameter | Type   | Description                   |
+| --------- | ------ | ----------------------------- |
+| firstName | String | First name of user            |
+| lastName  | String | Last name of user             |
+| phone     | String | Phone of user                 |
+| address   | String | Address of user               |
+| zipcode   | String | Zipcode of user - 5 chars max |
+| city      | String | City of user                  |
+
+
+
+## Register Cashier
+
+```javascript
+let cloudFunction = firebase.app().functions('europe-west3').httpsCallable('common-createCashier');
+let data = {
+    supermarketEmail: "seclin@3hfood.fr",
+}
+try {
+  let result = await cloudFunction(data);
+} catch(e) {
+  console.log(e);
+}
+```
+
+> The above command returns JSON structured like this:
+
+```json
+{
+    "result": {
+        "success": true
+    }
+}
+```
+
+This endpoint takes all the parameters from registration and create the cashier user in db, and link it to the given supermarket.
+
+### HTTP Request
+
+`GET common-createCashier`
+
+### Query Parameters
+
+| Parameter        | Type   | Description                                     |
+| ---------------- | ------ | ----------------------------------------------- |
+| supermarketEmail | String | Email of the supermarket to link the cashier to |
 
 
 
@@ -188,7 +277,7 @@ This endpoint takes all the parameters from registration and create the user obj
 | address   | String | Address of user                                              |
 | zipcode   | String | Zipcode of user - 5 chars max                                |
 | city      | String | City of user                                                 |
-| type      | String | User type in: WHOLESALER - SUPERMARKET - CASHIER - TAGMANAGER - STOCKMANAGER - SUPERADMIN |
+| type      | String | User type in: WHOLESALER - TAGMANAGER - STOCKMANAGER - SUPERADMIN |
 
 
 
