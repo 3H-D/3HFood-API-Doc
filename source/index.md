@@ -13,6 +13,7 @@ includes:
   - supermarket.md
   - search.md
   - errors.md
+  - carts.md
 
 search: true
 code_clipboard: true
