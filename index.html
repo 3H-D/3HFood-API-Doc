@@ -86,6 +86,8 @@
       
         
       
+        
+      
 
       <div id="toc" class="toc-list-h1">
 	  	<ul class="toc-list-h1">
@@ -413,6 +415,30 @@
         
           <li>
             <a href="#errors" class="toc-h1 toc-link" data-title="Errors">Errors</a>
+            
+          </li>
+        
+          <li>
+            <a href="#client---cart" class="toc-h1 toc-link" data-title="Client - Cart">Client - Cart</a>
+            
+              <ul class="toc-list-h2">
+                
+                  <li>
+                    <a href="#create-cart" class="toc-h2 toc-link" data-title="">Create cart</a>
+                    
+                  </li>
+                
+                  <li>
+                    <a href="#add-product-to-cart" class="toc-h2 toc-link" data-title="">Add product to cart</a>
+                    
+                  </li>
+                
+                  <li>
+                    <a href="#remove-product-from-cart" class="toc-h2 toc-link" data-title="">Remove product from cart</a>
+                    
+                  </li>
+                
+              </ul>
             
           </li>
         
@@ -4120,6 +4146,176 @@ This error section is stored in a separate file in <code>includes/errors.md</cod
 <tr>
 <td>503</td>
 <td>Service Unavailable – We’re temporarily offline for maintenance. Please try again later.</td>
+</tr>
+</tbody>
+</table>
+<h1 id="client---cart">Client - Cart</h1>
+<h2 id="create-cart">Create cart</h2>
+<pre class="language-javascript"><code class="language-javascript"><span class="token keyword">let</span> cloudFunction <span class="token operator">=</span> firebase<span class="token punctuation">.</span><span class="token function">app</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">functions</span><span class="token punctuation">(</span><span class="token string">'europe-west3'</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">httpsCallable</span><span class="token punctuation">(</span><span class="token string">'client-cart-createCart'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">try</span> <span class="token punctuation">{</span>
+  <span class="token keyword">let</span> result <span class="token operator">=</span> <span class="token keyword">await</span> <span class="token function">cloudFunction</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span> <span class="token keyword">catch</span><span class="token punctuation">(</span>e<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>e<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<blockquote>
+<p>The above command returns JSON structured like this:</p>
+</blockquote>
+<pre class="language-json"><code class="language-json"><span class="token punctuation">{</span>
+    <span class="token property">"result"</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+        <span class="token property">"cart_id"</span><span class="token operator">:</span> <span class="token string">"9ae821ec-b447-4abf-bd28-126518acad81"</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>This endpoint generates a cart id, store it to your user profile, and return it to you.</p>
+<p><strong>Be careful, it will overwrite any existing cart uuid on your user profile.</strong></p>
+<h3 id="http-request">HTTP Request</h3>
+<p><code>GET client-cart-createCart</code></p>
+<h3 id="query-parameters">Query Parameters</h3>
+<table>
+<thead>
+<tr>
+<th>Parameters</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+</table>
+<h2 id="add-product-to-cart">Add product to cart</h2>
+<pre class="language-javascript"><code class="language-javascript"><span class="token keyword">let</span> cloudFunction <span class="token operator">=</span> firebase<span class="token punctuation">.</span><span class="token function">app</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">functions</span><span class="token punctuation">(</span><span class="token string">'europe-west3'</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">httpsCallable</span><span class="token punctuation">(</span><span class="token string">'client-cart-addProductToCart'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">let</span> data <span class="token operator">=</span> <span class="token punctuation">{</span>
+  productId<span class="token operator">:</span> <span class="token number">18</span><span class="token punctuation">,</span>
+  supermarketId<span class="token operator">:</span> <span class="token number">4</span><span class="token punctuation">,</span>
+  quantity<span class="token operator">:</span> <span class="token number">1</span>
+<span class="token punctuation">}</span>
+<span class="token keyword">try</span> <span class="token punctuation">{</span>
+  <span class="token keyword">let</span> result <span class="token operator">=</span> <span class="token keyword">await</span> <span class="token function">cloudFunction</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span> <span class="token keyword">catch</span><span class="token punctuation">(</span>e<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>e<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<blockquote>
+<p>The above command returns JSON structured like this:</p>
+</blockquote>
+<pre class="language-json"><code class="language-json"><span class="token punctuation">{</span>
+    <span class="token property">"result"</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+        <span class="token property">"line_items"</span><span class="token operator">:</span> <span class="token punctuation">[</span>
+            <span class="token punctuation">{</span>
+                <span class="token property">"quantity"</span><span class="token operator">:</span> <span class="token number">4</span><span class="token punctuation">,</span>
+                <span class="token property">"applied_coupon"</span><span class="token operator">:</span> <span class="token number">80</span><span class="token punctuation">,</span>
+                <span class="token property">"carbon_footprint"</span><span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">,</span>
+                <span class="token property">"image_url"</span><span class="token operator">:</span> <span class="token string">"https://mysterytea-website.s3.eu-west-3.amazonaws.com/assets/2020/08/21181335/NEW-FraiseFleurieDoypack.png"</span><span class="token punctuation">,</span>
+                <span class="token property">"name"</span><span class="token operator">:</span> <span class="token string">"Deuxième produit"</span><span class="token punctuation">,</span>
+                <span class="token property">"line_value"</span><span class="token operator">:</span> <span class="token number">119.5999984741211</span><span class="token punctuation">,</span>
+                <span class="token property">"selling_unit"</span><span class="token operator">:</span> <span class="token string">"2x12l"</span><span class="token punctuation">,</span>
+                <span class="token property">"brand_name"</span><span class="token operator">:</span> <span class="token string">"MysteryTea"</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">]</span><span class="token punctuation">,</span>
+        <span class="token property">"cart_infos"</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+            <span class="token property">"number_of_items"</span><span class="token operator">:</span> <span class="token number">4</span><span class="token punctuation">,</span>
+            <span class="token property">"cart_total"</span><span class="token operator">:</span> <span class="token number">39.599998474121094</span><span class="token punctuation">,</span>
+            <span class="token property">"cart_footprint"</span><span class="token operator">:</span> <span class="token number">0</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>This endpoint adds a product to the cart, calculating the right coupon for the product if existing and eligible, updating the supermarket client stock adequately and returning all the infos for the cart to update it on client side.</p>
+<p><strong>Be careful, it will overwrite any existing cart uuid on your user profile.</strong></p>
+<h3 id="http-request-1">HTTP Request</h3>
+<p><code>GET client-cart-addProductToCart</code></p>
+<h3 id="query-parameters-1">Query Parameters</h3>
+<table>
+<thead>
+<tr>
+<th>Parameters</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>productId</td>
+<td>Int</td>
+<td>The id of the product to add to cart</td>
+</tr>
+<tr>
+<td>supermarketId</td>
+<td>Int</td>
+<td>The id of the supermarket the user is in buy mode in</td>
+</tr>
+<tr>
+<td>quantity</td>
+<td>Int</td>
+<td>The quantity of products to add</td>
+</tr>
+</tbody>
+</table>
+<h2 id="remove-product-from-cart">Remove product from cart</h2>
+<pre class="language-javascript"><code class="language-javascript"><span class="token keyword">let</span> cloudFunction <span class="token operator">=</span> firebase<span class="token punctuation">.</span><span class="token function">app</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">functions</span><span class="token punctuation">(</span><span class="token string">'europe-west3'</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">httpsCallable</span><span class="token punctuation">(</span><span class="token string">'client-cart-removeProductFromCart'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">let</span> data <span class="token operator">=</span> <span class="token punctuation">{</span>
+  productId<span class="token operator">:</span> <span class="token number">18</span><span class="token punctuation">,</span>
+  supermarketId<span class="token operator">:</span> <span class="token number">4</span><span class="token punctuation">,</span>
+  quantity<span class="token operator">:</span> <span class="token operator">-</span><span class="token number">1</span>
+<span class="token punctuation">}</span>
+<span class="token keyword">try</span> <span class="token punctuation">{</span>
+  <span class="token keyword">let</span> result <span class="token operator">=</span> <span class="token keyword">await</span> <span class="token function">cloudFunction</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span> <span class="token keyword">catch</span><span class="token punctuation">(</span>e<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>e<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<blockquote>
+<p>The above command returns JSON structured like this:</p>
+</blockquote>
+<pre class="language-json"><code class="language-json"><span class="token punctuation">{</span>
+    <span class="token property">"result"</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+        <span class="token property">"line_items"</span><span class="token operator">:</span> <span class="token punctuation">[</span>
+            <span class="token punctuation">{</span>
+                <span class="token property">"quantity"</span><span class="token operator">:</span> <span class="token number">4</span><span class="token punctuation">,</span>
+                <span class="token property">"applied_coupon"</span><span class="token operator">:</span> <span class="token number">80</span><span class="token punctuation">,</span>
+                <span class="token property">"carbon_footprint"</span><span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">,</span>
+                <span class="token property">"image_url"</span><span class="token operator">:</span> <span class="token string">"https://mysterytea-website.s3.eu-west-3.amazonaws.com/assets/2020/08/21181335/NEW-FraiseFleurieDoypack.png"</span><span class="token punctuation">,</span>
+                <span class="token property">"name"</span><span class="token operator">:</span> <span class="token string">"Deuxième produit"</span><span class="token punctuation">,</span>
+                <span class="token property">"line_value"</span><span class="token operator">:</span> <span class="token number">119.5999984741211</span><span class="token punctuation">,</span>
+                <span class="token property">"selling_unit"</span><span class="token operator">:</span> <span class="token string">"2x12l"</span><span class="token punctuation">,</span>
+                <span class="token property">"brand_name"</span><span class="token operator">:</span> <span class="token string">"MysteryTea"</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">]</span><span class="token punctuation">,</span>
+        <span class="token property">"cart_infos"</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+            <span class="token property">"number_of_items"</span><span class="token operator">:</span> <span class="token number">4</span><span class="token punctuation">,</span>
+            <span class="token property">"cart_total"</span><span class="token operator">:</span> <span class="token number">39.599998474121094</span><span class="token punctuation">,</span>
+            <span class="token property">"cart_footprint"</span><span class="token operator">:</span> <span class="token number">0</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>This endpoint removes a product from the cart, calculating the right coupon for the product if existing and eligible, updating the supermarket client stock adequately and returning all the infos for the cart to update it on client side.</p>
+<p><strong>Be careful, it will overwrite any existing cart uuid on your user profile.</strong></p>
+<h3 id="http-request-2">HTTP Request</h3>
+<p><code>GET client-cart-removeProductFromCart</code></p>
+<h3 id="query-parameters-2">Query Parameters</h3>
+<table>
+<thead>
+<tr>
+<th>Parameters</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>productId</td>
+<td>Int</td>
+<td>The id of the product to remove to cart</td>
+</tr>
+<tr>
+<td>supermarketId</td>
+<td>Int</td>
+<td>The id of the supermarket the user is in buy mode in</td>
+</tr>
+<tr>
+<td>quantity</td>
+<td>Int</td>
+<td>The quantity of products to remove</td>
 </tr>
 </tbody>
 </table>
