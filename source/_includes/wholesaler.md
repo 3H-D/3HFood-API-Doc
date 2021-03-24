@@ -101,7 +101,7 @@ let data = {
     categoryId: 2
   },
   stockMovements {
-    addition: [
+    additions: [
   		{
 				quantity: 120,
   			perishDate: "2022-02-20"
@@ -174,7 +174,7 @@ If this call raises an error not of type INVALID_ARGUMENT, it means there was a 
 |                          | composition       | String | Ingredients of the product                                   |
 |                          | categoryId        | Int    | Product Category ID                                          |
 | stockMovements           |                   | Object | Map containing all stock movements done client side **- required even if empty** |
-| stockMovements.addition  |                   | Array  | Array containing all added stock lines stored as objects     |
+| stockMovements.additions |                   | Array  | Array containing all added stock lines stored as objects     |
 |                          | quantity          | Int    | Quantity on the stock line                                   |
 |                          | perishDate        | Date   | Perish date on the stock line, format YYYY-MM-DD             |
 | stockMovements.changes   |                   | Array  | Array containing all edited stock lines stored as objects    |
@@ -220,7 +220,8 @@ try {
             "retail_price": 0,
             "vat_class": 5.5,
             "composition": "Juste de l'eau",
-            "linked_category": 4
+            "linked_category": 4,
+          	"category_name": "Biscuits"
         },
         "stockLines": [
             {

@@ -1172,7 +1172,8 @@ try {
         {
             "value": 86.9,
             "professional_price": 22.8,
-            "margin": 64.10000228881836
+            "margin": 64.10000228881836,
+            "legal_unit_price": "18,64€/kg"
         }
     ]
 }
@@ -1198,7 +1199,8 @@ This endpoint allows you to fetch the professionnal price, the set retail price 
 let cloudFunction = firebase.app().functions('europe-west3').httpsCallable('supermarket-setProductPrice');
 let data = {
   productId: 17,
-  price: 29.9
+  price: 29.9,
+  legalUnitPrice: "18.64€/kg"
 }
 try {
   let result = await cloudFunction(data);
@@ -1225,8 +1227,9 @@ This endpoint allows you set a product price for a given supermarket.
 
 ### Query Parameters
 
-| Parameters | Type  | Description                           |
-| ---------- | ----- | ------------------------------------- |
-| productId  | Int   | Id of the product to set the price to |
-| price      | Float | The price to set                      |
+| Parameters     | Type   | Description                                         |
+| -------------- | ------ | --------------------------------------------------- |
+| productId      | Int    | Id of the product to set the price to               |
+| price          | Float  | The price to set                                    |
+| legalUnitPrice | String | The price per unit (kilogram or litre) as a string. |
 
