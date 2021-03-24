@@ -183,6 +183,42 @@ If this call raises an error not of type INVALID_ARGUMENT, it means there was a 
 |                          | perishDate        | Date   | New perish date on the stock line, format YYYY-MM-DD         |
 | stockMovements.deletions |                   | Array  | Array of deleted ids                                         |
 
+## Update product
+
+```javascript
+let cloudFunction = firebase.app().functions('europe-west3').httpsCallable('wholesaler-deleteProduct');
+let data = {
+  productId: 18,
+}
+try {
+  let result = await cloudFunction(data);
+} catch(e) {
+  console.log(e);
+}
+```
+
+> The above command returns JSON structured like this:
+
+```json
+{
+    "result": {
+        "success": true
+    }
+}
+```
+
+This endpoint deletes the product from the wholesaler catalog and its associated stock lines. This does not delete the product from the supermarket side, as it can still have some in stock.
+
+### HTTP Request
+
+`GET wholesaler-deleteProduct`
+
+### Query Parameters
+
+| Parameters | Type | Description                 |
+| ---------- | ---- | --------------------------- |
+| productId  | Int  | Id of the product to delete |
+
 
 
 ## Get product detail
