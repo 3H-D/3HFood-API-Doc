@@ -88,6 +88,8 @@
       
         
       
+        
+      
 
       <div id="toc" class="toc-list-h1">
 	  	<ul class="toc-list-h1">
@@ -495,6 +497,20 @@
                 
                   <li>
                     <a href="#get-client-dashboard" class="toc-h2 toc-link" data-title="">Get client dashboard</a>
+                    
+                  </li>
+                
+              </ul>
+            
+          </li>
+        
+          <li>
+            <a href="#alley-manager" class="toc-h1 toc-link" data-title="Alley Manager">Alley Manager</a>
+            
+              <ul class="toc-list-h2">
+                
+                  <li>
+                    <a href="#get-product-infos" class="toc-h2 toc-link" data-title="">Get Product Infos</a>
                     
                   </li>
                 
@@ -5009,6 +5025,59 @@ This error section is stored in a separate file in <code>includes/errors.md</cod
 <th>Description</th>
 </tr>
 </thead>
+</table>
+<h1 id="alley-manager">Alley Manager</h1>
+<h2 id="get-product-infos">Get Product Infos</h2>
+<pre class="language-javascript"><code class="language-javascript"><span class="token keyword">let</span> cloudFunction <span class="token operator">=</span> firebase<span class="token punctuation">.</span><span class="token function">app</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">functions</span><span class="token punctuation">(</span><span class="token string">'europe-west3'</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">httpsCallable</span><span class="token punctuation">(</span><span class="token string">'alleyManager-getProductInfos'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">let</span> data <span class="token operator">=</span> <span class="token punctuation">{</span>
+  productId<span class="token operator">:</span> <span class="token number">18</span>
+<span class="token punctuation">}</span>
+<span class="token keyword">try</span> <span class="token punctuation">{</span>
+  <span class="token keyword">let</span> result <span class="token operator">=</span> <span class="token keyword">await</span> <span class="token function">cloudFunction</span><span class="token punctuation">(</span>data<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span> <span class="token keyword">catch</span><span class="token punctuation">(</span>e<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>e<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<blockquote>
+<p>The above command returns JSON structured like this:</p>
+</blockquote>
+<pre class="language-json"><code class="language-json"><span class="token punctuation">{</span>
+    <span class="token property">"result"</span><span class="token operator">:</span> <span class="token punctuation">[</span>
+        <span class="token punctuation">{</span>
+            <span class="token property">"image_url"</span><span class="token operator">:</span> <span class="token string">"https://mysterytea-website.s3.eu-west-3.amazonaws.com/assets/2020/08/21181335/NEW-FraiseFleurieDoypack.png"</span><span class="token punctuation">,</span>
+            <span class="token property">"selling_unit"</span><span class="token operator">:</span> <span class="token string">"2x12l"</span><span class="token punctuation">,</span>
+            <span class="token property">"legal_unit_price"</span><span class="token operator">:</span> <span class="token string">"18.54€/kg"</span><span class="token punctuation">,</span>
+            <span class="token property">"price"</span><span class="token operator">:</span> <span class="token number">29.9</span><span class="token punctuation">,</span>
+            <span class="token property">"name"</span><span class="token operator">:</span> <span class="token string">"Deuxième produi"</span><span class="token punctuation">,</span>
+            <span class="token property">"brand"</span><span class="token operator">:</span> <span class="token string">"MysteryTea"</span><span class="token punctuation">,</span>
+            <span class="token property">"promotion_type"</span><span class="token operator">:</span> <span class="token null keyword">null</span><span class="token punctuation">,</span>
+            <span class="token property">"bought_quantity"</span><span class="token operator">:</span> <span class="token null keyword">null</span><span class="token punctuation">,</span>
+            <span class="token property">"paid_quantity"</span><span class="token operator">:</span> <span class="token null keyword">null</span><span class="token punctuation">,</span>
+            <span class="token property">"discount_value"</span><span class="token operator">:</span> <span class="token null keyword">null</span><span class="token punctuation">,</span>
+            <span class="token property">"total_Stock"</span><span class="token operator">:</span> <span class="token number">92</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">]</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>This endpoint fetches product infos on tag from alley manager</p>
+<h3 id="http-request">HTTP Request</h3>
+<p><code>GET alleyManager-getProductInfos</code></p>
+<h3 id="query-parameters">Query Parameters</h3>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>productId</td>
+<td>Int</td>
+<td>Scanned product’s id</td>
+</tr>
+</tbody>
 </table>
 
       </div>
