@@ -14,6 +14,7 @@ includes:
   - search.md
   - errors.md
   - carts.md
+  - alleyManager.md
 
 search: true
 code_clipboard: true
