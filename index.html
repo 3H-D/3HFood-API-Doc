@@ -164,6 +164,11 @@
                   </li>
                 
                   <li>
+                    <a href="#update-product-1" class="toc-h2 toc-link" data-title="">Update product</a>
+                    
+                  </li>
+                
+                  <li>
                     <a href="#get-product-detail" class="toc-h2 toc-link" data-title="">Get product detail</a>
                     
                   </li>
@@ -1316,6 +1321,46 @@
 </tr>
 </tbody>
 </table>
+<h2 id="update-product-1">Update product</h2>
+<pre class="language-javascript"><code class="language-javascript"><span class="token keyword">let</span> cloudFunction <span class="token operator">=</span> firebase<span class="token punctuation">.</span><span class="token function">app</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">functions</span><span class="token punctuation">(</span><span class="token string">'europe-west3'</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">httpsCallable</span><span class="token punctuation">(</span><span class="token string">'wholesaler-deleteProduct'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">let</span> data <span class="token operator">=</span> <span class="token punctuation">{</span>
+  productId<span class="token operator">:</span> <span class="token number">18</span><span class="token punctuation">,</span>
+<span class="token punctuation">}</span>
+<span class="token keyword">try</span> <span class="token punctuation">{</span>
+  <span class="token keyword">let</span> result <span class="token operator">=</span> <span class="token keyword">await</span> <span class="token function">cloudFunction</span><span class="token punctuation">(</span>data<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span> <span class="token keyword">catch</span><span class="token punctuation">(</span>e<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>e<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<blockquote>
+<p>The above command returns JSON structured like this:</p>
+</blockquote>
+<pre class="language-json"><code class="language-json"><span class="token punctuation">{</span>
+    <span class="token property">"result"</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+        <span class="token property">"success"</span><span class="token operator">:</span> <span class="token boolean">true</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>This endpoint deletes the product from the wholesaler catalog and its associated stock lines. This does not delete the product from the supermarket side, as it can still have some in stock.</p>
+<h3 id="http-request-2">HTTP Request</h3>
+<p><code>GET wholesaler-deleteProduct</code></p>
+<h3 id="query-parameters-2">Query Parameters</h3>
+<table>
+<thead>
+<tr>
+<th>Parameters</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>productId</td>
+<td>Int</td>
+<td>Id of the product to delete</td>
+</tr>
+</tbody>
+</table>
 <h2 id="get-product-detail">Get product detail</h2>
 <pre class="language-javascript"><code class="language-javascript"><span class="token keyword">let</span> cloudFunction <span class="token operator">=</span> firebase<span class="token punctuation">.</span><span class="token function">app</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">functions</span><span class="token punctuation">(</span><span class="token string">'europe-west3'</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">httpsCallable</span><span class="token punctuation">(</span><span class="token string">'wholesaler-getProductDetail'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 <span class="token keyword">let</span> data <span class="token operator">=</span> <span class="token punctuation">{</span>
@@ -1364,9 +1409,9 @@
 <span class="token punctuation">}</span>
 </code></pre>
 <p>This endpoint fetches all the product informations as well as all the stock lines ordered from more close to more far away from perishment date.</p>
-<h3 id="http-request-2">HTTP Request</h3>
+<h3 id="http-request-3">HTTP Request</h3>
 <p><code>GET wholesaler-getProductDetail</code></p>
-<h3 id="query-parameters-2">Query Parameters</h3>
+<h3 id="query-parameters-3">Query Parameters</h3>
 <table>
 <thead>
 <tr>
@@ -1446,9 +1491,9 @@
 <p>It can fetch the first 10 products from the “all products” tab (which is the default one, so thumbs up for that)</p>
 <p>It fetches product counts for total count, out of stock, and near out of stock for the side bar.</p>
 <p>And it sends back an array of categories with product count and labels for side bar filtering</p>
-<h3 id="http-request-3">HTTP Request</h3>
+<h3 id="http-request-4">HTTP Request</h3>
 <p><code>GET wholesaler-getProductsDashboard</code></p>
-<h3 id="query-parameters-3">Query Parameters</h3>
+<h3 id="query-parameters-4">Query Parameters</h3>
 <table>
 <thead>
 <tr>
@@ -1501,9 +1546,9 @@
 </code></pre>
 <p>This endpoints allow you to fetch data with an offset and a category or a stock status filter (according to the filters list the api sent you on the previous call);</p>
 <p>You’ll get products by bunch of 10.</p>
-<h3 id="http-request-4">HTTP Request</h3>
+<h3 id="http-request-5">HTTP Request</h3>
 <p><code>GET wholesaler-getProducts</code></p>
-<h3 id="query-parameters-4">Query Parameters</h3>
+<h3 id="query-parameters-5">Query Parameters</h3>
 <table>
 <thead>
 <tr>
@@ -1568,9 +1613,9 @@
 <span class="token punctuation">}</span>
 </code></pre>
 <p>This endpoint allow you to fetch the first 10 perished products and fetch the side filters with product count and filter id in order to perform other queries.</p>
-<h3 id="http-request-5">HTTP Request</h3>
+<h3 id="http-request-6">HTTP Request</h3>
 <p><code>GET wholesaler-getPerishmentDashboard</code></p>
-<h3 id="query-parameters-5">Query Parameters</h3>
+<h3 id="query-parameters-6">Query Parameters</h3>
 <table>
 <thead>
 <tr>
@@ -1627,9 +1672,9 @@
 <span class="token punctuation">}</span>
 </code></pre>
 <p>This endpoint allows you to fetch 10 products from a set perishment date, with a given offset. You get the categoryId from the first call from peremptionDashboard</p>
-<h3 id="http-request-6">HTTP Request</h3>
+<h3 id="http-request-7">HTTP Request</h3>
 <p><code>GET wholesaler-getPerishments</code></p>
-<h3 id="query-parameters-6">Query Parameters</h3>
+<h3 id="query-parameters-7">Query Parameters</h3>
 <table>
 <thead>
 <tr>
@@ -1672,9 +1717,9 @@
 <span class="token punctuation">}</span>
 </code></pre>
 <p>This endpoint allows you to fetch 10 products from a set perishment date, with a given offset. You get the categoryId from the first call from peremptionDashboard</p>
-<h3 id="http-request-7">HTTP Request</h3>
+<h3 id="http-request-8">HTTP Request</h3>
 <p><code>GET wholesaler-deletePerishedStock</code></p>
-<h3 id="query-parameters-7">Query Parameters</h3>
+<h3 id="query-parameters-8">Query Parameters</h3>
 <table>
 <thead>
 <tr>
@@ -1720,9 +1765,9 @@
 <span class="token punctuation">}</span>
 </code></pre>
 <p>This endpoint allows you to fetch all the data for the wholesaler dashboard</p>
-<h3 id="http-request-8">HTTP Request</h3>
+<h3 id="http-request-9">HTTP Request</h3>
 <p><code>GET wholesaler-getDashboard</code></p>
-<h3 id="query-parameters-8">Query Parameters</h3>
+<h3 id="query-parameters-9">Query Parameters</h3>
 <table>
 <thead>
 <tr>
@@ -1767,9 +1812,9 @@
 <p>This endpoint allows you to fetch tracker data to allow the wholesaler to see stock status on every supermarket he delivers.</p>
 <p>Without a defined supermarketId, it’ll fetch the 10 first lines (or the 10 lines offseted by the offset value) of the tracker.</p>
 <p>With a defined supermarketId, it’ll only fetch this line of the tracker and no other.</p>
-<h3 id="http-request-9">HTTP Request</h3>
+<h3 id="http-request-10">HTTP Request</h3>
 <p><code>GET wholesaler-getTracking</code></p>
-<h3 id="query-parameters-9">Query Parameters</h3>
+<h3 id="query-parameters-10">Query Parameters</h3>
 <table>
 <thead>
 <tr>
@@ -1837,9 +1882,9 @@
 <span class="token punctuation">}</span>
 </code></pre>
 <p>This endpoint allows you to fetch tracker detail for a specified supermarket Id, with ordering and offset.</p>
-<h3 id="http-request-10">HTTP Request</h3>
+<h3 id="http-request-11">HTTP Request</h3>
 <p><code>GET wholesaler-getTrackingDetail</code></p>
-<h3 id="query-parameters-10">Query Parameters</h3>
+<h3 id="query-parameters-11">Query Parameters</h3>
 <table>
 <thead>
 <tr>
@@ -1920,7 +1965,7 @@
 <span class="token punctuation">}</span>
 </code></pre>
 <p>This endpoint allows you to fetch the first 10 orders to be in “PREPARE” state and the filters for the orders dashboard</p>
-<h3 id="http-request-11">HTTP Request</h3>
+<h3 id="http-request-12">HTTP Request</h3>
 <p>`GET wholesaler-getOrdersDashboard</p>
 <h2 id="get-orders-by-filter">Get orders by filter</h2>
 <pre class="language-javascript"><code class="language-javascript"><span class="token keyword">let</span> cloudFunction <span class="token operator">=</span> firebase<span class="token punctuation">.</span><span class="token function">app</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">functions</span><span class="token punctuation">(</span><span class="token string">'europe-west3'</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">httpsCallable</span><span class="token punctuation">(</span><span class="token string">'wholesaler-getOrders'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
@@ -1952,9 +1997,9 @@
 </code></pre>
 <p>This endpoint allows you to fetch wholesaler orders ordered by date and with a mandatory offset.</p>
 <p>You have to pass a categoryId which is the filter id fetched from the ordersDashboard query.</p>
-<h3 id="http-request-12">HTTP Request</h3>
+<h3 id="http-request-13">HTTP Request</h3>
 <p><code>GET wholesaler-getOrders</code></p>
-<h3 id="query-parameters-11">Query Parameters</h3>
+<h3 id="query-parameters-12">Query Parameters</h3>
 <table>
 <thead>
 <tr>
