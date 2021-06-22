@@ -949,7 +949,7 @@
     weight<span class="token operator">:</span> <span class="token number">125.7</span><span class="token punctuation">,</span>
     sellingUnit<span class="token operator">:</span> <span class="token string">"12x1L"</span><span class="token punctuation">,</span>
     legalUnitPrice<span class="token operator">:</span> <span class="token string">"1,18€/L"</span><span class="token punctuation">,</span>
-    professionnalPrice<span class="token operator">:</span> <span class="token number">2.88</span><span class="token punctuation">,</span>
+    professionalPrice<span class="token operator">:</span> <span class="token number">2.88</span><span class="token punctuation">,</span>
     vatClass<span class="token operator">:</span> <span class="token number">5.5</span><span class="token punctuation">,</span>
     composition<span class="token operator">:</span> <span class="token string">"Juste de l'air, on vend de l'air"</span><span class="token punctuation">,</span>
     categoryId<span class="token operator">:</span> <span class="token number">2</span>
@@ -1118,7 +1118,7 @@
     weight<span class="token operator">:</span> <span class="token number">125.7</span><span class="token punctuation">,</span>
     sellingUnit<span class="token operator">:</span> <span class="token string">"12x1L"</span><span class="token punctuation">,</span>
     legalUnitPrice<span class="token operator">:</span> <span class="token string">"1,18€/L"</span><span class="token punctuation">,</span>
-    professionnalPrice<span class="token operator">:</span> <span class="token number">2.88</span><span class="token punctuation">,</span>
+    professionalPrice<span class="token operator">:</span> <span class="token number">2.88</span><span class="token punctuation">,</span>
     vatClass<span class="token operator">:</span> <span class="token number">5.5</span><span class="token punctuation">,</span>
     composition<span class="token operator">:</span> <span class="token string">"Juste de l'air, on vend de l'air"</span><span class="token punctuation">,</span>
     categoryId<span class="token operator">:</span> <span class="token number">2</span>
@@ -2023,7 +2023,7 @@
 </table>
 <h1 id="supermarket">Supermarket</h1>
 <h2 id="check-if-onboarding-complete">Check if onboarding complete</h2>
-<pre class="language-javascript"><code class="language-javascript"><span class="token keyword">let</span> cloudFunction <span class="token operator">=</span> firebase<span class="token punctuation">.</span><span class="token function">app</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">functions</span><span class="token punctuation">(</span><span class="token string">'europe-west3'</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">httpsCallable</span><span class="token punctuation">(</span><span class="token string">'supermarket-checkIfOnboardingCompleted'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<pre class="language-javascript"><code class="language-javascript"><span class="token keyword">let</span> cloudFunction <span class="token operator">=</span> firebase<span class="token punctuation">.</span><span class="token function">app</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">functions</span><span class="token punctuation">(</span><span class="token string">'europe-west3'</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">httpsCallable</span><span class="token punctuation">(</span>'supermarket<span class="token operator">-</span>checkIfOnboardingCompleted
 <span class="token keyword">try</span> <span class="token punctuation">{</span>
   <span class="token keyword">let</span> result <span class="token operator">=</span> <span class="token keyword">await</span> <span class="token function">cloudFunction</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 <span class="token punctuation">}</span> <span class="token keyword">catch</span><span class="token punctuation">(</span>e<span class="token punctuation">)</span> <span class="token punctuation">{</span>
