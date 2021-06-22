@@ -15,7 +15,7 @@ let data = {
     weight: 125.7,
     sellingUnit: "12x1L",
     legalUnitPrice: "1,18€/L",
-    professionnalPrice: 2.88,
+    professionalPrice: 2.88,
     vatClass: 5.5,
     composition: "Juste de l'air, on vend de l'air",
     categoryId: 2
@@ -95,7 +95,7 @@ let data = {
     weight: 125.7,
     sellingUnit: "12x1L",
     legalUnitPrice: "1,18€/L",
-    professionnalPrice: 2.88,
+    professionalPrice: 2.88,
     vatClass: 5.5,
     composition: "Juste de l'air, on vend de l'air",
     categoryId: 2

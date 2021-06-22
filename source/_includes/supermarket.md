@@ -3,7 +3,7 @@
 ## Check if onboarding complete
 
 ```javascript
-let cloudFunction = firebase.app().functions('europe-west3').httpsCallable('supermarket-checkIfOnboardingCompleted');
+let cloudFunction = firebase.app().functions('europe-west3').httpsCallable('supermarket-checkIfOnboardingCompleted
 try {
   let result = await cloudFunction();
 } catch(e) {
